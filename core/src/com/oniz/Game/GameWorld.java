@@ -79,8 +79,8 @@ public class GameWorld {
                 rect.y = 100;
             }
         }
-
-        gameRenderer.render(deltaTime);
+//
+//        gameRenderer.render(deltaTime);
 
     }
 

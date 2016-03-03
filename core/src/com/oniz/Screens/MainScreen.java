@@ -3,6 +3,9 @@ package com.oniz.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,12 +13,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameRenderer;
 import com.oniz.Game.GameWorld;
 import com.oniz.Gestures.GestureRecognizerInputProcessor;
 import com.oniz.Gestures.ZGestureListener;
 import com.oniz.UI.SimpleButton;
+
 
 /**
  * Created by robin on 1/3/16.
@@ -26,6 +34,7 @@ public class MainScreen implements Screen {
     GameWorld gameWorld;
     GameRenderer gameRenderer;
 
+
     private SimpleButton pauseButton;
     private SimpleButton playButton;
     private SimpleButton restartButton;
@@ -35,12 +44,11 @@ public class MainScreen implements Screen {
     InputMultiplexer im;
     GestureRecognizerInputProcessor gestureRecognizer;
     GestureDetector gd;
-
     public MainScreen() {
         pauseButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("pauseUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("pauseDown")).getDrawable());
         playButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("playUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("playDown")).getDrawable());
         restartButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("restartUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("restartDown")).getDrawable());
-        stage = new Stage();
+        stage = new Stage(new FitViewport(480, 800));
 
         //TODO: Refactor gameWorld, gameRenderer
         gameWorld = new GameWorld();
@@ -80,7 +88,6 @@ public class MainScreen implements Screen {
             }
         });
 
-
         table = new Table();
         table.setFillParent(true);
         table.setDebug(true);
@@ -105,13 +112,13 @@ public class MainScreen implements Screen {
         gameWorld.update(delta);
         gameRenderer.render(delta);
 
-        //draw stage over everything else
+
+//      draw stage over everything else
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override

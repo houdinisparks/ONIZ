@@ -25,13 +25,17 @@ public class ZGestureListener implements GestureListener {
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
 //        System.out.println("touch down!");
-//        Vector3 tmpCoords = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-//        this.gr.getCam().unproject(tmpCoords);
-//
-//        System.out.println("tmpCords" + tmpCoords.x + ":" + tmpCoords.y);
-//        System.out.println("xy" + x + ":" + y);
-//        gameWorld.checkCollision(tmpCoords.x, tmpCoords.y)
-//        ;
+        Vector3 tmpCoords = new Vector3(x, y, 0);
+        this.gr.getCam().unproject(tmpCoords);
+        System.out.println("tmpCords" + tmpCoords.x + ":" + tmpCoords.y);
+        System.out.println("xy " + x + ":" + y);
+        for(EvilRectangle rect: gameWorld.getRectangles()) {
+            System.out.println(rect.isAlive());
+            if(pointInRectangle(rect, tmpCoords.x, tmpCoords.y)) {
+                rect.setAlive(false);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -42,19 +46,8 @@ public class ZGestureListener implements GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-//        System.out.println("tap!");
-        Vector3 tmpCoords = new Vector3(x, y, 0);
-        this.gr.getCam().unproject(tmpCoords);
-//        System.out.println("tmpCords" + tmpCoords.x + ":" + tmpCoords.y);
-        System.out.println("xy " + x + ":" + y);
-        for(EvilRectangle rect: gameWorld.getRectangles()) {
-            System.out.println(rect.isAlive());
-            if(pointInRectangle(rect, x, y)) {
-                rect.setAlive(false);
-                break;
-            }
-        }
-//        gameWorld.checkCollision(tmpCoords.x, tmpCoords.y);
+        System.out.println("tap!");
+
         return false;
     }
 

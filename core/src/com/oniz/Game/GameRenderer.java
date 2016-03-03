@@ -1,11 +1,14 @@
 package com.oniz.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oniz.Mobs.EvilRectangle;
 
 import java.util.ArrayList;
@@ -20,17 +23,13 @@ public class GameRenderer {
     
     private ArrayList<EvilRectangle> rectangles;
 
+
     public GameRenderer(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 480, 800); //false for y upwards
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
-    }
-
-
-    private void drawRectangles() {
-
     }
 
     public OrthographicCamera getCam (){
@@ -42,15 +41,17 @@ public class GameRenderer {
         rectangles = gameWorld.getRectangles();
 
         //set black to prevent flicker. rgba format.
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+        Gdx.graphics.getGL20().glClearColor( 0, 0, 0, 1 );
+        Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+
+
+
         for( EvilRectangle rect : rectangles) {
             if(rect.isAlive()) {
                 //draw stuff
                 shapeRenderer.begin(ShapeType.Filled);
                 // Chooses RGB Color of 87, 109, 120 at full opacity
-                shapeRenderer.setColor(100 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+                shapeRenderer.setColor(255, 100, 100, 1);
                 // Draws the rectangle from myWorld (Using ShapeType.Filled)
                 shapeRenderer.rect(rect.x, rect.y,
                         rect.width, rect.height);
