@@ -68,3 +68,4 @@ git push origin master
 * Click on the "Pull request" button (right under the "Download ZIP" button).
 * You should see: "base fork: *robin-lee/ONIZ*, base: *master*; head fork: *esmondchuah/ONIZ*, compare: *master*".
 * Confirm all the code changes you are making and click on the "Create pull request" button.
+* Insert a title for your pull request, add an optional description and click on the "Create pull request" button again.
