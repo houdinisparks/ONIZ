@@ -3,6 +3,7 @@ package com.oniz.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -24,6 +25,7 @@ public final class AssetLoader {
     public Hashtable<String, TextureRegion> sprites;
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
+    public Animation zombieAnimation;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -56,6 +58,17 @@ public final class AssetLoader {
 
         textures.put("restartUp", new Texture(Gdx.files.internal("lineLight/lineLight10.png")));
         textures.put("restartDown", new Texture(Gdx.files.internal("shadedDark/shadedDark12.png")));
+
+        // sprites of zombie climbing
+        textures.put("zombies", new Texture(Gdx.files.internal("data/zombieTexture.png")));
+        sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 302, 0, 80, 125));
+        sprites.put("zombieClimb2", new TextureRegion(textures.get("zombies"), 385, 0, 80, 125));
+        sprites.put("zombieClimb3", new TextureRegion(textures.get("zombies"), 468, 0, 80, 125));
+
+        TextureRegion[] zombies = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3")};
+        zombieAnimation = new Animation(0.6f, zombies);
+        zombieAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
     }
 
     public void dispose() {

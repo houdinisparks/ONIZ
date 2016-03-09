@@ -34,6 +34,7 @@ public class MainScreen implements Screen {
     GameWorld gameWorld;
     GameRenderer gameRenderer;
 
+    private float runTime;
 
     private SimpleButton pauseButton;
     private SimpleButton playButton;
@@ -109,8 +110,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        runTime += delta;
         gameWorld.update(delta);
-        gameRenderer.render(delta);
+        gameRenderer.render(runTime);
 
 
 //      draw stage over everything else

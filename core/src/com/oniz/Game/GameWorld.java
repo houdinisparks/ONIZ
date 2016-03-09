@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.EvilRectangle;
 
 import java.lang.reflect.Array;
@@ -29,6 +30,7 @@ public class GameWorld {
     //temp objects
     ArrayList<EvilRectangle> rectangles = new ArrayList<EvilRectangle>();
     int number = 5;
+    private ChildZombie childZombie;
 
     public GameWorld() {
         this.state = 0;
@@ -37,6 +39,7 @@ public class GameWorld {
             EvilRectangle rect = new EvilRectangle(pos[0], pos[1], 50, 50);
             rectangles.add(rect);
         }
+        childZombie = new ChildZombie(100, 100, 80, 125, 20);
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -72,6 +75,8 @@ public class GameWorld {
         //update a moving rectangle in GameRenderer
 
 //        Gdx.app.log("GameWorld", "update");
+
+        childZombie.update(deltaTime);
 
         for(EvilRectangle rect: rectangles) {
             rect.y++;
@@ -125,5 +130,9 @@ public class GameWorld {
                 rect.setAlive(false);
             }
         }
+    }
+
+    public ChildZombie getChildZombie() {
+        return childZombie;
     }
 }
