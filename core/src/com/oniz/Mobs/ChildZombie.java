@@ -2,6 +2,8 @@ package com.oniz.Mobs;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 public class ChildZombie {
 
     private Vector2 position;
@@ -11,16 +13,18 @@ public class ChildZombie {
     private float width;
     private float height;
     private boolean isAlive;
-    private int gestureType; // '0' is circle, '1' is triangle etc
+    private int gestureType; // '0' is circle, '1' is square etc
     private int points;
 
 
-    public ChildZombie(float x, float y, float width, float height, float v) {
+    public ChildZombie(float x, float y) {
+        Random r = new Random();
         this.position = new Vector2(x, y);
-        this.velocity = new Vector2(0, v);
-        this.width = width;
-        this.height = height;
+        this.velocity = new Vector2(0, r.nextInt(20)+10);
+        this.width = 60;
+        this.height = 122;
         this.isAlive = true;
+        this.gestureType = r.nextInt(2);
     }
 
     public void update(float delta) {
@@ -41,6 +45,10 @@ public class ChildZombie {
 
     public float getHeight() {
         return height;
+    }
+
+    public int getGestureType() {
+        return gestureType;
     }
 
     public boolean isAlive() {

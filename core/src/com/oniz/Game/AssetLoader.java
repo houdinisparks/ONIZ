@@ -53,6 +53,22 @@ public final class AssetLoader {
         textures.put("restartUp", new Texture(Gdx.files.internal("lineLight/lineLight10.png")));
         textures.put("restartDown", new Texture(Gdx.files.internal("shadedDark/shadedDark12.png")));
 
+        // temporary buttons: A, B, X, Y
+        textures.put("buttonAUp", new Texture(Gdx.files.internal("lineLight/lineLight34.png")));
+        textures.put("buttonADown", new Texture(Gdx.files.internal("shadedDark/shadedDark36.png")));
+        textures.put("buttonBUp", new Texture(Gdx.files.internal("lineLight/lineLight35.png")));
+        textures.put("buttonBDown", new Texture(Gdx.files.internal("shadedDark/shadedDark37.png")));
+        textures.put("buttonXUp", new Texture(Gdx.files.internal("lineLight/lineLight36.png")));
+        textures.put("buttonXDown", new Texture(Gdx.files.internal("shadedDark/shadedDark38.png")));
+        textures.put("buttonYUp", new Texture(Gdx.files.internal("lineLight/lineLight37.png")));
+        textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
+
+        // gesture hints
+        textures.put("circle", new Texture(Gdx.files.internal("data/circle.png")));
+        textures.put("square", new Texture(Gdx.files.internal("data/square.png")));
+        sprites.put("circleGestureHint", new TextureRegion(textures.get("circle"), 0, 0, 15, 15));
+        sprites.put("squareGestureHint", new TextureRegion(textures.get("square"), 0, 0, 15, 15));
+
         // sprites of zombie climbing
         textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
         sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 17, 24, 60, 122));

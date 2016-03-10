@@ -22,22 +22,15 @@ public class GameWorld {
     static final int GAME_PAUSED = 2;
     static final int GAME_LEVEL_END = 3;
     static final int GAME_OVER = 4;
-
+    static final int[] zombiePaths = {40, 190, 340};
     int state;
 
     GameRenderer gameRenderer;
-
-    //temp objects
+    Random random = new Random();
     ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
-    int number = 3;
 
     public GameWorld() {
         this.state = 0;
-        Random r = new Random();
-        for(int i = 0; i < number; i++) {
-            ChildZombie childZombie = new ChildZombie((i%3)*150 + 40, 20, 60, 122, r.nextInt(20)+10);
-            childZombies.add(childZombie);
-        }
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -52,6 +45,10 @@ public class GameWorld {
                 updateReady();
                 break;
             case GAME_RUNNING:
+                // spawn zombies at random time intervals
+                if (random.nextInt(300) == 77) {
+                    spawnZombie();
+                }
                 updateRunning(deltaTime);
                 break;
             case GAME_PAUSED:
@@ -93,6 +90,20 @@ public class GameWorld {
         int randomX = r.nextInt(width + 1) + x;
         int randomY = r.nextInt(height + 1) + y;
         return new int[] {randomX, randomY};
+    }
+
+    private void spawnZombie() {
+        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(3)], 0);
+        childZombies.add(childZombie);
+    }
+
+    private void killZombie(int gestureType) {
+        for (ChildZombie zombie: childZombies) {
+            if (zombie.getGestureType() == gestureType) {
+                childZombies.remove(zombie);
+                break;
+            }
+        }
     }
 
     public ArrayList<ChildZombie> getChildZombies() {

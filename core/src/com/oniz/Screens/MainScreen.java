@@ -36,6 +36,10 @@ public class MainScreen implements Screen {
 
     private float runTime;
 
+    // temporary buttons to simulate gestures
+    private SimpleButton buttonA;
+    private SimpleButton buttonB;
+
     private SimpleButton pauseButton;
     private SimpleButton playButton;
     private SimpleButton restartButton;
@@ -45,11 +49,16 @@ public class MainScreen implements Screen {
     InputMultiplexer im;
     GestureRecognizerInputProcessor gestureRecognizer;
     GestureDetector gd;
+
     public MainScreen() {
+        // temporary
+        buttonA = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonAUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonADown")).getDrawable());
+        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
+
         pauseButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("pauseUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("pauseDown")).getDrawable());
         playButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("playUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("playDown")).getDrawable());
         restartButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("restartUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("restartDown")).getDrawable());
-        stage = new Stage(new FitViewport(480, 800));
+        stage = new Stage(new FitViewport(450, 800));
 
         //TODO: Refactor gameWorld, gameRenderer
         gameWorld = new GameWorld();
@@ -63,12 +72,29 @@ public class MainScreen implements Screen {
         im.addProcessor(gd);
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
+
+        // temporary
+        buttonA.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button A Pressed");
+            }
+        });
+
+        buttonB.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button B Pressed");
+            }
+        });
+
+
+
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("pauseButton Pressed");
                 gameWorld.setState(2);
-
             }
         });
 
@@ -85,7 +111,6 @@ public class MainScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("restartButton Pressed");
                 gameWorld.setState(0);
-//                gameWorld.reset();
             }
         });
 
@@ -95,6 +120,11 @@ public class MainScreen implements Screen {
 
         table.align(Align.top | Align.right);
         table.pad(5);
+
+        // temporary
+        table.add(buttonA);
+        table.add(buttonB);
+
         table.add(pauseButton);
         table.add(playButton);
         table.add(restartButton);

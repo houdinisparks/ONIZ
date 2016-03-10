@@ -26,6 +26,7 @@ public class GameRenderer {
 
     // Game Objects
     private ArrayList<ChildZombie> childZombies;
+    private TextureRegion circleGestureHint, squareGestureHint;
 
     // Game Assets
     private TextureRegion background;
@@ -55,6 +56,8 @@ public class GameRenderer {
 
     private void initGameObjects() {
         childZombies = gameWorld.getChildZombies();
+        circleGestureHint = AssetLoader.getInstance().sprites.get("circleGestureHint");
+        squareGestureHint = AssetLoader.getInstance().sprites.get("squareGestureHint");
     }
 
     private void initAssets() {
@@ -94,6 +97,11 @@ public class GameRenderer {
         for(int i = 0; i < childZombies.size(); i++){
             batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
                     childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+            if (childZombies.get(i).getGestureType() == 0) {
+                batcher.draw(circleGestureHint, childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+            } else if (childZombies.get(i).getGestureType() == 1) {
+                batcher.draw(squareGestureHint, childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+            }
         }
 
         batcher.end();
