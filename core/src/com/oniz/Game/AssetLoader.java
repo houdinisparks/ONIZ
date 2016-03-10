@@ -26,6 +26,7 @@ public final class AssetLoader {
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
     public Animation zombieAnimation;
+    public TextureRegion background;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -69,6 +70,7 @@ public final class AssetLoader {
         zombieAnimation = new Animation(0.6f, zombies);
         zombieAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
+        background = new TextureRegion(textures.get("zombies"), 0, 0, 297, 447);
     }
 
     public void dispose() {

@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.title = "ONIZ";
 //		config.width = 272;
 //		config.height = 408;
-		config.width = 480;
+		config.width = 450;
 		config.height = 800;
 //		config.fullscreen = true;
 		new LwjglApplication(new ZGame(), config);

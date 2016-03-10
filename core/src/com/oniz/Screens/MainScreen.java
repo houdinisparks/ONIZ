@@ -85,7 +85,7 @@ public class MainScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("restartButton Pressed");
                 gameWorld.setState(0);
-                gameWorld.reset();
+//                gameWorld.reset();
             }
         });
 

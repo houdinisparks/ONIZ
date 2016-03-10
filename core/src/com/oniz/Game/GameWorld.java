@@ -28,18 +28,16 @@ public class GameWorld {
     GameRenderer gameRenderer;
 
     //temp objects
-    ArrayList<EvilRectangle> rectangles = new ArrayList<EvilRectangle>();
-    int number = 5;
-    private ChildZombie childZombie;
+    ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
+    int number = 3;
 
     public GameWorld() {
         this.state = 0;
+        Random r = new Random();
         for(int i = 0; i < number; i++) {
-            int[] pos = getRandomPosition(0, 100, 50, 400);
-            EvilRectangle rect = new EvilRectangle(pos[0], pos[1], 50, 50);
-            rectangles.add(rect);
+            ChildZombie childZombie = new ChildZombie((i%3)*150 + 40, 20, 80, 125, r.nextInt(20)+10);
+            childZombies.add(childZombie);
         }
-        childZombie = new ChildZombie(100, 100, 80, 125, 20);
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -72,21 +70,10 @@ public class GameWorld {
     }
 
     private void updateRunning(float deltaTime) {
-        //update a moving rectangle in GameRenderer
-
-//        Gdx.app.log("GameWorld", "update");
-
-        childZombie.update(deltaTime);
-
-        for(EvilRectangle rect: rectangles) {
-            rect.y++;
-            if (rect.y > 700) {
-                rect.y = 100;
-            }
+        // update zombie position
+        for (ChildZombie zombie: childZombies){
+            zombie.update(deltaTime);
         }
-//
-//        gameRenderer.render(deltaTime);
-
     }
 
     private void updatePaused() {
@@ -108,31 +95,27 @@ public class GameWorld {
         return new int[] {randomX, randomY};
     }
 
-    public ArrayList<EvilRectangle> getRectangles() {
-        return this.rectangles;
+    public ArrayList<ChildZombie> getChildZombies() {
+        return childZombies;
     }
 
-    public void reset() {
-        //method should reset all objects to initial state
-        for(EvilRectangle rect: rectangles) {
-            rect.setAlive(true);
-            int[] pos = getRandomPosition(0, 100, 50, 480);
-            rect.x = pos[0];
-            rect.y = pos[1];
-        }
-    }
+//    public void reset() {
+//        //method should reset all objects to initial state
+//        for(EvilRectangle rect: rectangles) {
+//            rect.setAlive(true);
+//            int[] pos = getRandomPosition(0, 100, 50, 480);
+//            rect.x = pos[0];
+//            rect.y = pos[1];
+//        }
+//    }
 
-    public void checkCollision(float x, float y) {
-        /* concurrency issue should be done after position update in render */
-        for(EvilRectangle rect: rectangles) {
-            System.out.println(rect.isAlive());
-            if(rect.contains(x, y)) {
-                rect.setAlive(false);
-            }
-        }
-    }
-
-    public ChildZombie getChildZombie() {
-        return childZombie;
-    }
+//    public void checkCollision(float x, float y) {
+//        /* concurrency issue should be done after position update in render */
+//        for(EvilRectangle rect: rectangles) {
+//            System.out.println(rect.isAlive());
+//            if(rect.contains(x, y)) {
+//                rect.setAlive(false);
+//            }
+//        }
+//    }
 }

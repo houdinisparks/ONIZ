@@ -29,13 +29,13 @@ public class ZGestureListener implements GestureListener {
         this.gr.getCam().unproject(tmpCoords);
         System.out.println("tmpCords" + tmpCoords.x + ":" + tmpCoords.y);
         System.out.println("xy " + x + ":" + y);
-        for(EvilRectangle rect: gameWorld.getRectangles()) {
-            System.out.println(rect.isAlive());
-            if(pointInRectangle(rect, tmpCoords.x, tmpCoords.y)) {
-                rect.setAlive(false);
-                return true;
-            }
-        }
+//        for(EvilRectangle rect: gameWorld.getRectangles()) {
+//            System.out.println(rect.isAlive());
+//            if(pointInRectangle(rect, tmpCoords.x, tmpCoords.y)) {
+//                rect.setAlive(false);
+//                return true;
+//            }
+//        }
         return false;
     }
 
