@@ -22,7 +22,7 @@ public class GameWorld {
     static final int GAME_PAUSED = 2;
     static final int GAME_LEVEL_END = 3;
     static final int GAME_OVER = 4;
-    static final int[] zombiePaths = {40, 190, 340};
+    static final int[] zombiePaths = {40, 115, 190, 265, 340};
     int state;
 
     GameRenderer gameRenderer;
@@ -46,7 +46,7 @@ public class GameWorld {
                 break;
             case GAME_RUNNING:
                 // spawn zombies at random time intervals
-                if (random.nextInt(300) == 77) {
+                if (random.nextInt(100) == 77) {
                     spawnZombie();
                 }
                 updateRunning(deltaTime);
@@ -93,11 +93,11 @@ public class GameWorld {
     }
 
     private void spawnZombie() {
-        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(3)], 0);
+        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0);
         childZombies.add(childZombie);
     }
 
-    private void killZombie(int gestureType) {
+    public void killZombie(int gestureType) {
         for (ChildZombie zombie: childZombies) {
             if (zombie.getGestureType() == gestureType) {
                 childZombies.remove(zombie);

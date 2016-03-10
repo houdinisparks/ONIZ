@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -24,6 +25,7 @@ public final class AssetLoader {
     public Hashtable<String, TextureRegion> sprites;
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
+    public ArrayList<TextureRegion> gestureHints;
     public Animation zombieClimbingAnimation;
 
     public static AssetLoader getInstance() {
@@ -42,6 +44,7 @@ public final class AssetLoader {
         sprites = new Hashtable<String, TextureRegion>();
         sounds = new Hashtable<String, Sound>();
         fonts = new Hashtable<String, BitmapFont>();
+        gestureHints = new ArrayList<TextureRegion>();
         load();
     }
 
@@ -64,10 +67,15 @@ public final class AssetLoader {
         textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
 
         // gesture hints
-        textures.put("circle", new Texture(Gdx.files.internal("data/circle.png")));
-        textures.put("square", new Texture(Gdx.files.internal("data/square.png")));
-        sprites.put("circleGestureHint", new TextureRegion(textures.get("circle"), 0, 0, 15, 15));
-        sprites.put("squareGestureHint", new TextureRegion(textures.get("square"), 0, 0, 15, 15));
+        textures.put("gestureHints", new Texture(Gdx.files.internal("data/gestureHints.png")));
+        sprites.put("circleGestureHint", new TextureRegion(textures.get("gestureHints"), 0, 0, 15, 15));
+        sprites.put("squareGestureHint", new TextureRegion(textures.get("gestureHints"), 15, 0, 15, 15));
+        sprites.put("verticalGestureHint", new TextureRegion(textures.get("gestureHints"), 30, 0, 15, 15));
+        sprites.put("horizontalGestureHint", new TextureRegion(textures.get("gestureHints"), 45, 0, 15, 15));
+        gestureHints.add(sprites.get("circleGestureHint"));
+        gestureHints.add(sprites.get("squareGestureHint"));
+        gestureHints.add(sprites.get("verticalGestureHint"));
+        gestureHints.add(sprites.get("horizontalGestureHint"));
 
         // sprites of zombie climbing
         textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
