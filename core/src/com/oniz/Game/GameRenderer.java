@@ -29,14 +29,14 @@ public class GameRenderer {
 
     // Game Assets
     private TextureRegion background;
-    private Animation childZombieAnimation;
+    private Animation zombieClimbingAnimation;
 
 
     public GameRenderer(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
 
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, 480, 800); //false for y upwards
+        cam.setToOrtho(false, 450, 800); //false for y upwards
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
@@ -58,8 +58,8 @@ public class GameRenderer {
     }
 
     private void initAssets() {
-        background = AssetLoader.getInstance().background;
-        childZombieAnimation = AssetLoader.getInstance().zombieAnimation;
+        background = AssetLoader.getInstance().sprites.get("background");
+        zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
     }
 
     public void render(float deltaTime) {
@@ -85,11 +85,15 @@ public class GameRenderer {
 //        }
 
         batcher.begin();
+        batcher.disableBlending();
+
+        batcher.draw(background, 0, 0, 450, 800);
+
         batcher.enableBlending();
 
-        for(ChildZombie zombie: childZombies){
-            batcher.draw(childZombieAnimation.getKeyFrame(deltaTime), zombie.getX(),
-                    zombie.getY(), zombie.getWidth(), zombie.getHeight());
+        for(int i = 0; i < childZombies.size(); i++){
+            batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                    childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
         }
 
         batcher.end();

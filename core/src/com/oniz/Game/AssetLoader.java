@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.Hashtable;
 
 /**
- * Created by robin on 1/3/16.
  * Singleton holding all assets.
  */
 public final class AssetLoader {
@@ -25,8 +24,7 @@ public final class AssetLoader {
     public Hashtable<String, TextureRegion> sprites;
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
-    public Animation zombieAnimation;
-    public TextureRegion background;
+    public Animation zombieClimbingAnimation;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -48,29 +46,28 @@ public final class AssetLoader {
     }
 
     public void load() {
-//        textures.put("pauseUp", new Texture(Gdx.files.internal("lineDark/lineDark09.png")));
-        textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
-
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
-
+        textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
         textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));
-//        textures.put("playUp", new Texture(Gdx.files.internal("lineDark/lineDark11.png")));
         textures.put("playDown", new Texture(Gdx.files.internal("shadedDark/shadedDark16.png")));
-
         textures.put("restartUp", new Texture(Gdx.files.internal("lineLight/lineLight10.png")));
         textures.put("restartDown", new Texture(Gdx.files.internal("shadedDark/shadedDark12.png")));
 
         // sprites of zombie climbing
-        textures.put("zombies", new Texture(Gdx.files.internal("data/zombieTexture.png")));
-        sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 302, 0, 80, 125));
-        sprites.put("zombieClimb2", new TextureRegion(textures.get("zombies"), 385, 0, 80, 125));
-        sprites.put("zombieClimb3", new TextureRegion(textures.get("zombies"), 468, 0, 80, 125));
+        textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
+        sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 17, 24, 60, 122));
+        sprites.put("zombieClimb2", new TextureRegion(textures.get("zombies"), 89, 24, 60, 122));
+        sprites.put("zombieClimb3", new TextureRegion(textures.get("zombies"), 161, 24, 60, 122));
+        sprites.put("zombieClimb4", new TextureRegion(textures.get("zombies"), 233, 24, 60, 122));
+        sprites.put("zombieClimb5", new TextureRegion(textures.get("zombies"), 305, 24, 60, 122));
+        sprites.put("zombieClimb6", new TextureRegion(textures.get("zombies"), 377, 24, 60, 122));
 
-        TextureRegion[] zombies = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3")};
-        zombieAnimation = new Animation(0.6f, zombies);
-        zombieAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"), sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
+        zombieClimbingAnimation = new Animation(0.2f, zombieClimbing);
+        zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        background = new TextureRegion(textures.get("zombies"), 0, 0, 297, 447);
+        textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
+        sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 329, 758));
     }
 
     public void dispose() {
@@ -90,6 +87,4 @@ public final class AssetLoader {
             temp.dispose();
         }
     }
-
-
 }

@@ -35,7 +35,7 @@ public class GameWorld {
         this.state = 0;
         Random r = new Random();
         for(int i = 0; i < number; i++) {
-            ChildZombie childZombie = new ChildZombie((i%3)*150 + 40, 20, 80, 125, r.nextInt(20)+10);
+            ChildZombie childZombie = new ChildZombie((i%3)*150 + 40, 20, 60, 122, r.nextInt(20)+10);
             childZombies.add(childZombie);
         }
     }
