@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.EvilRectangle;
 
 import java.lang.reflect.Array;
@@ -21,22 +22,15 @@ public class GameWorld {
     static final int GAME_PAUSED = 2;
     static final int GAME_LEVEL_END = 3;
     static final int GAME_OVER = 4;
-
+    static final int[] zombiePaths = {40, 115, 190, 265, 340};
     int state;
 
     GameRenderer gameRenderer;
-
-    //temp objects
-    ArrayList<EvilRectangle> rectangles = new ArrayList<EvilRectangle>();
-    int number = 5;
+    Random random = new Random();
+    ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
 
     public GameWorld() {
         this.state = 0;
-        for(int i = 0; i < number; i++) {
-            int[] pos = getRandomPosition(0, 100, 50, 400);
-            EvilRectangle rect = new EvilRectangle(pos[0], pos[1], 50, 50);
-            rectangles.add(rect);
-        }
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -51,6 +45,10 @@ public class GameWorld {
                 updateReady();
                 break;
             case GAME_RUNNING:
+                // spawn zombies at random time intervals
+                if (random.nextInt(100) == 77) {
+                    spawnZombie();
+                }
                 updateRunning(deltaTime);
                 break;
             case GAME_PAUSED:
@@ -69,19 +67,10 @@ public class GameWorld {
     }
 
     private void updateRunning(float deltaTime) {
-        //update a moving rectangle in GameRenderer
-
-//        Gdx.app.log("GameWorld", "update");
-
-        for(EvilRectangle rect: rectangles) {
-            rect.y++;
-            if (rect.y > 700) {
-                rect.y = 100;
-            }
+        // update zombie position
+        for (ChildZombie zombie: childZombies){
+            zombie.update(deltaTime);
         }
-//
-//        gameRenderer.render(deltaTime);
-
     }
 
     private void updatePaused() {
@@ -103,27 +92,41 @@ public class GameWorld {
         return new int[] {randomX, randomY};
     }
 
-    public ArrayList<EvilRectangle> getRectangles() {
-        return this.rectangles;
+    private void spawnZombie() {
+        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0);
+        childZombies.add(childZombie);
     }
 
-    public void reset() {
-        //method should reset all objects to initial state
-        for(EvilRectangle rect: rectangles) {
-            rect.setAlive(true);
-            int[] pos = getRandomPosition(0, 100, 50, 480);
-            rect.x = pos[0];
-            rect.y = pos[1];
-        }
-    }
-
-    public void checkCollision(float x, float y) {
-        /* concurrency issue should be done after position update in render */
-        for(EvilRectangle rect: rectangles) {
-            System.out.println(rect.isAlive());
-            if(rect.contains(x, y)) {
-                rect.setAlive(false);
+    public void killZombie(int gestureType) {
+        for (ChildZombie zombie: childZombies) {
+            if (zombie.getGestureType() == gestureType) {
+                childZombies.remove(zombie);
+                break;
             }
         }
     }
+
+    public ArrayList<ChildZombie> getChildZombies() {
+        return childZombies;
+    }
+
+//    public void reset() {
+//        //method should reset all objects to initial state
+//        for(EvilRectangle rect: rectangles) {
+//            rect.setAlive(true);
+//            int[] pos = getRandomPosition(0, 100, 50, 480);
+//            rect.x = pos[0];
+//            rect.y = pos[1];
+//        }
+//    }
+
+//    public void checkCollision(float x, float y) {
+//        /* concurrency issue should be done after position update in render */
+//        for(EvilRectangle rect: rectangles) {
+//            System.out.println(rect.isAlive());
+//            if(rect.contains(x, y)) {
+//                rect.setAlive(false);
+//            }
+//        }
+//    }
 }

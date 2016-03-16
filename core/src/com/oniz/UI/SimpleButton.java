@@ -5,9 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.oniz.Game.AssetLoader;
 
-/**
- * Created by robin on 1/3/16.
- */
+
 public class SimpleButton extends ImageButton {
     public SimpleButton(Drawable imageUp, Drawable imageDown) {
         //imageUp, imageDown

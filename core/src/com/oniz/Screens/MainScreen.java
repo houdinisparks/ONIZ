@@ -34,21 +34,30 @@ public class MainScreen implements Screen {
     GameWorld gameWorld;
     GameRenderer gameRenderer;
 
+    private float runTime;
 
-    private SimpleButton pauseButton;
-    private SimpleButton playButton;
-    private SimpleButton restartButton;
+    // temporary buttons to simulate gestures
+    private SimpleButton buttonA, buttonB, buttonX, buttonY;
+
+    private SimpleButton pauseButton, playButton,restartButton;
     private Stage stage;
     private Table table;
 
     InputMultiplexer im;
     GestureRecognizerInputProcessor gestureRecognizer;
     GestureDetector gd;
+
     public MainScreen() {
+        // temporary
+        buttonA = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonAUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonADown")).getDrawable());
+        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
+        buttonX = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonXUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonXDown")).getDrawable());
+        buttonY = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonYUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonYDown")).getDrawable());
+
         pauseButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("pauseUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("pauseDown")).getDrawable());
         playButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("playUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("playDown")).getDrawable());
         restartButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("restartUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("restartDown")).getDrawable());
-        stage = new Stage(new FitViewport(480, 800));
+        stage = new Stage(new FitViewport(450, 800));
 
         //TODO: Refactor gameWorld, gameRenderer
         gameWorld = new GameWorld();
@@ -62,12 +71,47 @@ public class MainScreen implements Screen {
         im.addProcessor(gd);
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
+
+        // temporary
+        buttonA.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button A Pressed");
+                gameWorld.killZombie(0);
+            }
+        });
+
+        buttonB.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button B Pressed");
+                gameWorld.killZombie(1);
+            }
+        });
+
+        buttonX.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button X Pressed");
+                gameWorld.killZombie(2);
+            }
+        });
+
+        buttonY.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Button Y Pressed");
+                gameWorld.killZombie(3);
+            }
+        });
+
+
+
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("pauseButton Pressed");
                 gameWorld.setState(2);
-
             }
         });
 
@@ -84,7 +128,6 @@ public class MainScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("restartButton Pressed");
                 gameWorld.setState(0);
-                gameWorld.reset();
             }
         });
 
@@ -94,6 +137,13 @@ public class MainScreen implements Screen {
 
         table.align(Align.top | Align.right);
         table.pad(5);
+
+        // temporary
+        table.add(buttonA);
+        table.add(buttonB);
+        table.add(buttonX);
+        table.add(buttonY);
+
         table.add(pauseButton);
         table.add(playButton);
         table.add(restartButton);
@@ -109,8 +159,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        runTime += delta;
         gameWorld.update(delta);
-        gameRenderer.render(delta);
+        gameRenderer.render(runTime);
 
 
 //      draw stage over everything else
