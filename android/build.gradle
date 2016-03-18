@@ -18,7 +18,13 @@ android {
         applicationId "com.oniz"
         minSdkVersion 8
         targetSdkVersion 20
+        multiDexEnabled true
     }
+}
+
+
+dependencies {
+    compile 'com.android.support:multidex:1.0.0'
 }
 
 
