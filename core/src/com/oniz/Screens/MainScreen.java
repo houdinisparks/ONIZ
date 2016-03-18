@@ -20,8 +20,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameRenderer;
 import com.oniz.Game.GameWorld;
+import com.oniz.Game.ZGame;
 import com.oniz.Gestures.GestureRecognizerInputProcessor;
 import com.oniz.Gestures.ZGestureListener;
+import com.oniz.Network.PlayServices;
 import com.oniz.UI.SimpleButton;
 
 
@@ -47,7 +49,12 @@ public class MainScreen implements Screen {
     GestureRecognizerInputProcessor gestureRecognizer;
     GestureDetector gd;
 
-    public MainScreen() {
+    public static ZGame zGame;
+
+    public MainScreen(ZGame zGame) {
+
+        this.zGame = zGame;
+
         // temporary
         buttonA = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonAUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonADown")).getDrawable());
         buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
@@ -106,7 +113,6 @@ public class MainScreen implements Screen {
         });
 
 
-
         pauseButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -148,6 +154,7 @@ public class MainScreen implements Screen {
         table.add(playButton);
         table.add(restartButton);
         stage.addActor(table);
+
 
     }
 
