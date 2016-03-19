@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by robin on 1/3/16.
  * Game world holds all the models.
  * It also has the overall game state.
  */
@@ -30,7 +29,7 @@ public class GameWorld {
     ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
 
     public GameWorld() {
-        this.state = 0;
+        this.state = GAME_READY;
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -45,10 +44,6 @@ public class GameWorld {
                 updateReady();
                 break;
             case GAME_RUNNING:
-                // spawn zombies at random time intervals
-                if (random.nextInt(100) == 77) {
-                    spawnZombie();
-                }
                 updateRunning(deltaTime);
                 break;
             case GAME_PAUSED:
@@ -68,28 +63,30 @@ public class GameWorld {
 
     private void updateRunning(float deltaTime) {
         // update zombie position
-        for (ChildZombie zombie: childZombies){
-            zombie.update(deltaTime);
+        for (int i = 0; i < childZombies.size(); i++){
+            childZombies.get(i).update(deltaTime);
+
+            // if one of the zombies reaches the roof
+            if (childZombies.get(i).getY() > 550) {
+                this.state = GAME_OVER;
+            }
+        }
+        // spawn zombies at random time intervals
+        if (random.nextInt(100) == 77) {
+            spawnZombie();
         }
     }
 
     private void updatePaused() {
-        //just dont pass delta to objects
+        //just don't pass delta to objects
     }
 
     private void updateGameOver() {
+        System.out.println("GAME OVER!!!");
     }
 
     public void setState(int state) {
         this.state = state;
-    }
-
-    //give x, y within bounds providing top left corner
-    public int[] getRandomPosition (int x, int y, int height, int width) {
-        Random r = new Random();
-        int randomX = r.nextInt(width + 1) + x;
-        int randomY = r.nextInt(height + 1) + y;
-        return new int[] {randomX, randomY};
     }
 
     private void spawnZombie() {
@@ -129,4 +126,20 @@ public class GameWorld {
 //            }
 //        }
 //    }
+
+    public boolean isReady() {
+        return state == GAME_READY;
+    }
+
+    public boolean isGameOver() {
+        return state == GAME_OVER;
+    }
+
+    public boolean isPaused() {
+        return state == GAME_PAUSED;
+    }
+
+    public boolean isRunning() {
+        return state == GAME_RUNNING;
+    }
 }
