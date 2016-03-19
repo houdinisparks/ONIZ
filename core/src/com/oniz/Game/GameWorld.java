@@ -82,7 +82,7 @@ public class GameWorld {
     }
 
     private void updateGameOver() {
-        System.out.println("GAME OVER!!!");
+//        System.out.println("GAME OVER!!!");
     }
 
     public void setState(int state) {

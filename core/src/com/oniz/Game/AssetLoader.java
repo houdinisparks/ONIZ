@@ -58,12 +58,16 @@ public final class AssetLoader {
         textures.get("logoTexture").setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
 
-        // sprites from ZombieBird
-        textures.put("menuTexture", new Texture(Gdx.files.internal("data/zombieBirdTexture.png")));
-        sprites.put("ready", new TextureRegion(textures.get("menuTexture"), 59, 83, 34, 7));
-        sprites.put("retry", new TextureRegion(textures.get("menuTexture"), 59, 110, 33, 7));
-        sprites.put("gameOver", new TextureRegion(textures.get("menuTexture"), 59, 92, 46, 7));
-
+        // menu icons
+        textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
+        sprites.put("pauseTitle", new TextureRegion(textures.get("menuTexture"), 240, 0, 440, 130));
+        sprites.put("playUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 100));
+        sprites.put("playDown", new TextureRegion(textures.get("menuTexture"), 0, 100, 200, 100));
+        sprites.put("restartUp", new TextureRegion(textures.get("menuTexture"), 0, 200, 200, 100));
+        sprites.put("restartDown", new TextureRegion(textures.get("menuTexture"), 0, 300, 200, 100));
+        sprites.put("homeUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 100));
+        sprites.put("homeDown", new TextureRegion(textures.get("menuTexture"), 0, 500, 200, 100));
+        sprites.put("pause", new TextureRegion(textures.get("menuTexture"), 10, 814, 74, 62));
 
         // play, pause, restart buttons
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));

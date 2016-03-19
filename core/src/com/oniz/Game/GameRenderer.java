@@ -35,7 +35,7 @@ public class GameRenderer {
     // Game Assets
     private TextureRegion background;
     private Animation zombieClimbingAnimation;
-    private TextureRegion gameOver, retry;
+    private TextureRegion play, restart, home, pauseTitle, pause;
 
     // Tween stuff
     private TweenManager manager;
@@ -78,8 +78,11 @@ public class GameRenderer {
     private void initAssets() {
         background = AssetLoader.getInstance().sprites.get("background");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
-        gameOver = AssetLoader.getInstance().sprites.get("gameOver");
-        retry = AssetLoader.getInstance().sprites.get("retry");
+        play = AssetLoader.getInstance().sprites.get("playUp");
+        restart = AssetLoader.getInstance().sprites.get("restartUp");
+        home = AssetLoader.getInstance().sprites.get("homeUp");
+        pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
+        pause = AssetLoader.getInstance().sprites.get("pause");
     }
 
     public void render(float deltaTime) {
@@ -104,10 +107,16 @@ public class GameRenderer {
                 batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
             }
         } else if (gameWorld.isGameOver()) {
-            // draw "GAME OVER"
-            batcher.draw(gameOver, 100, 400, 250, 50);
-            // draw "RETRY" button
-            batcher.draw(retry, 120, 300, 200, 50);
+            // draw "PAUSE" button
+            batcher.draw(pause, 0, 0, 74, 62);
+            // draw "PAUSE" title
+            batcher.draw(pauseTitle, 80, 550, 293, 86);
+            // draw "PLAY" icon
+            batcher.draw(play, 140, 400, 160, 80);
+            // draw "RESTART" icon
+            batcher.draw(restart, 140, 300, 160, 80);
+            // draw "HOME" icon
+            batcher.draw(home, 140, 200, 160, 80);
         }
 
         batcher.end();

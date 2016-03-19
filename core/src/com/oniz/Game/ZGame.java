@@ -17,9 +17,9 @@ public class ZGame extends Game {
 
     public static Screen startScreen, matchMakingScreen, mainScreen;
 
-    public ZGame(PlayServices playServices) {
-        this.playServices = playServices;
-        this.playServices.setGame(this);
+    public ZGame(/*PlayServices playServices*/) {
+//        this.playServices = playServices;
+//        this.playServices.setGame(this);
     }
 
     public enum State
@@ -38,12 +38,12 @@ public class ZGame extends Game {
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
-        mainScreen = new MainScreen(this);
-        startScreen = new StartScreen(this);
-        matchMakingScreen = new MatchMakingScreen(this);
+//        mainScreen = new MainScreen(this);
+//        startScreen = new StartScreen(this);
+//        matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(new SplashScreen(this));
+        setScreen(new MainScreen(this));
     }
 
     public void switchScreen(ScreenState screen) {
