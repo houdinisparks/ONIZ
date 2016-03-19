@@ -66,7 +66,6 @@ public class MainScreen implements Screen {
         restartButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("restartUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("restartDown")).getDrawable());
         stage = new Stage(new FitViewport(450, 800));
 
-        //TODO: Refactor gameWorld, gameRenderer
         gameWorld = new GameWorld();
         gameRenderer = new GameRenderer(gameWorld);
         gameWorld.setRenderer(gameRenderer);
@@ -77,7 +76,6 @@ public class MainScreen implements Screen {
         im.addProcessor(gestureRecognizer);
         im.addProcessor(gd);
         im.addProcessor(stage);
-        Gdx.input.setInputProcessor(im);
 
         // temporary
         buttonA.addListener(new ChangeListener() {
@@ -162,6 +160,7 @@ public class MainScreen implements Screen {
     @Override
     public void show() {
         Gdx.app.log("MainScreen", "show called");
+        Gdx.input.setInputProcessor(im);
     }
 
     @Override
