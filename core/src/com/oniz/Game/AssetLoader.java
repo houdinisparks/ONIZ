@@ -49,6 +49,20 @@ public final class AssetLoader {
     }
 
     public void load() {
+
+        // splash screen logo
+        textures.put("logoTexture", new Texture(Gdx.files.internal("data/logo.png")));
+        textures.get("logoTexture").setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
+
+        // sprites from ZombieBird
+        textures.put("menuTexture", new Texture(Gdx.files.internal("data/zombieBirdTexture.png")));
+        sprites.put("ready", new TextureRegion(textures.get("menuTexture"), 59, 83, 34, 7));
+        sprites.put("retry", new TextureRegion(textures.get("menuTexture"), 59, 110, 33, 7));
+        sprites.put("gameOver", new TextureRegion(textures.get("menuTexture"), 59, 92, 46, 7));
+
+
+        // play, pause, restart buttons
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
         textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
         textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));
@@ -91,7 +105,7 @@ public final class AssetLoader {
         zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
-        sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 329, 758));
+        sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 325, 758));
     }
 
     public void dispose() {

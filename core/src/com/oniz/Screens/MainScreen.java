@@ -26,7 +26,6 @@ import com.oniz.UI.SimpleButton;
 
 
 /**
- * Created by robin on 1/3/16.
  * MainScreen contains the top bar menu which is drawn over everything else.
  */
 public class MainScreen implements Screen {

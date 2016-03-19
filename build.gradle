@@ -65,6 +65,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile 'com.google.android.gms:play-services-games:8.4.0'
         compile project(":BaseGameUtils")
+        compile fileTree(dir: '../libs', include: '*.jar')
     }
 }
 
@@ -105,6 +106,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile fileTree(dir: '../libs', include: '*.jar')
     }
 }
 
