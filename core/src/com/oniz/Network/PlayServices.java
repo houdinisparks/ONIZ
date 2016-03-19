@@ -1,5 +1,7 @@
 package com.oniz.Network;
 
+import com.oniz.Game.ZGame;
+
 /**
  * Created by yanyee on 3/18/2016.
  */
@@ -8,6 +10,12 @@ public interface PlayServices {
     public void signIn();
 
     public void signOut();
+
+    public void startQuickGame();
+
+    public void broadcastMessage(String message);
+
+    public void setGame(ZGame zgame);
 
     public void rateGame();
 
