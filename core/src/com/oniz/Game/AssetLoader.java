@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -27,6 +28,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public ArrayList<TextureRegion> gestureHints;
     public Animation zombieClimbingAnimation;
+    public Skin skin;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -45,6 +47,7 @@ public final class AssetLoader {
         sounds = new Hashtable<String, Sound>();
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new ArrayList<TextureRegion>();
+        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
     }
 

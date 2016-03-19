@@ -3,8 +3,10 @@ package com.oniz.Game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.oniz.Network.PlayServices;
 import com.oniz.Screens.MainScreen;
+import com.oniz.Screens.MatchMakingScreen;
 import com.oniz.Screens.StartScreen;
 
 
@@ -13,8 +15,11 @@ public class ZGame extends Game {
 
     public static PlayServices playServices;
 
-    public ZGame(PlayServices androidLauncher) {
-        this.playServices = androidLauncher;
+    public static Screen startScreen, matchMakingScreen, mainScreen;
+
+    public ZGame(PlayServices playServices) {
+        this.playServices = playServices;
+        this.playServices.setGame(this);
     }
 
     public enum State
@@ -25,13 +30,40 @@ public class ZGame extends Game {
         STOPPED
     }
 
+
+    public enum ScreenState {
+        START, MATCHMAKING, MAIN, GAMEOVER
+    }
     @Override
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
+        mainScreen = new MainScreen(this);
+        startScreen = new StartScreen(this);
+        matchMakingScreen = new MatchMakingScreen(this);
 
-        //Pass  and object of ZGame into the screen. Allows us tp
+        //Pass and object of ZGame into the screen. Allows us to
         //access the play services in the screen.
-        setScreen(new StartScreen(this));
+        switchScreen(ScreenState.START);
+    }
+
+    public void switchScreen(ScreenState screen) {
+        switch(screen) {
+            case START:
+                setScreen(startScreen);
+                break;
+            case MATCHMAKING:
+                setScreen(matchMakingScreen);
+                break;
+            case MAIN:
+                setScreen(mainScreen);
+                break;
+            case GAMEOVER:
+                setScreen(startScreen);
+                break;
+            default:
+                setScreen(startScreen);
+                break;
+        }
     }
 }
