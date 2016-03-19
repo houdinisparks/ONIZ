@@ -1,6 +1,5 @@
 package com.oniz.Game;
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,6 +7,7 @@ import com.oniz.Network.PlayServices;
 import com.oniz.Screens.MainScreen;
 import com.oniz.Screens.MatchMakingScreen;
 import com.oniz.Screens.StartScreen;
+import com.oniz.Screens.SplashScreen;
 
 
 public class ZGame extends Game {
@@ -32,7 +32,7 @@ public class ZGame extends Game {
 
 
     public enum ScreenState {
-        START, MATCHMAKING, MAIN, GAMEOVER
+        START, MATCHMAKING, MAIN, GAMEOVER, SPLASH
     }
     @Override
     public void create() {
@@ -42,9 +42,8 @@ public class ZGame extends Game {
         startScreen = new StartScreen(this);
         matchMakingScreen = new MatchMakingScreen(this);
 
-        //Pass and object of ZGame into the screen. Allows us to
-        //access the play services in the screen.
-        switchScreen(ScreenState.START);
+        //splash seems to only activate if its passed as a new object
+        setScreen(new SplashScreen(this));
     }
 
     public void switchScreen(ScreenState screen) {
@@ -65,5 +64,11 @@ public class ZGame extends Game {
                 setScreen(startScreen);
                 break;
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        assets.dispose();
     }
 }

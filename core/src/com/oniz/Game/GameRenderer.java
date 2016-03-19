@@ -9,13 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.EvilRectangle;
+import com.oniz.TweenAccessors.Value;
+import com.oniz.TweenAccessors.ValueAccessor;
 
 import java.util.ArrayList;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 
 public class GameRenderer {
@@ -31,6 +35,11 @@ public class GameRenderer {
     // Game Assets
     private TextureRegion background;
     private Animation zombieClimbingAnimation;
+    private TextureRegion gameOver, retry;
+
+    // Tween stuff
+    private TweenManager manager;
+    private Value alpha = new Value();
 
 
     public GameRenderer(GameWorld gameWorld) {
@@ -54,6 +63,13 @@ public class GameRenderer {
         return this.cam;
     }
 
+    private void setupTweens() {
+        Tween.registerAccessor(Value.class, new ValueAccessor());
+        manager = new TweenManager();
+        Tween.to(alpha, -1, .5f).target(0).ease(TweenEquations.easeOutQuad)
+                .start(manager);
+    }
+
     private void initGameObjects() {
         childZombies = gameWorld.getChildZombies();
         gestureHints = AssetLoader.getInstance().gestureHints;
@@ -62,6 +78,8 @@ public class GameRenderer {
     private void initAssets() {
         background = AssetLoader.getInstance().sprites.get("background");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
+        gameOver = AssetLoader.getInstance().sprites.get("gameOver");
+        retry = AssetLoader.getInstance().sprites.get("retry");
     }
 
     public void render(float deltaTime) {
@@ -70,22 +88,6 @@ public class GameRenderer {
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
         Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-
-//        for( EvilRectangle rect : rectangles) {
-//            if(rect.isAlive()) {
-//                //draw stuff
-//                shapeRenderer.begin(ShapeType.Filled);
-//                // Chooses RGB Color of 87, 109, 120 at full opacity
-//                shapeRenderer.setColor(255, 100, 100, 1);
-//                // Draws the rectangle from myWorld (Using ShapeType.Filled)
-//                shapeRenderer.rect(rect.x, rect.y,
-//                        rect.width, rect.height);
-//                // Tells the shapeRenderer to finish rendering
-//                // We MUST do this every time.
-//                shapeRenderer.end();
-//            }
-//        }
-
         batcher.begin();
         batcher.disableBlending();
 
@@ -93,12 +95,19 @@ public class GameRenderer {
 
         batcher.enableBlending();
 
-        for(int i = 0; i < childZombies.size(); i++){
-            // draw zombies climbing
-            batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
-                    childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
-            // draw corresponding gesture hints
-            batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+        if (gameWorld.isRunning()) {
+            for(int i = 0; i < childZombies.size(); i++){
+                // draw zombies climbing
+                batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                        childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+                // draw corresponding gesture hints
+                batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+            }
+        } else if (gameWorld.isGameOver()) {
+            // draw "GAME OVER"
+            batcher.draw(gameOver, 100, 400, 250, 50);
+            // draw "RETRY" button
+            batcher.draw(retry, 120, 300, 200, 50);
         }
 
         batcher.end();
