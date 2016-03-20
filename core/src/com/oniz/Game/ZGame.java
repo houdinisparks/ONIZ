@@ -39,12 +39,12 @@ public class ZGame extends Game {
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
-//        mainScreen = new MainScreen(this);
+        gameScreen = new GameScreen();
 //        startScreen = new StartScreen(this);
 //        matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(new GameScreen());
+        setScreen(gameScreen);
     }
 
     public void switchScreen(ScreenState screen) {

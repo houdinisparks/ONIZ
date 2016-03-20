@@ -8,13 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.TweenAccessors.Value;
 import com.oniz.TweenAccessors.ValueAccessor;
-import com.oniz.UI.SimpleButton;
+import com.oniz.UI.MenuButton;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -23,7 +21,9 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-
+/**
+ * GameRenderer class to handle graphics rendering.
+ */
 public class GameRenderer {
     private GameWorld gameWorld;
     private OrthographicCamera cam;
@@ -41,7 +41,7 @@ public class GameRenderer {
     private TextureRegion pauseTitle;
 
     // Buttons
-    private Hashtable<String, SimpleButton> menuButtons;
+    private Hashtable<String, MenuButton> menuButtons;
 
     // Tween stuff
     private TweenManager manager;
@@ -110,9 +110,12 @@ public class GameRenderer {
         menuButtons.get("homeButton").draw(batcher);
     }
 
+    /**
+     * Draw zombies freeze in time when game is paused or game is over.
+     */
     private void drawZombiesFreezeFrame() {
         for(int i = 0; i < childZombies.size(); i++){
-            // draw zombies climbing
+            // draw zombies climbing (freeze frame)
             batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
                     childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
             // draw corresponding gesture hints
@@ -120,6 +123,10 @@ public class GameRenderer {
         }
     }
 
+    /**
+     * Rendering all the graphics - this is where the magic happens.
+     * @param deltaTime - time since the game started
+     */
     public void render(float deltaTime) {
 
         // set black to prevent flicker. rgba format.
@@ -129,13 +136,16 @@ public class GameRenderer {
         batcher.begin();
         batcher.disableBlending();
 
+        // draw the background building
         batcher.draw(background, 0, 0, 450, 800);
 
         batcher.enableBlending();
 
+        // when game is ready, draw the play button
         if (gameWorld.isReady()) {
             menuButtons.get("playButton").draw(batcher);
 
+        // when game is running, animate the zombies and gesture hints, and also draw the PAUSE button
         } else if (gameWorld.isRunning()) {
             for(int i = 0; i < childZombies.size(); i++){
                 // draw zombies climbing with animation
@@ -145,12 +155,16 @@ public class GameRenderer {
                 batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
             }
             menuButtons.get("pauseButton").draw(batcher);
+
+            // refresh freezeFrameTime with the current running time
             freezeFrameTime = deltaTime;
 
+        // when game is paused, freeze the animating zombies, and display the pause menu
         } else if (gameWorld.isPaused()) {
             drawZombiesFreezeFrame();
             drawPauseMenu();
 
+        // when game is over, freeze the animating zombies, and draw the PLAY AGAIN button
         } else if (gameWorld.isGameOver()) {
             drawZombiesFreezeFrame();
             menuButtons.get("playAgainButton").draw(batcher);

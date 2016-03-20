@@ -3,7 +3,7 @@ package com.oniz.Game;
 import java.util.Hashtable;
 
 import com.badlogic.gdx.InputProcessor;
-import com.oniz.UI.SimpleButton;
+import com.oniz.UI.MenuButton;
 
 /**
  * InputHandler class to handle touch events.
@@ -11,8 +11,8 @@ import com.oniz.UI.SimpleButton;
 public class InputHandler implements InputProcessor {
     private GameWorld gameWorld;
 
-    private Hashtable<String, SimpleButton> menuButtons;
-    private SimpleButton playButton, resumeButton, restartButton, homeButton, pauseButton, playAgainButton;
+    private Hashtable<String, MenuButton> menuButtons;
+    private MenuButton playButton, resumeButton, restartButton, homeButton, pauseButton, playAgainButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -29,19 +29,19 @@ public class InputHandler implements InputProcessor {
         this.scaleFactorX = scaleFactorX;
         this.scaleFactorY = scaleFactorY;
 
-        menuButtons = new Hashtable<String, SimpleButton>();
+        menuButtons = new Hashtable<String, MenuButton>();
 
-        playButton = new SimpleButton(100, 320, 260, 160,
+        playButton = new MenuButton(100, 320, 260, 160,
                 AssetLoader.getInstance().sprites.get("playUp"), AssetLoader.getInstance().sprites.get("playDown"));
-        resumeButton = new SimpleButton(140, 400, 160, 80,
+        resumeButton = new MenuButton(140, 400, 160, 80,
                 AssetLoader.getInstance().sprites.get("resumeUp"), AssetLoader.getInstance().sprites.get("resumeDown"));
-        restartButton = new SimpleButton(140, 300, 160, 80,
+        restartButton = new MenuButton(140, 300, 160, 80,
                 AssetLoader.getInstance().sprites.get("restartUp"), AssetLoader.getInstance().sprites.get("restartDown"));
-        homeButton = new SimpleButton(140, 200, 160, 80,
+        homeButton = new MenuButton(140, 200, 160, 80,
                 AssetLoader.getInstance().sprites.get("homeUp"), AssetLoader.getInstance().sprites.get("homeDown"));
-        pauseButton = new SimpleButton(450-60, 800-52, 60, 52,
+        pauseButton = new MenuButton(450-60, 800-52, 60, 52,
                 AssetLoader.getInstance().sprites.get("pauseUp"), AssetLoader.getInstance().sprites.get("pauseDown"));
-        playAgainButton = new SimpleButton(80, 320, 280, 160,
+        playAgainButton = new MenuButton(80, 320, 280, 160,
                 AssetLoader.getInstance().sprites.get("playAgainUp"), AssetLoader.getInstance().sprites.get("playAgainDown"));
 
         menuButtons.put("playButton", playButton);
@@ -181,7 +181,7 @@ public class InputHandler implements InputProcessor {
      * Getter method.
      * @return HashTable of MenuButtons.
      */
-    public Hashtable<String, SimpleButton> getMenuButtons() {
+    public Hashtable<String, MenuButton> getMenuButtons() {
         return menuButtons;
     }
 }
