@@ -33,7 +33,7 @@ public class MatchMakingScreen implements Screen{
         this.stage = new Stage(new FitViewport(450, 800));
         this.skin = AssetLoader.getInstance().skin;
 
-        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
+//        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
 
         Label waitingLbl = new Label("Waiting for players...", skin);
         waitingLbl.setPosition(100, 400);
@@ -44,7 +44,7 @@ public class MatchMakingScreen implements Screen{
 
         table.pad(5);
 
-        table.add(buttonB).top().right().fillX();
+//        table.add(buttonB).top().right().fillX();
         table.row();
         table.add(waitingLbl).center().fill();
 

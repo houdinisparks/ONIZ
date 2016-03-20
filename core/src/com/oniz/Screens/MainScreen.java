@@ -55,14 +55,11 @@ public class MainScreen implements Screen {
         this.zGame = zGame;
 
         // temporary
-        buttonA = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonAUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonADown")).getDrawable());
-        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
-        buttonX = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonXUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonXDown")).getDrawable());
-        buttonY = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonYUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonYDown")).getDrawable());
+//        buttonA = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonAUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonADown")).getDrawable());
+//        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
+//        buttonX = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonXUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonXDown")).getDrawable());
+//        buttonY = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonYUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonYDown")).getDrawable());
 
-        pauseButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("pauseUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("pauseDown")).getDrawable());
-        playButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("playUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("playDown")).getDrawable());
-        restartButton = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("restartUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("restartDown")).getDrawable());
         stage = new Stage(new FitViewport(450, 800));
 
         gameWorld = new GameWorld();
@@ -76,63 +73,38 @@ public class MainScreen implements Screen {
         im.addProcessor(gd);
         im.addProcessor(stage);
 
-        // temporary
-        buttonA.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Button A Pressed");
-                gameWorld.killZombie(0);
-            }
-        });
-
-        buttonB.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Button B Pressed");
-                gameWorld.killZombie(1);
-            }
-        });
-
-        buttonX.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Button X Pressed");
-                gameWorld.killZombie(2);
-            }
-        });
-
-        buttonY.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Button Y Pressed");
-                gameWorld.killZombie(3);
-            }
-        });
-
-
-        pauseButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("pauseButton Pressed");
-                gameWorld.setState(2);
-            }
-        });
-
-        playButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("playButton Pressed");
-                gameWorld.setState(1);
-            }
-        });
-
-        restartButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("restartButton Pressed");
-                gameWorld.setState(0);
-            }
-        });
+//        // temporary
+//        buttonA.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                System.out.println("Button A Pressed");
+//                gameWorld.killZombie(0);
+//            }
+//        });
+//
+//        buttonB.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                System.out.println("Button B Pressed");
+//                gameWorld.killZombie(1);
+//            }
+//        });
+//
+//        buttonX.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                System.out.println("Button X Pressed");
+//                gameWorld.killZombie(2);
+//            }
+//        });
+//
+//        buttonY.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                System.out.println("Button Y Pressed");
+//                gameWorld.killZombie(3);
+//            }
+//        });
 
         table = new Table();
         table.setFillParent(true);
@@ -142,14 +114,14 @@ public class MainScreen implements Screen {
         table.pad(5);
 
         // temporary
-        table.add(buttonA);
-        table.add(buttonB);
-        table.add(buttonX);
-        table.add(buttonY);
-
-        table.add(pauseButton);
-        table.add(playButton);
-        table.add(restartButton);
+//        table.add(buttonA);
+//        table.add(buttonB);
+//        table.add(buttonX);
+//        table.add(buttonY);
+//
+//        table.add(pauseButton);
+//        table.add(playButton);
+//        table.add(restartButton);
         stage.addActor(table);
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.oniz.Network.PlayServices;
+import com.oniz.Screens.GameScreen;
 import com.oniz.Screens.MainScreen;
 import com.oniz.Screens.MatchMakingScreen;
 import com.oniz.Screens.StartScreen;
@@ -15,7 +16,7 @@ public class ZGame extends Game {
 
     public static PlayServices playServices;
 
-    public static Screen startScreen, matchMakingScreen, mainScreen;
+    public static Screen startScreen, matchMakingScreen, gameScreen;
 
     public ZGame(/*PlayServices playServices*/) {
 //        this.playServices = playServices;
@@ -43,7 +44,7 @@ public class ZGame extends Game {
 //        matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(new MainScreen(this));
+        setScreen(new GameScreen());
     }
 
     public void switchScreen(ScreenState screen) {
@@ -55,7 +56,7 @@ public class ZGame extends Game {
                 setScreen(matchMakingScreen);
                 break;
             case MAIN:
-                setScreen(mainScreen);
+                setScreen(gameScreen);
                 break;
             case GAMEOVER:
                 setScreen(startScreen);
