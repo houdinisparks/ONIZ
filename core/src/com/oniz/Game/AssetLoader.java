@@ -74,7 +74,7 @@ public final class AssetLoader {
         sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
         sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
 
-        // play, pause, restart buttons
+        // play, pause, restart buttons (obsolete)
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
         textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
         textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));

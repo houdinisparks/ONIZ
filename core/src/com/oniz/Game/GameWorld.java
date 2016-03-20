@@ -1,19 +1,11 @@
 package com.oniz.Game;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
+;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.EvilRectangle;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Game world holds all the models.
- * It also has the overall game state.
+ * GameWorld class hold all the models and game states.
  */
 public class GameWorld {
     public static final int GAME_READY = 0;
@@ -67,7 +59,7 @@ public class GameWorld {
             childZombies.get(i).update(deltaTime);
 
             // if one of the zombies reaches the roof
-            if (childZombies.get(i).getY() > 550) {
+            if (childZombies.get(i).getY() > 548) {
                 this.state = GAME_OVER;
             }
         }
