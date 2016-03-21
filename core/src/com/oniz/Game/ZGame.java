@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.oniz.Network.PlayServices;
+import com.oniz.Screens.GameScreen;
 import com.oniz.Screens.MainScreen;
 import com.oniz.Screens.MatchMakingScreen;
 import com.oniz.Screens.StartScreen;
@@ -15,11 +16,11 @@ public class ZGame extends Game {
 
     public static PlayServices playServices;
 
-    public static Screen startScreen, matchMakingScreen, mainScreen;
+    public static Screen startScreen, matchMakingScreen, gameScreen;
 
-    public ZGame(PlayServices playServices) {
-        this.playServices = playServices;
-        this.playServices.setGame(this);
+    public ZGame(/*PlayServices playServices*/) {
+//        this.playServices = playServices;
+//        this.playServices.setGame(this);
     }
 
     public enum State
@@ -38,12 +39,12 @@ public class ZGame extends Game {
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
-        mainScreen = new MainScreen(this);
-        startScreen = new StartScreen(this);
-        matchMakingScreen = new MatchMakingScreen(this);
+        gameScreen = new GameScreen();
+//        startScreen = new StartScreen(this);
+//        matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(new SplashScreen(this));
+        setScreen(gameScreen);
     }
 
     public void switchScreen(ScreenState screen) {
@@ -55,7 +56,7 @@ public class ZGame extends Game {
                 setScreen(matchMakingScreen);
                 break;
             case MAIN:
-                setScreen(mainScreen);
+                setScreen(gameScreen);
                 break;
             case GAMEOVER:
                 setScreen(startScreen);

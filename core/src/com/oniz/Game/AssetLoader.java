@@ -58,14 +58,23 @@ public final class AssetLoader {
         textures.get("logoTexture").setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
 
-        // sprites from ZombieBird
-        textures.put("menuTexture", new Texture(Gdx.files.internal("data/zombieBirdTexture.png")));
-        sprites.put("ready", new TextureRegion(textures.get("menuTexture"), 59, 83, 34, 7));
-        sprites.put("retry", new TextureRegion(textures.get("menuTexture"), 59, 110, 33, 7));
-        sprites.put("gameOver", new TextureRegion(textures.get("menuTexture"), 59, 92, 46, 7));
+        // menu icons
+        textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
+        sprites.put("pauseTitle", new TextureRegion(textures.get("menuTexture"), 240, 0, 320, 100));
+        sprites.put("playUp", new TextureRegion(textures.get("menuTexture"), 240, 580, 260, 160));
+        sprites.put("playDown", new TextureRegion(textures.get("menuTexture"), 240, 740, 260, 160));
+        sprites.put("playAgainUp", new TextureRegion(textures.get("menuTexture"), 240, 260, 280, 160));
+        sprites.put("playAgainDown", new TextureRegion(textures.get("menuTexture"), 240, 420, 280, 160));
+        sprites.put("resumeUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 100));
+        sprites.put("resumeDown", new TextureRegion(textures.get("menuTexture"), 0, 100, 200, 100));
+        sprites.put("restartUp", new TextureRegion(textures.get("menuTexture"), 0, 200, 200, 100));
+        sprites.put("restartDown", new TextureRegion(textures.get("menuTexture"), 0, 300, 200, 100));
+        sprites.put("homeUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 100));
+        sprites.put("homeDown", new TextureRegion(textures.get("menuTexture"), 0, 500, 200, 100));
+        sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
+        sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
 
-
-        // play, pause, restart buttons
+        // play, pause, restart buttons (obsolete)
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
         textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
         textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));

@@ -1,26 +1,18 @@
 package com.oniz.Game;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
+;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.EvilRectangle;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Game world holds all the models.
- * It also has the overall game state.
+ * GameWorld class hold all the models and game states.
  */
 public class GameWorld {
-    static final int GAME_READY = 0;
-    static final int GAME_RUNNING = 1;
-    static final int GAME_PAUSED = 2;
-    static final int GAME_LEVEL_END = 3;
-    static final int GAME_OVER = 4;
+    public static final int GAME_READY = 0;
+    public static final int GAME_RUNNING = 1;
+    public static final int GAME_PAUSED = 2;
+    public static final int GAME_LEVEL_END = 3;
+    public static final int GAME_OVER = 4;
     static final int[] zombiePaths = {40, 115, 190, 265, 340};
     int state;
 
@@ -67,7 +59,7 @@ public class GameWorld {
             childZombies.get(i).update(deltaTime);
 
             // if one of the zombies reaches the roof
-            if (childZombies.get(i).getY() > 550) {
+            if (childZombies.get(i).getY() > 548) {
                 this.state = GAME_OVER;
             }
         }
@@ -82,7 +74,7 @@ public class GameWorld {
     }
 
     private void updateGameOver() {
-        System.out.println("GAME OVER!!!");
+//        System.out.println("GAME OVER!!!");
     }
 
     public void setState(int state) {
@@ -107,25 +99,12 @@ public class GameWorld {
         return childZombies;
     }
 
-//    public void reset() {
-//        //method should reset all objects to initial state
-//        for(EvilRectangle rect: rectangles) {
-//            rect.setAlive(true);
-//            int[] pos = getRandomPosition(0, 100, 50, 480);
-//            rect.x = pos[0];
-//            rect.y = pos[1];
-//        }
-//    }
-
-//    public void checkCollision(float x, float y) {
-//        /* concurrency issue should be done after position update in render */
-//        for(EvilRectangle rect: rectangles) {
-//            System.out.println(rect.isAlive());
-//            if(rect.contains(x, y)) {
-//                rect.setAlive(false);
-//            }
-//        }
-//    }
+    public void restartGame() {
+        // reset to initial state
+        childZombies.clear();
+        state = GAME_RUNNING;
+        gameRenderer.prepareTransition(0, 0, 0, 1f);
+    }
 
     public boolean isReady() {
         return state == GAME_READY;
