@@ -104,12 +104,20 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         String sender = realTimeMessage.getSenderParticipantId();
         try {
             final String t = new String(buf, "ISO-8859-1");
+
+            //TODO: Decide message format. <SPAWNZOMBIE:other text>?
+            //TODO: Parse string msg. String.startsWith()
+            //TODO: Update ZGame world.
+
+            if(zGame.isGameWorldReady()) {
+                zGame.getGameWorld().realTimeUpdate(t);
+            }
+
             Gdx.app.log(TAG, "Received message: " + t);
-            Toast.makeText(activity, t, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity, t, Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
         }
-
     }
 
     //send out a message
