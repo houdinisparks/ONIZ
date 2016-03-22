@@ -18,6 +18,8 @@ public class ZGame extends Game {
 
     public static Screen startScreen, matchMakingScreen, gameScreen;
 
+    private GameWorld gameWorld;
+
     public ZGame(/*PlayServices playServices*/) {
 //        this.playServices = playServices;
 //        this.playServices.setGame(this);
@@ -39,7 +41,7 @@ public class ZGame extends Game {
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
-        gameScreen = new GameScreen();
+        gameScreen = new GameScreen(this);
 //        startScreen = new StartScreen(this);
 //        matchMakingScreen = new MatchMakingScreen(this);
 
@@ -65,6 +67,18 @@ public class ZGame extends Game {
                 setScreen(startScreen);
                 break;
         }
+    }
+
+    public void setGameWorld(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
+
+    public GameWorld getGameWorld() {
+        return this.gameWorld;
+    }
+
+    public boolean isGameWorldReady() {
+        return gameWorld != null;
     }
 
     @Override

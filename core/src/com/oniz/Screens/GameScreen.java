@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.oniz.Game.GameRenderer;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.InputHandler;
+import com.oniz.Game.ZGame;
 
 /**
  * GameScreen class which instantiates and coordinates GameWorld and GameRenderer.
@@ -15,7 +16,10 @@ public class GameScreen implements Screen {
     private GameRenderer gameRenderer;
     private float runTime;
 
-    public GameScreen() {
+    private ZGame zgame;
+
+    public GameScreen(ZGame zgame) {
+        this.zgame = zgame;
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float gameWidth = 450;
@@ -25,6 +29,12 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(new InputHandler(gameWorld, screenWidth / gameWidth, screenHeight / gameHeight));
         gameRenderer = new GameRenderer(gameWorld);
         gameWorld.setRenderer(gameRenderer);
+        this.setGameWorld();
+    }
+
+
+    private void setGameWorld() {
+        this.zgame.setGameWorld(this.gameWorld);
     }
 
     @Override

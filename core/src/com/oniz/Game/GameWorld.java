@@ -1,5 +1,6 @@
 package com.oniz.Game;
 ;
+import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
 import java.util.ArrayList;
 import java.util.Random;
@@ -121,4 +122,12 @@ public class GameWorld {
     public boolean isRunning() {
         return state == GAME_RUNNING;
     }
+
+    public void realTimeUpdate(String msg) {
+        //this method will be called by ONIZGameHelper when a message is received
+        //we can decide what to do here
+        //for starters it should spawn an additional zombie
+        Gdx.app.log("REALTIMEUPDATE", msg);
+    }
 }
+
