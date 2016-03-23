@@ -21,6 +21,9 @@ import com.oniz.UI.MenuButton;
 
 public class GestureRecognizerInputProcessor extends InputAdapter {
 
+    private float scaleFactorX;
+    private float scaleFactorY;
+
     private final String TAG = "INPUT_PROCESSOR";
 
     private static final int GAME_HEIGHT = 800;
@@ -53,9 +56,13 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private Array<Vector2> simplified;
     private GameWorld gameWorld;
 
-    public GestureRecognizerInputProcessor(GameWorld gameWorld , float scaleFactorX, float scaleFactorY) {
+    public GestureRecognizerInputProcessor(GameWorld gameWorld,  float scaleFactorX, float scaleFactorY ) {
         super();
         this.gameWorld = gameWorld;
+
+
+        this.scaleFactorX = scaleFactorX;
+        this.scaleFactorY = scaleFactorY;
 
 		/*-----------Gesture Detection------------*/
         recognizer = new ProtractorGestureRecognizer();
@@ -114,7 +121,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         inputPoints.clear();
 
         //starting point
-        lastPoint = new Vector2(x, GAME_HEIGHT - y);
+        lastPoint = new Vector2(scaleX(x), GAME_HEIGHT - scaleY(y));
         inputPoints.insert(lastPoint);
 
         resolve();
@@ -133,7 +140,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             return false;
         isDrawing = true;
 
-        Vector2 v = new Vector2(x, GAME_HEIGHT - y);
+        Vector2 v = new Vector2(scaleX(x), GAME_HEIGHT - scaleY(y));
 
         //calc length
         float dx = v.x - lastPoint.x;
@@ -187,12 +194,12 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     }
 
     private GestureType convertToGestureType(String name) {
+        Gdx.app.log("Gesture Convert", name.split(" ")[1]);
 
-        if (name.equals("rectangle")) {
+        if (name.contains("rectangle")) {
+            Gdx.app.log("Gesture Convert", "rectangle");
             return GestureType.SQUARE;
-        }
-
-        else if (name.equals("trianle")) {
+        } else if (name.contains("triangle")) {
             return GestureType.HORIZONTALLINE;
         }
 
@@ -212,30 +219,23 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     }
 
 
-//    /**
-//     * Scale device touch coordinates to match that of the game.
-//     * @param screenX - original x-coordinate based on device screen
-//     * @return scaled x-coordinate
-//     */
-//    private int scaleX(int screenX) {
-//        return (int) (screenX / scaleFactorX);
-//    }
-//
-//    /**
-//     * Scale device touch coordinates to match that of the game.
-//     * @param screenY - original y-coordinate based on device screen
-//     * @return scaled y-coordinate
-//     */
-//    private int scaleY(int screenY) {
-//        return (int) (screenY / scaleFactorY);
-//    }
-//
-//    /**
-//     * Getter method.
-//     * @return HashTable of MenuButtons.
-//     */
-//    public Hashtable<String, MenuButton> getMenuButtons() {
-//        return menuButtons;
-//    }
+    /**
+     * Scale device touch coordinates to match that of the game.
+     * @param screenX - original x-coordinate based on device screen
+     * @return scaled x-coordinate
+     */
+    private int scaleX(int screenX) {
+        return (int) (screenX / scaleFactorX);
+    }
+
+    /**
+     * Scale device touch coordinates to match that of the game.
+     * @param screenY - original y-coordinate based on device screen
+     * @return scaled y-coordinate
+     */
+    private int scaleY(int screenY) {
+        return (int) (screenY / scaleFactorY);
+    }
+
 
 }

@@ -29,6 +29,7 @@ public class ChildZombie {
         public static GestureType generateRandomGestureType() {
             return GESTURE_TYPES[RANDOM.nextInt(SIZE)];
         }
+
     }
 
 

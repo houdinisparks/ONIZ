@@ -2,6 +2,7 @@ package com.oniz.Gestures;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -36,6 +37,7 @@ public class ProtractorGestureRecognizer {
 
 			JsonValue map = jreader.parse(handle);
 			String _name = String.valueOf(map.get("Name"));
+			//Gdx.app.log("Name: " , _name);
 
 			JsonValue getPoints = map.get("Points");
 
@@ -45,7 +47,7 @@ public class ProtractorGestureRecognizer {
 			for( JsonValue point : getPoints.iterator()) {
 				float x = point.get("X").asFloat();
 				float y = point.get("Y").asFloat();
-				System.out.println(tag + " "+ String.valueOf(x) + " " + y);
+				//System.out.println(tag + " "+ String.valueOf(x) + " " + y);
 				_arrlist_vector.add(new Vector2(x, y));
 			}
 

@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new InputHandler(gameWorld, screenWidth / gameWidth, screenHeight / gameHeight));
-        inputMultiplexer.addProcessor(new GestureRecognizerInputProcessor(gameWorld));
+        inputMultiplexer.addProcessor(new GestureRecognizerInputProcessor(gameWorld,screenWidth / gameWidth, screenHeight / gameHeight));
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         gameRenderer = new GameRenderer(gameWorld , inputMultiplexer);
