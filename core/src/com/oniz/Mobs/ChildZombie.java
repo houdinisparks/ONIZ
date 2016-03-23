@@ -13,8 +13,23 @@ public class ChildZombie {
     private float width;
     private float height;
     private boolean isAlive;
-    private int gestureType; // '0' is circle, '1' is square, '2' is vertical line, '3' is horizontal line
+    private GestureType gestureType; // '0' is circle, '1' is square, '2' is vertical line, '3' is horizontal line
     private int points;
+
+    public enum GestureType{
+        CIRCLE,
+        SQUARE,
+        VERTICALLINE,
+        HORIZONTALLINE;
+
+        private static final GestureType[] GESTURE_TYPES = values();
+        private static final int SIZE = GESTURE_TYPES.length;
+        private static final Random RANDOM = new Random();
+
+        public static GestureType generateRandomGestureType() {
+            return GESTURE_TYPES[RANDOM.nextInt(SIZE)];
+        }
+    }
 
 
     public ChildZombie(float x, float y) {
@@ -24,8 +39,9 @@ public class ChildZombie {
         this.width = 60;
         this.height = 122;
         this.isAlive = true;
-        this.gestureType = r.nextInt(4);
+        this.gestureType = GestureType.generateRandomGestureType();
     }
+
 
     public void update(float delta) {
         position.add(velocity.cpy().scl(delta));
@@ -47,7 +63,7 @@ public class ChildZombie {
         return height;
     }
 
-    public int getGestureType() {
+    public GestureType getGestureType() {
         return gestureType;
     }
 

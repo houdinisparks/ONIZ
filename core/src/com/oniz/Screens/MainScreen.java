@@ -53,7 +53,7 @@ public class MainScreen implements Screen {
         stage = new Stage(new FitViewport(450, 800));
 
         gameWorld = new GameWorld();
-        gameRenderer = new GameRenderer(gameWorld);
+        gameRenderer = new GameRenderer(gameWorld,new InputMultiplexer());
         gameWorld.setRenderer(gameRenderer);
 
         im = new InputMultiplexer();

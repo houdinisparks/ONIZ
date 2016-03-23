@@ -2,8 +2,11 @@ package com.oniz.Game;
 
 import java.util.Hashtable;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.oniz.UI.MenuButton;
+
+import sun.rmi.runtime.Log;
 
 /**
  * InputHandler class to handle touch events.
@@ -66,9 +69,11 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-
+        Gdx.app.log("isTouchDown", "true");
         if (gameWorld.isReady()) {
             playButton.isTouchDown(screenX, screenY);
+            Gdx.app.log("isTouchDownReady", "true");
+
 
         } else if (gameWorld.isRunning()) {
             pauseButton.isTouchDown(screenX, screenY);
@@ -81,7 +86,7 @@ public class InputHandler implements InputProcessor {
         } else if (gameWorld.isGameOver()) {
             playAgainButton.isTouchDown(screenX, screenY);
         }
-        return true;
+        return false;
     }
 
     /**
@@ -98,10 +103,11 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-
+        Gdx.app.log("isTouchDown", "true");
         if (gameWorld.isReady()) {
             if (playButton.isTouchUp(screenX, screenY)) {
                 gameWorld.setState(GameWorld.GAME_RUNNING);
+                Gdx.app.log("isTouchUpReady", "true");
                 return true;
             }
         } else if (gameWorld.isRunning()) {

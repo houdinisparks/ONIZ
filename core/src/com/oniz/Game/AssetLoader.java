@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.oniz.Mobs.ChildZombie;
+import com.oniz.Mobs.ChildZombie.GestureType;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -26,7 +28,7 @@ public final class AssetLoader {
     public Hashtable<String, TextureRegion> sprites;
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
-    public ArrayList<TextureRegion> gestureHints;
+    public Hashtable<GestureType, TextureRegion> gestureHints;
     public Animation zombieClimbingAnimation;
     public Skin skin;
 
@@ -46,7 +48,7 @@ public final class AssetLoader {
         sprites = new Hashtable<String, TextureRegion>();
         sounds = new Hashtable<String, Sound>();
         fonts = new Hashtable<String, BitmapFont>();
-        gestureHints = new ArrayList<TextureRegion>();
+        gestureHints = new Hashtable<GestureType, TextureRegion>();
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
     }
@@ -98,10 +100,10 @@ public final class AssetLoader {
         sprites.put("squareGestureHint", new TextureRegion(textures.get("gestureHints"), 15, 0, 15, 15));
         sprites.put("verticalGestureHint", new TextureRegion(textures.get("gestureHints"), 30, 0, 15, 15));
         sprites.put("horizontalGestureHint", new TextureRegion(textures.get("gestureHints"), 45, 0, 15, 15));
-        gestureHints.add(sprites.get("circleGestureHint"));
-        gestureHints.add(sprites.get("squareGestureHint"));
-        gestureHints.add(sprites.get("verticalGestureHint"));
-        gestureHints.add(sprites.get("horizontalGestureHint"));
+        gestureHints.put(GestureType.CIRCLE, sprites.get("circleGestureHint"));
+        gestureHints.put(GestureType.SQUARE, sprites.get("squareGestureHint"));
+        gestureHints.put(GestureType.VERTICALLINE, sprites.get("verticalGestureHint"));
+        gestureHints.put(GestureType.HORIZONTALLINE, sprites.get("horizontalGestureHint"));
 
         // sprites of zombie climbing
         textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
@@ -121,17 +123,17 @@ public final class AssetLoader {
     }
 
     public void dispose() {
-        for(Object o : textures.values().toArray()) {
+        for (Object o : textures.values().toArray()) {
             Texture temp = (Texture) o;
             textures.remove(o);
             temp.dispose();
         }
-        for(Object o : fonts.values().toArray()) {
+        for (Object o : fonts.values().toArray()) {
             BitmapFont temp = (BitmapFont) o;
             fonts.remove(o);
             temp.dispose();
         }
-        for(Object o : sounds.values().toArray()) {
+        for (Object o : sounds.values().toArray()) {
             Sound temp = (Sound) o;
             sounds.remove(o);
             temp.dispose();
