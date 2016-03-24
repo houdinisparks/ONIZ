@@ -1,15 +1,20 @@
 package com.oniz.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.oniz.Gestures.DrawPathGraphics.mesh.SwipeTriStrip;
+import com.oniz.Gestures.GestureRecognizerInputProcessor;
 import com.oniz.Mobs.ChildZombie;
+import com.oniz.Mobs.ChildZombie.GestureType;
 import com.oniz.TweenAccessors.Value;
 import com.oniz.TweenAccessors.ValueAccessor;
 import com.oniz.UI.MenuButton;
@@ -33,7 +38,7 @@ public class GameRenderer {
 
     // Game Objects
     private ArrayList<ChildZombie> childZombies;
-    private ArrayList<TextureRegion> gestureHints;
+    private Hashtable<GestureType, TextureRegion> gestureHints;
 
     // Game Assets
     private TextureRegion background;
@@ -50,11 +55,21 @@ public class GameRenderer {
     // temporary
     private volatile float freezeFrameTime = 0;
 
+    /*
+    GESTURE-ONLY RELATED ASSETS
+     */
+    private SwipeTriStrip swipeTriStrip;
+    private GestureRecognizerInputProcessor gestureRecognizerInputProcessor;
+    private Texture gesturePathTexture;
 
-    public GameRenderer(GameWorld gameWorld) {
+
+
+    public GameRenderer(GameWorld gameWorld , InputMultiplexer inputMultiplexer) {
         this.gameWorld = gameWorld;
-        this.menuButtons = ((InputHandler) Gdx.input.getInputProcessor()).getMenuButtons();
+        this.menuButtons = ((InputHandler) inputMultiplexer.getProcessors().get(0)).getMenuButtons();
 
+
+        //Viewport - Aspect Radio
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 450, 800); //false for y upwards
 
@@ -64,6 +79,18 @@ public class GameRenderer {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
 
+        /*-------------------------------------------
+        GESTURE-ONLY RELATED SET-UP
+         */
+        swipeTriStrip = new SwipeTriStrip();
+        gestureRecognizerInputProcessor = (GestureRecognizerInputProcessor)inputMultiplexer.getProcessors().get(1);
+        gestureRecognizerInputProcessor.minDistance = 10;
+        gesturePathTexture = new Texture(Gdx.files.internal("gestures/gesturepath/gradient.png"));
+        gesturePathTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        /*
+        ----------------------------------------------
+         */
         transitionColor = new Color();
         prepareTransition(255, 255, 255, .5f);
 
@@ -171,5 +198,15 @@ public class GameRenderer {
         }
 
         batcher.end();
+
+        /*
+        GESTURE-ONLY RELATED RENDER
+         */
+        gesturePathTexture.bind();
+        swipeTriStrip.endcap = 5f;
+        swipeTriStrip.thickness = 30f;
+        swipeTriStrip.update(gestureRecognizerInputProcessor.path());
+        swipeTriStrip.color = Color.WHITE;
+        swipeTriStrip.draw(cam);
     }
 }

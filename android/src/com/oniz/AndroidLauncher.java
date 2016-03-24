@@ -41,7 +41,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         gameHelper.setup(gameHelperListener);
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new ZGame(this), config);
+        initialize(new ZGame(), config);
     }
 
     @Override

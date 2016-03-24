@@ -53,12 +53,12 @@ public class MainScreen implements Screen {
         stage = new Stage(new FitViewport(450, 800));
 
         gameWorld = new GameWorld();
-        gameRenderer = new GameRenderer(gameWorld);
+        gameRenderer = new GameRenderer(gameWorld,new InputMultiplexer());
         gameWorld.setRenderer(gameRenderer);
 
         im = new InputMultiplexer();
         gd = new GestureDetector(new ZGestureListener(gameWorld, gameRenderer));
-        gestureRecognizer = new GestureRecognizerInputProcessor();
+        gestureRecognizer = new GestureRecognizerInputProcessor(gameWorld,100,100);
         im.addProcessor(gestureRecognizer);
         im.addProcessor(gd);
         im.addProcessor(stage);

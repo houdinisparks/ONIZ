@@ -2,6 +2,7 @@ package com.oniz.Game;
 ;
 import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
+import com.oniz.Mobs.ChildZombie.GestureType;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -87,9 +88,10 @@ public class GameWorld {
         childZombies.add(childZombie);
     }
 
-    public void killZombie(int gestureType) {
+    public void killZombie(GestureType gestureType) {
         for (ChildZombie zombie: childZombies) {
-            if (zombie.getGestureType() == gestureType) {
+            if (zombie.getGestureType().equals(gestureType)) {
+                Gdx.app.log("Kill Zombie" , "Zombie Rmeoved");
                 childZombies.remove(zombie);
                 break;
             }
