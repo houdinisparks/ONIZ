@@ -60,6 +60,10 @@ public final class AssetLoader {
         textures.get("logoTexture").setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
 
+        // fonts
+        fonts.put("badaboom", new BitmapFont(Gdx.files.internal("data/badaboom.fnt"), true));
+        fonts.get("badaboom").getData().setScale(1f, -1f);
+
         // menu icons
         textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
         sprites.put("pauseTitle", new TextureRegion(textures.get("menuTexture"), 240, 0, 320, 100));
@@ -75,6 +79,20 @@ public final class AssetLoader {
         sprites.put("homeDown", new TextureRegion(textures.get("menuTexture"), 0, 500, 200, 100));
         sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
         sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
+
+        // updated gestures hints with multiple difficulties
+        sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 580, 0, 200, 200));
+        sprites.put("redRock", new TextureRegion(textures.get("menuTexture"), 580, 200, 200, 200));
+        sprites.put("yellowRock", new TextureRegion(textures.get("menuTexture"), 580, 400, 200, 200));
+        sprites.put("greenRock", new TextureRegion(textures.get("menuTexture"), 580, 600, 200, 200));
+        sprites.put("horizontalLine", new TextureRegion(textures.get("menuTexture"), 780, 0, 200, 200));
+        sprites.put("verticalLine", new TextureRegion(textures.get("menuTexture"), 780, 200, 200, 200));
+        sprites.put("Vshape", new TextureRegion(textures.get("menuTexture"), 780, 400, 200, 200));
+        sprites.put("invertedVshape", new TextureRegion(textures.get("menuTexture"), 780, 600, 200, 200));
+        sprites.put("alpha", new TextureRegion(textures.get("menuTexture"), 780, 800, 200, 200));
+        sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 980, 0, 200, 200));
+        sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 980, 200, 200, 200));
+        sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 980, 400, 200, 200));
 
         // play, pause, restart buttons (obsolete)
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));

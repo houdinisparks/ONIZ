@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -44,6 +45,7 @@ public class GameRenderer {
     private TextureRegion background;
     private Animation zombieClimbingAnimation;
     private TextureRegion pauseTitle;
+    private BitmapFont font;
 
     // Buttons
     private Hashtable<String, MenuButton> menuButtons;
@@ -128,6 +130,7 @@ public class GameRenderer {
         background = AssetLoader.getInstance().sprites.get("background");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
+        font = AssetLoader.getInstance().fonts.get("badaboom");
     }
 
     private void drawPauseMenu() {
@@ -196,6 +199,11 @@ public class GameRenderer {
             drawZombiesFreezeFrame();
             menuButtons.get("playAgainButton").draw(batcher);
         }
+
+        // Convert integer into String
+        String score = Integer.toString(gameWorld.getScore());
+        // Draw score
+        font.draw(batcher, score, (450/2) - (18*score.length()), 750);
 
         batcher.end();
 

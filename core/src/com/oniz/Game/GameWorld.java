@@ -16,7 +16,8 @@ public class GameWorld {
     public static final int GAME_LEVEL_END = 3;
     public static final int GAME_OVER = 4;
     static final int[] zombiePaths = {40, 115, 190, 265, 340};
-    int state;
+    private int state;
+    private int score = 0;
 
     GameRenderer gameRenderer;
     Random random = new Random();
@@ -96,6 +97,7 @@ public class GameWorld {
                 break;
             }
         }
+        score += 1;
     }
 
     public ArrayList<ChildZombie> getChildZombies() {
@@ -105,6 +107,7 @@ public class GameWorld {
     public void restartGame() {
         // reset to initial state
         childZombies.clear();
+        score = 0;
         state = GAME_RUNNING;
         gameRenderer.prepareTransition(0, 0, 0, 1f);
     }
@@ -123,6 +126,10 @@ public class GameWorld {
 
     public boolean isRunning() {
         return state == GAME_RUNNING;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void realTimeUpdate(String msg) {
