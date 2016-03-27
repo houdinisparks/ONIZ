@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.ChildZombie.GestureType;
+import com.oniz.Mobs.GestureRock;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -28,7 +27,8 @@ public final class AssetLoader {
     public Hashtable<String, TextureRegion> sprites;
     public Hashtable<String, Sound> sounds;
     public Hashtable<String, BitmapFont> fonts;
-    public Hashtable<GestureType, TextureRegion> gestureHints;
+    public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
+    public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
     public Animation zombieClimbingAnimation;
     public Skin skin;
 
@@ -48,7 +48,8 @@ public final class AssetLoader {
         sprites = new Hashtable<String, TextureRegion>();
         sounds = new Hashtable<String, Sound>();
         fonts = new Hashtable<String, BitmapFont>();
-        gestureHints = new Hashtable<GestureType, TextureRegion>();
+        gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
+        gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
     }
@@ -80,11 +81,17 @@ public final class AssetLoader {
         sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
         sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
 
-        // updated gestures hints with multiple difficulties
+        // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 580, 0, 200, 200));
         sprites.put("redRock", new TextureRegion(textures.get("menuTexture"), 580, 200, 200, 200));
         sprites.put("yellowRock", new TextureRegion(textures.get("menuTexture"), 580, 400, 200, 200));
         sprites.put("greenRock", new TextureRegion(textures.get("menuTexture"), 580, 600, 200, 200));
+        gestureStages.put(GestureRock.Stage.BROWN, sprites.get("brownRock"));
+        gestureStages.put(GestureRock.Stage.RED, sprites.get("redRock"));
+        gestureStages.put(GestureRock.Stage.YELLOW, sprites.get("yellowRock"));
+        gestureStages.put(GestureRock.Stage.GREEN, sprites.get("greenRock"));
+
+        // gesture hints
         sprites.put("horizontalLine", new TextureRegion(textures.get("menuTexture"), 780, 0, 200, 200));
         sprites.put("verticalLine", new TextureRegion(textures.get("menuTexture"), 780, 200, 200, 200));
         sprites.put("Vshape", new TextureRegion(textures.get("menuTexture"), 780, 400, 200, 200));
@@ -93,6 +100,14 @@ public final class AssetLoader {
         sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 980, 0, 200, 200));
         sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 980, 200, 200, 200));
         sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 980, 400, 200, 200));
+        gestureHints.put(GestureRock.GestureType.HORIZONTAL_LINE, sprites.get("horizontalLine"));
+        gestureHints.put(GestureRock.GestureType.VERTICAL_LINE, sprites.get("verticalLine"));
+        gestureHints.put(GestureRock.GestureType.V_SHAPE, sprites.get("Vshape"));
+        gestureHints.put(GestureRock.GestureType.INVERTED_V_SHAPE, sprites.get("invertedVshape"));
+        gestureHints.put(GestureRock.GestureType.ALPHA, sprites.get("alpha"));
+        gestureHints.put(GestureRock.GestureType.Z_SHAPE, sprites.get("Zshape"));
+        gestureHints.put(GestureRock.GestureType.INVERTED_Z_SHAPE, sprites.get("invertedZshape"));
+        gestureHints.put(GestureRock.GestureType.GAMMA, sprites.get("gamma"));
 
         // play, pause, restart buttons (obsolete)
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
@@ -111,17 +126,6 @@ public final class AssetLoader {
         textures.put("buttonXDown", new Texture(Gdx.files.internal("shadedDark/shadedDark38.png")));
         textures.put("buttonYUp", new Texture(Gdx.files.internal("lineLight/lineLight37.png")));
         textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
-
-        // gesture hints
-        textures.put("gestureHints", new Texture(Gdx.files.internal("data/gestureHints.png")));
-        sprites.put("circleGestureHint", new TextureRegion(textures.get("gestureHints"), 0, 0, 15, 15));
-        sprites.put("squareGestureHint", new TextureRegion(textures.get("gestureHints"), 15, 0, 15, 15));
-        sprites.put("verticalGestureHint", new TextureRegion(textures.get("gestureHints"), 30, 0, 15, 15));
-        sprites.put("horizontalGestureHint", new TextureRegion(textures.get("gestureHints"), 45, 0, 15, 15));
-        gestureHints.put(GestureType.CIRCLE, sprites.get("circleGestureHint"));
-        gestureHints.put(GestureType.SQUARE, sprites.get("squareGestureHint"));
-        gestureHints.put(GestureType.VERTICALLINE, sprites.get("verticalGestureHint"));
-        gestureHints.put(GestureType.HORIZONTALLINE, sprites.get("horizontalGestureHint"));
 
         // sprites of zombie climbing
         textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));

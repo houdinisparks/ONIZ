@@ -6,46 +6,31 @@ import java.util.Random;
 
 public class ChildZombie {
 
+    private GestureRock gestureRock;
+
     private Vector2 position;
     private Vector2 velocity;
 
-    private int id;
-    private float width;
-    private float height;
+    private final float width = 60;
+    private final float height = 122;
     private boolean isAlive;
-    private GestureType gestureType; // '0' is circle, '1' is square, '2' is vertical line, '3' is horizontal line
-    private int points;
-
-    public enum GestureType{
-        CIRCLE,
-        SQUARE,
-        VERTICALLINE,
-        HORIZONTALLINE;
-
-        private static final GestureType[] GESTURE_TYPES = values();
-        private static final int SIZE = GESTURE_TYPES.length;
-        private static final Random RANDOM = new Random();
-
-        public static GestureType generateRandomGestureType() {
-            return GESTURE_TYPES[RANDOM.nextInt(SIZE)];
-        }
-
-    }
 
 
     public ChildZombie(float x, float y) {
         Random r = new Random();
-        this.position = new Vector2(x, y);
-        this.velocity = new Vector2(0, r.nextInt(20)+20);
-        this.width = 60;
-        this.height = 122;
-        this.isAlive = true;
-        this.gestureType = GestureType.generateRandomGestureType();
+        position = new Vector2(x, y);
+        velocity = new Vector2(0, r.nextInt(20)+20);
+        isAlive = true;
+        gestureRock = new GestureRock(new Vector2(x+10, y+120));
     }
-
 
     public void update(float delta) {
         position.add(velocity.cpy().scl(delta));
+        gestureRock.updatePosition(velocity, delta);
+
+        if (gestureRock.getY() <= position.y + 100) {
+            isAlive = false;
+        }
     }
 
     public float getX() {
@@ -64,15 +49,11 @@ public class ChildZombie {
         return height;
     }
 
-    public GestureType getGestureType() {
-        return gestureType;
-    }
-
     public boolean isAlive() {
-        return this.isAlive;
+        return isAlive;
     }
 
-    public void setAlive(boolean val) {
-        this.isAlive = val;
+    public GestureRock getGestureRock() {
+        return gestureRock;
     }
 }

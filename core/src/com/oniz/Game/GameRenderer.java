@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.oniz.Gestures.DrawPathGraphics.mesh.SwipeTriStrip;
 import com.oniz.Gestures.GestureRecognizerInputProcessor;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.ChildZombie.GestureType;
 import com.oniz.TweenAccessors.Value;
 import com.oniz.TweenAccessors.ValueAccessor;
 import com.oniz.UI.MenuButton;
@@ -39,11 +38,11 @@ public class GameRenderer {
 
     // Game Objects
     private ArrayList<ChildZombie> childZombies;
-    private Hashtable<GestureType, TextureRegion> gestureHints;
 
     // Game Assets
     private TextureRegion background;
     private Animation zombieClimbingAnimation;
+    private TextureRegion zombie;
     private TextureRegion pauseTitle;
     private BitmapFont font;
 
@@ -123,12 +122,12 @@ public class GameRenderer {
 
     private void initGameObjects() {
         childZombies = gameWorld.getChildZombies();
-        gestureHints = AssetLoader.getInstance().gestureHints;
     }
 
     private void initAssets() {
         background = AssetLoader.getInstance().sprites.get("background");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
+        zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
         pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
         font = AssetLoader.getInstance().fonts.get("badaboom");
     }
@@ -145,11 +144,12 @@ public class GameRenderer {
      */
     private void drawZombiesFreezeFrame() {
         for(int i = 0; i < childZombies.size(); i++){
-            // draw zombies climbing (freeze frame)
+            // draw zombies
             batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
                     childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
-            // draw corresponding gesture hints
-            batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+
+            // draw corresponding gesture rocks
+            childZombies.get(i).getGestureRock().draw(batcher);
         }
     }
 
@@ -178,11 +178,12 @@ public class GameRenderer {
         // when game is running, animate the zombies and gesture hints, and also draw the PAUSE button
         } else if (gameWorld.isRunning()) {
             for(int i = 0; i < childZombies.size(); i++){
-                // draw zombies climbing with animation
+                // draw zombies
                 batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
                         childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
-                // draw corresponding gesture hints
-                batcher.draw(gestureHints.get(childZombies.get(i).getGestureType()), childZombies.get(i).getX()+16, childZombies.get(i).getY()+45, 30, 30);
+
+                // draw corresponding gesture rocks
+                childZombies.get(i).getGestureRock().draw(batcher);
             }
             menuButtons.get("pauseButton").draw(batcher);
 

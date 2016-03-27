@@ -2,8 +2,9 @@ package com.oniz.Game;
 ;
 import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.ChildZombie.GestureType;
+import com.oniz.Mobs.GestureRock;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -58,12 +59,21 @@ public class GameWorld {
 
     private void updateRunning(float deltaTime) {
         // update zombie position
-        for (int i = 0; i < childZombies.size(); i++){
-            childZombies.get(i).update(deltaTime);
+        for (Iterator<ChildZombie> iterator = childZombies.iterator(); iterator.hasNext();){
+            ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
-            if (childZombies.get(i).getY() > 548) {
+            if (zombie.getY() > 548) {
                 this.state = GAME_OVER;
+            }
+
+            // update living zombies and remove dead zombies
+            if (zombie.isAlive()) {
+                zombie.update(deltaTime);
+            } else {
+                score += 1;
+                Gdx.app.log("Zombie status", "killed");
+                iterator.remove();
             }
         }
         // spawn zombies at random time intervals
@@ -89,15 +99,14 @@ public class GameWorld {
         childZombies.add(childZombie);
     }
 
-    public void killZombie(GestureType gestureType) {
+    public void weakenZombie(GestureRock.GestureType gestureType) {
         for (ChildZombie zombie: childZombies) {
-            if (zombie.getGestureType().equals(gestureType)) {
-                Gdx.app.log("Kill Zombie" , "Zombie Rmeoved");
-                childZombies.remove(zombie);
+            if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
+                Gdx.app.log("Zombie status", "weakened");
+                zombie.getGestureRock().decrementStage();
                 break;
             }
         }
-        score += 1;
     }
 
     public ArrayList<ChildZombie> getChildZombies() {

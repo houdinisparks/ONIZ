@@ -16,7 +16,7 @@ import com.oniz.Gestures.DrawPathGraphics.SwipeResolver;
 import com.oniz.Gestures.DrawPathGraphics.simplify.ResolverRadialChaikin;
 import com.oniz.Gestures.MatchingGesture;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.ChildZombie.GestureType;
+import com.oniz.Mobs.GestureRock;
 import com.oniz.UI.MenuButton;
 
 public class GestureRecognizerInputProcessor extends InputAdapter {
@@ -178,7 +178,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
                 Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
                         + Float.toString(match.getScore()));
 
-                gameWorld.killZombie(convertToGestureType(match.getGesture().getName()));
+                gameWorld.weakenZombie(convertToGestureType(match.getGesture().getName()));
             }
 
 
@@ -193,14 +193,14 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         return false;
     }
 
-    private GestureType convertToGestureType(String name) {
+    private GestureRock.GestureType convertToGestureType(String name) {
         Gdx.app.log("Gesture Convert", name.split(" ")[1]);
 
         if (name.contains("rectangle")) {
             Gdx.app.log("Gesture Convert", "rectangle");
-            return GestureType.SQUARE;
+            return GestureRock.GestureType.INVERTED_Z_SHAPE;
         } else if (name.contains("triangle")) {
-            return GestureType.HORIZONTALLINE;
+            return GestureRock.GestureType.ALPHA;
         }
 
         else {
