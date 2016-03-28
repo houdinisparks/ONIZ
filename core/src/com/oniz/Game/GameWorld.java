@@ -104,7 +104,6 @@ public class GameWorld {
             if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
                 Gdx.app.log("Zombie status", "weakened");
                 zombie.getGestureRock().decrementStage();
-                break;
             }
         }
     }
