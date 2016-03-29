@@ -41,7 +41,7 @@ public class GameRenderer {
 
     // Game Assets
     private TextureRegion background;
-    private Animation zombieClimbingAnimation;
+    private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation;
     private TextureRegion zombie;
     private TextureRegion pauseTitle;
     private BitmapFont font;
@@ -127,6 +127,7 @@ public class GameRenderer {
     private void initAssets() {
         background = AssetLoader.getInstance().sprites.get("background");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
+        enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
         zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
         pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
         font = AssetLoader.getInstance().fonts.get("badaboom");
@@ -146,7 +147,7 @@ public class GameRenderer {
         for(int i = 0; i < childZombies.size(); i++){
             // draw zombies
             if (childZombies.get(i).isEnemy()) {
-                batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
+                batcher.draw(enemyZombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
                         childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
             } else {
                 batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
@@ -185,7 +186,7 @@ public class GameRenderer {
             for(int i = 0; i < childZombies.size(); i++){
                 // draw zombies
                 if (childZombies.get(i).isEnemy()) {
-                    batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                    batcher.draw(enemyZombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
                             childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
                 } else {
                     batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
