@@ -29,7 +29,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
-    public Animation zombieClimbingAnimation;
+    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation;
     public Skin skin;
 
     public static AssetLoader getInstance() {
@@ -136,9 +136,22 @@ public final class AssetLoader {
         sprites.put("zombieClimb5", new TextureRegion(textures.get("zombies"), 305, 24, 60, 122));
         sprites.put("zombieClimb6", new TextureRegion(textures.get("zombies"), 377, 24, 60, 122));
 
+        // sprites of zombie climbing (ENEMY)
+        textures.put("enemyZombies", new Texture(Gdx.files.internal("data/climbAnimationEnemy.png")));
+        sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("enemyZombies"), 17, 24, 60, 122));
+        sprites.put("enemyZombieClimb2", new TextureRegion(textures.get("enemyZombies"), 89, 24, 60, 122));
+        sprites.put("enemyZombieClimb3", new TextureRegion(textures.get("enemyZombies"), 161, 24, 60, 122));
+        sprites.put("enemyZombieClimb4", new TextureRegion(textures.get("enemyZombies"), 233, 24, 60, 122));
+        sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("enemyZombies"), 305, 24, 60, 122));
+        sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("enemyZombies"), 377, 24, 60, 122));
+
         TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"), sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
         zombieClimbingAnimation = new Animation(0.2f, zombieClimbing);
         zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"), sprites.get("enemyZombieClimb4"), sprites.get("enemyZombieClimb5"), sprites.get("enemyZombieClimb6")};
+        enemyZombieClimbingAnimation = new Animation(0.2f, enemyZombieClimbing);
+        enemyZombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
         sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 325, 758));

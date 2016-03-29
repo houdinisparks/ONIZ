@@ -145,8 +145,13 @@ public class GameRenderer {
     private void drawZombiesFreezeFrame() {
         for(int i = 0; i < childZombies.size(); i++){
             // draw zombies
-            batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
-                    childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+            if (childZombies.get(i).isEnemy()) {
+                batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
+                        childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+            } else {
+                batcher.draw(zombieClimbingAnimation.getKeyFrame(freezeFrameTime + i), childZombies.get(i).getX(),
+                        childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+            }
 
             // draw corresponding gesture rocks
             childZombies.get(i).getGestureRock().draw(batcher);
@@ -179,8 +184,13 @@ public class GameRenderer {
         } else if (gameWorld.isRunning()) {
             for(int i = 0; i < childZombies.size(); i++){
                 // draw zombies
-                batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
-                        childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+                if (childZombies.get(i).isEnemy()) {
+                    batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                            childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+                } else {
+                    batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                            childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
+                }
 
                 // draw corresponding gesture rocks
                 childZombies.get(i).getGestureRock().draw(batcher);

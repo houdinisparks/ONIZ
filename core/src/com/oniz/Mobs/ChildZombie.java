@@ -14,13 +14,15 @@ public class ChildZombie {
     private final float width = 60;
     private final float height = 122;
     private boolean isAlive;
+    private boolean isEnemy;
 
 
-    public ChildZombie(float x, float y) {
+    public ChildZombie(float x, float y, boolean isEnemy) {
         Random r = new Random();
         position = new Vector2(x, y);
         velocity = new Vector2(0, r.nextInt(20)+20);
         isAlive = true;
+        this.isEnemy = isEnemy;
         gestureRock = new GestureRock(new Vector2(x+10, y+120));
     }
 
@@ -51,6 +53,10 @@ public class ChildZombie {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public boolean isEnemy() {
+        return isEnemy;
     }
 
     public GestureRock getGestureRock() {
