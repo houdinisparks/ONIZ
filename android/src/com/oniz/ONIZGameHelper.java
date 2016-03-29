@@ -105,9 +105,13 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         String sender = realTimeMessage.getSenderParticipantId();
         try {
             final String t = new String(buf, "ISO-8859-1");
-
-            if(zGame.isGameWorldReady()) {
-                zGame.getGameWorld().realTimeUpdate(t);
+            if (zGame.isGameWorldReady()) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        zGame.getGameWorld().realTimeUpdate(t);
+                    }
+                });
             }
 
             Gdx.app.log(TAG, "Received message: " + t + sender);
@@ -201,7 +205,7 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     @Override
     public void onPeersConnected(Room room, List<String> list) {
         Gdx.app.log(TAG, "Peers connected. Can we start?");
-        if(shouldStartGame(room)) {
+        if (shouldStartGame(room)) {
             zGame.switchScreen(ZGame.ScreenState.MAIN);
         }
     }

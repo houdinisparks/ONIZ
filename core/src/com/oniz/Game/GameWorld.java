@@ -103,7 +103,6 @@ public class GameWorld {
     }
 
     private void spawnZombie(boolean isEnemy) {
-        Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT!");
         ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0, isEnemy);
         childZombies.add(childZombie);
     }
@@ -161,16 +160,8 @@ public class GameWorld {
         //this method will be called by ONIZGameHelper when a message is received
         //we can decide what to do here
         //for starters it should spawn an additional zombie
-        if(toString().startsWith("SPAWN")) {
-            Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT! SPAWNING...");
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    Gdx.app.log("ZOMBIERUNNABLE", "ZOMBIE SPAWNING FOR REAL!");
-                    spawnZombie(true);
-                }
-            });
-
+        if(msg.startsWith("SPAWN")) {
+            spawnZombie(true);
         }
         Gdx.app.log("REALTIMEUPDATE", msg);
     }
