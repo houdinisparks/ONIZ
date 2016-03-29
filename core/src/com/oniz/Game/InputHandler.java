@@ -124,6 +124,7 @@ public class InputHandler implements InputProcessor {
                 return true;
             } else if (homeButton.isTouchUp(screenX, screenY)) {
                 // TODO: handle homeButton touch events
+                gameWorld.goHome();
                 return true;
             }
         } else if (gameWorld.isGameOver()) {

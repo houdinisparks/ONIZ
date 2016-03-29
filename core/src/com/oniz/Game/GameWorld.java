@@ -3,6 +3,8 @@ package com.oniz.Game;
 import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
+import com.oniz.Screens.MainScreen;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -23,6 +25,9 @@ public class GameWorld {
     GameRenderer gameRenderer;
     Random random = new Random();
     ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
+
+
+    ZGame zgame;
 
     public GameWorld() {
         this.state = GAME_READY;
@@ -74,6 +79,9 @@ public class GameWorld {
                 score += 1;
                 Gdx.app.log("Zombie status", "killed");
                 iterator.remove();
+
+                //send zombie to other player
+                zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
             }
         }
         // spawn zombies at random time intervals
@@ -95,6 +103,7 @@ public class GameWorld {
     }
 
     private void spawnZombie() {
+        Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT!");
         ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0);
         childZombies.add(childZombie);
     }
@@ -118,6 +127,14 @@ public class GameWorld {
         score = 0;
         state = GAME_RUNNING;
         gameRenderer.prepareTransition(0, 0, 0, 1f);
+    }
+
+    public void goHome() {
+        this.zgame.switchScreen(ZGame.ScreenState.START);
+    }
+
+    public void setGame(ZGame zgame) {
+        this.zgame = zgame;
     }
 
     public boolean isReady() {
@@ -144,6 +161,9 @@ public class GameWorld {
         //this method will be called by ONIZGameHelper when a message is received
         //we can decide what to do here
         //for starters it should spawn an additional zombie
+        if(toString().startsWith("SPAWN")) {
+            spawnZombie();
+        }
         Gdx.app.log("REALTIMEUPDATE", msg);
     }
 }

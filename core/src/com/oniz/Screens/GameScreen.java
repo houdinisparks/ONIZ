@@ -19,6 +19,8 @@ public class GameScreen implements Screen {
 
     private ZGame zgame;
 
+    private InputMultiplexer inputMultiplexer;
+
     public GameScreen(ZGame zgame) {
         this.zgame = zgame;
         float screenWidth = Gdx.graphics.getWidth();
@@ -28,7 +30,7 @@ public class GameScreen implements Screen {
 
         gameWorld = new GameWorld();
 
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new InputHandler(gameWorld, screenWidth / gameWidth, screenHeight / gameHeight));
         inputMultiplexer.addProcessor(new GestureRecognizerInputProcessor(gameWorld,screenWidth / gameWidth, screenHeight / gameHeight));
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -52,7 +54,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override

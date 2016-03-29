@@ -45,7 +45,6 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 quickGame();
-                zGame.switchScreen(ZGame.ScreenState.MATCHMAKING);
             }
         });
 
@@ -100,6 +99,7 @@ public class StartScreen implements Screen {
 
     //Google Services Methods
     private void signInOut() {
+        Gdx.app.log("isSIGNEDin?", zGame.playServices.isSignedIn()+"");
         if(zGame.playServices.isSignedIn()) {
             zGame.playServices.signOut();
             signInOutBtn.setText("Sign In");
@@ -110,8 +110,12 @@ public class StartScreen implements Screen {
     }
 
     private void quickGame() {
-        if(zGame.playServices.isSignedIn())
+        Gdx.app.log("isSIGNEDin?", zGame.playServices.isSignedIn()+"");
+        if(zGame.playServices.isSignedIn()) {
+            zGame.switchScreen(ZGame.ScreenState.MATCHMAKING);
             zGame.playServices.startQuickGame();
+        }
+
     }
 
     private void sendMessage() {

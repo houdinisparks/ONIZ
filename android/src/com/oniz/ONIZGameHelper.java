@@ -22,6 +22,7 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 import com.google.example.games.basegameutils.GameHelper;
 import com.oniz.Game.ZGame;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,15 +106,11 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         try {
             final String t = new String(buf, "ISO-8859-1");
 
-            //TODO: Decide message format. <SPAWNZOMBIE:other text>?
-            //TODO: Parse string msg. String.startsWith()
-            //TODO: Update ZGame world.
-
             if(zGame.isGameWorldReady()) {
                 zGame.getGameWorld().realTimeUpdate(t);
             }
 
-            Gdx.app.log(TAG, "Received message: " + t);
+            Gdx.app.log(TAG, "Received message: " + t + sender);
 //            Toast.makeText(activity, t, Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
@@ -124,9 +121,11 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void broadcastMessage(String message) {
         Gdx.app.log(TAG, "Broadcasting message");
         boolean test = true;
-        byte[] mMsgBuf = new byte[2];
-        mMsgBuf[0] = (byte) 'A';
-        mMsgBuf[1] = (byte) 'B';
+//        byte[] mMsgBuf = new byte[2];
+//        mMsgBuf[0] = (byte) 'A';
+//        mMsgBuf[1] = (byte) 'B';
+
+        byte[] mMsgBuf = message.getBytes(Charset.forName("UTF-8"));
 
         // Send to every other participant.
         for (Participant p : mParticipants) {

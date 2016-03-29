@@ -14,15 +14,16 @@ import com.oniz.Screens.SplashScreen;
 public class ZGame extends Game {
     AssetLoader assets;
 
-    public static PlayServices playServices;
+    public PlayServices playServices;
 
     public static Screen startScreen, matchMakingScreen, gameScreen;
 
     private GameWorld gameWorld;
 
-    public ZGame(/*PlayServices playServices*/) {
-//        this.playServices = playServices;
-//        this.playServices.setGame(this);
+    public ZGame(PlayServices playServices) {
+        super();
+        this.playServices = playServices;
+        this.playServices.setGame(this);
     }
 
     public enum State
@@ -42,11 +43,11 @@ public class ZGame extends Game {
         Gdx.app.log("ONIZ", "created");
         assets = new AssetLoader();
         gameScreen = new GameScreen(this);
-//        startScreen = new StartScreen(this);
-//        matchMakingScreen = new MatchMakingScreen(this);
+        startScreen = new StartScreen(this);
+        matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(gameScreen);
+        setScreen(startScreen);
     }
 
     public void switchScreen(ScreenState screen) {
@@ -71,6 +72,7 @@ public class ZGame extends Game {
 
     public void setGameWorld(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
+        gameWorld.setGame(this);
     }
 
     public GameWorld getGameWorld() {

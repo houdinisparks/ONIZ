@@ -20,7 +20,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
 
         gameHelper = new ONIZGameHelper(this, GameHelper.CLIENT_GAMES);
         gameHelper.enableDebugLog(false);
@@ -41,7 +41,8 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         gameHelper.setup(gameHelperListener);
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new ZGame(), config);
+        super.onCreate(savedInstanceState);
+        initialize(new ZGame(this), config);
     }
 
     @Override
@@ -95,6 +96,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
     @Override
     public void startQuickGame() {
+        Gdx.app.log("QUICKGAME", "initializing... quick game!");
         try {
             runOnUiThread(new Runnable() {
                 @Override
