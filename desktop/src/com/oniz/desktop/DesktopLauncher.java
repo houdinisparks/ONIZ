@@ -3,6 +3,7 @@ package com.oniz.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.oniz.Game.ZGame;
+import com.oniz.Network.DesktopPlayServices;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -13,6 +14,6 @@ public class DesktopLauncher {
 		config.width = 450;
 		config.height = 800;
 //		config.fullscreen = true;
-		new LwjglApplication(new ZGame(), config);
+		new LwjglApplication(new ZGame(new DesktopPlayServices()), config);
 	}
 }
