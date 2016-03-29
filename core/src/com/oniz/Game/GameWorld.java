@@ -163,7 +163,14 @@ public class GameWorld {
         //for starters it should spawn an additional zombie
         if(toString().startsWith("SPAWN")) {
             Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT! SPAWNING...");
-            spawnZombie(true);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    Gdx.app.log("ZOMBIERUNNABLE", "ZOMBIE SPAWNING FOR REAL!");
+                    spawnZombie(true);
+                }
+            });
+
         }
         Gdx.app.log("REALTIMEUPDATE", msg);
     }
