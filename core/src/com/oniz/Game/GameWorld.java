@@ -81,7 +81,7 @@ public class GameWorld {
                 iterator.remove();
 
                 //send zombie to other player
-                zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
+                //zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
             }
         }
         // spawn zombies at random time intervals
@@ -103,7 +103,6 @@ public class GameWorld {
     }
 
     private void spawnZombie() {
-        Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT!");
         ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0);
         childZombies.add(childZombie);
     }
@@ -163,6 +162,7 @@ public class GameWorld {
         //for starters it should spawn an additional zombie
         if(toString().startsWith("SPAWN")) {
             spawnZombie();
+            Gdx.app.log("ZOMBIESPAWNED", "NEW ZOMBIE FROM OPPONENT! SPAWNING...");
         }
         Gdx.app.log("REALTIMEUPDATE", msg);
     }

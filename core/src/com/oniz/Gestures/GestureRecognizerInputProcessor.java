@@ -187,7 +187,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         /*-------Gesture Path Display---------*/
         resolve();
-        //inputPoints.clear();
+        simplified.clear();
         isDrawing = false;
 
         return false;
