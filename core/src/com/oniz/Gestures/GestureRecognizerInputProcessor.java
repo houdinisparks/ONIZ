@@ -27,7 +27,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private final String TAG = "INPUT_PROCESSOR";
 
     private static final int GAME_HEIGHT = 800;
-    
+
     private ProtractorGestureRecognizer recognizer;
     private ArrayList<Vector2> originalPath;
 
@@ -56,7 +56,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private Array<Vector2> simplified;
     private GameWorld gameWorld;
 
-    public GestureRecognizerInputProcessor(GameWorld gameWorld,  float scaleFactorX, float scaleFactorY ) {
+    public GestureRecognizerInputProcessor(GameWorld gameWorld, float scaleFactorX, float scaleFactorY) {
         super();
         this.gameWorld = gameWorld;
 
@@ -201,9 +201,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             return GestureRock.GestureType.INVERTED_Z_SHAPE;
         } else if (name.contains("triangle")) {
             return GestureRock.GestureType.ALPHA;
-        }
-
-        else {
+        } else {
             return null;
         }
 
@@ -221,6 +219,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     /**
      * Scale device touch coordinates to match that of the game.
+     *
      * @param screenX - original x-coordinate based on device screen
      * @return scaled x-coordinate
      */
@@ -230,6 +229,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     /**
      * Scale device touch coordinates to match that of the game.
+     *
      * @param screenY - original y-coordinate based on device screen
      * @return scaled y-coordinate
      */
