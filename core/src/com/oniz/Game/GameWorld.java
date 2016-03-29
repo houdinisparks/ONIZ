@@ -2,8 +2,9 @@ package com.oniz.Game;
 ;
 import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
-import com.oniz.Mobs.ChildZombie.GestureType;
+import com.oniz.Mobs.GestureRock;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -16,7 +17,8 @@ public class GameWorld {
     public static final int GAME_LEVEL_END = 3;
     public static final int GAME_OVER = 4;
     static final int[] zombiePaths = {40, 115, 190, 265, 340};
-    int state;
+    private int state;
+    private int score = 0;
 
     GameRenderer gameRenderer;
     Random random = new Random();
@@ -57,12 +59,21 @@ public class GameWorld {
 
     private void updateRunning(float deltaTime) {
         // update zombie position
-        for (int i = 0; i < childZombies.size(); i++){
-            childZombies.get(i).update(deltaTime);
+        for (Iterator<ChildZombie> iterator = childZombies.iterator(); iterator.hasNext();){
+            ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
-            if (childZombies.get(i).getY() > 548) {
+            if (zombie.getY() > 548) {
                 this.state = GAME_OVER;
+            }
+
+            // update living zombies and remove dead zombies
+            if (zombie.isAlive()) {
+                zombie.update(deltaTime);
+            } else {
+                score += 1;
+                Gdx.app.log("Zombie status", "killed");
+                iterator.remove();
             }
         }
         // spawn zombies at random time intervals
@@ -88,12 +99,11 @@ public class GameWorld {
         childZombies.add(childZombie);
     }
 
-    public void killZombie(GestureType gestureType) {
+    public void weakenZombie(GestureRock.GestureType gestureType) {
         for (ChildZombie zombie: childZombies) {
-            if (zombie.getGestureType().equals(gestureType)) {
-                Gdx.app.log("Kill Zombie" , "Zombie Rmeoved");
-                childZombies.remove(zombie);
-                break;
+            if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
+                Gdx.app.log("Zombie status", "weakened");
+                zombie.getGestureRock().decrementStage();
             }
         }
     }
@@ -105,6 +115,7 @@ public class GameWorld {
     public void restartGame() {
         // reset to initial state
         childZombies.clear();
+        score = 0;
         state = GAME_RUNNING;
         gameRenderer.prepareTransition(0, 0, 0, 1f);
     }
@@ -123,6 +134,10 @@ public class GameWorld {
 
     public boolean isRunning() {
         return state == GAME_RUNNING;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void realTimeUpdate(String msg) {
