@@ -3,6 +3,9 @@ package com.oniz.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,6 +29,9 @@ public class StartScreen implements Screen {
 
     private Stage stage;
     private Skin skin;
+    private TextureRegion cloudsBackground;
+    private SpriteBatch batcher;
+    private OrthographicCamera cam;
 
     private TextButton signInOutBtn;
 
@@ -33,7 +39,17 @@ public class StartScreen implements Screen {
         this.zGame = zGame;
 
         skin = AssetLoader.getInstance().skin;
+        cloudsBackground =  AssetLoader.getInstance().sprites.get("cloudsBackground");
         stage = new Stage(new FitViewport(450, 800));
+
+
+
+        //Viewport - Aspect Radio
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, 450, 800); //false for y upwards
+
+        batcher = new SpriteBatch();
+        batcher.setProjectionMatrix(cam.combined);
 
         final TextButton button = new TextButton("Quick Game", skin, "default");
 
@@ -133,6 +149,15 @@ public class StartScreen implements Screen {
     public void render(float delta) {
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
         Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        batcher.begin();
+        batcher.disableBlending();
+        // draw the background
+        batcher.draw(cloudsBackground, 0, 0, 450, 800);
+
+        batcher.enableBlending();
+        batcher.end();
+
         stage.draw();
     }
 

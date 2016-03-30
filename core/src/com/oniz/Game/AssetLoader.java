@@ -154,7 +154,11 @@ public final class AssetLoader {
         enemyZombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
+        textures.put("cloudsBg", new Texture(Gdx.files.internal("data/cloudsBg.png")));
+        textures.put("waitingBg", new Texture(Gdx.files.internal("data/waitingScreen.png")));
         sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 325, 758));
+        sprites.put("cloudsBackground", new TextureRegion(textures.get("cloudsBg"), 338, 1, 325, 758));
+        sprites.put("waitingBackground", new TextureRegion(textures.get("waitingBg"), 338, 1, 325, 758));
     }
 
     public void dispose() {

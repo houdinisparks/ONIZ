@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -28,41 +31,48 @@ public class MatchMakingScreen implements Screen{
 
     private SimpleButton buttonB;
 
+    private TextureRegion background;
+    private SpriteBatch batcher;
+    private OrthographicCamera cam;
+
     public MatchMakingScreen(ZGame zgame) {
         this.zgame = zgame;
         this.stage = new Stage(new FitViewport(450, 800));
         this.skin = AssetLoader.getInstance().skin;
 
-        buttonB = new SimpleButton(new Image(AssetLoader.getInstance().textures.get("buttonBUp")).getDrawable(), new Image(AssetLoader.getInstance().textures.get("buttonBDown")).getDrawable());
+        background =  AssetLoader.getInstance().sprites.get("waitingBackground");
+        stage = new Stage(new FitViewport(450, 800));
 
-        Label waitingLbl = new Label("Waiting for players...", skin);
-        waitingLbl.setPosition(100, 400);
+        //Viewport - Aspect Radio
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, 450, 800); //false for y upwards
 
-        table = new Table();
-        table.setFillParent(true);
-        table.setDebug(true);
+        batcher = new SpriteBatch();
+        batcher.setProjectionMatrix(cam.combined);
 
-        table.pad(5);
-
-        table.add(buttonB).top().right().fillX();
-        table.row();
-        table.add(waitingLbl).center().fill();
 
         //TODO: enable cancel?
-
-        stage.addActor(table);
 
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
         Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        batcher.begin();
+        batcher.disableBlending();
+        // draw the background
+        batcher.draw(background, 0, 0, 450, 800);
+
+        batcher.enableBlending();
+        batcher.end();
+
         stage.draw();
     }
 
