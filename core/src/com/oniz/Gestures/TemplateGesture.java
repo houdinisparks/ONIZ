@@ -11,6 +11,7 @@ public class TemplateGesture {
 
 	private float[] vector;
 
+	//TODO: Use this TemplateGesture Constructor instead.
 	public TemplateGesture(String name, ArrayList<Vector2> points) {
 		this.name = name;
 		this.points = points;

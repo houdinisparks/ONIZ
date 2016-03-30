@@ -81,7 +81,7 @@ public class GameWorld {
                 iterator.remove();
 
                 //send zombie to other player
-                zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
+                //zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
             }
         }
         // spawn zombies at random time intervals

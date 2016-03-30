@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -56,6 +57,27 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private Array<Vector2> simplified;
     private GameWorld gameWorld;
 
+    /*
+    For management of adding JSON files
+     */
+    private static final String ZShapeType = "zshape";
+    private static final String InvertedZShapeType = "invertedzshape";
+    private static final String HorizontalLine = "horizontalline";
+    private static final String VerticalLine = "verticalline";
+    private static final String VShapeType = "vshape";
+    private static final String InvertedVShapeType = "invertedvshape";
+    private static final String AlphaType = "alpha";
+    private static final String GammaType = "gamma";
+
+    private static int ZShapeFileCount = 1;
+    private static int InvertedZShapeFileCount = 1;
+    private static int HorizontalLineFileCount = 1;
+    private static int VerticalLineFileCount = 1;
+    private static int VShapeTypeFileCount = 1;
+    private static int InvertedVShapeFileCount = 1;
+    private static int AlphaFileCount = 1;
+    private static int GammaFileCount = 1;
+
     public GestureRecognizerInputProcessor(GameWorld gameWorld,  float scaleFactorX, float scaleFactorY ) {
         super();
         this.gameWorld = gameWorld;
@@ -67,9 +89,103 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 		/*-----------Gesture Detection------------*/
         recognizer = new ProtractorGestureRecognizer();
 
-        recognizer.addGestureFromFile(Gdx.files.internal("gestures/rectangle.json"));
-        recognizer.addGestureFromFile(Gdx.files.internal("gestures/triangle.json"));
-        recognizer.addGestureFromFile(Gdx.files.internal("gestures/x.json"));
+        //Add all Json files as Gestures automatically
+        FileHandle zShapeFileHandle;
+        FileHandle invZShapeFileHandle;
+        FileHandle horizontalFileHandle;
+        FileHandle verticalFileHandle;
+        FileHandle vShapeFileHandle;
+        FileHandle invVShapeFileHandle;
+        FileHandle alphaFileHandle;
+        FileHandle gammaFileHandle;
+
+        boolean noMoreFilesToAdd = false;
+
+        while(!noMoreFilesToAdd){
+
+            noMoreFilesToAdd = true;
+
+            zShapeFileHandle = Gdx.files.internal("gestures/" + ZShapeType + ZShapeFileCount + ".json");
+            invZShapeFileHandle = Gdx.files.internal("gestures/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
+            horizontalFileHandle = Gdx.files.internal("gestures/" + HorizontalLine + HorizontalLineFileCount + ".json");
+            verticalFileHandle = Gdx.files.internal("gestures/" + VerticalLine + VerticalLineFileCount + ".json");
+            vShapeFileHandle = Gdx.files.internal("gestures/" + VShapeType + VShapeTypeFileCount + ".json");
+            invVShapeFileHandle = Gdx.files.internal("gestures/" + InvertedVShapeType + InvertedVShapeFileCount + ".json");
+            alphaFileHandle = Gdx.files.internal("gestures/" + AlphaType + AlphaFileCount + ".json");
+            gammaFileHandle = Gdx.files.internal("gestures/" + GammaType + GammaFileCount + ".json");
+
+            if (zShapeFileHandle.exists()) {
+                ZShapeFileCount += 1;
+                recognizer.addGestureFromFile(zShapeFileHandle);
+                noMoreFilesToAdd = false;
+                Gdx.app.log("z shape gesture added: " , ZShapeFileCount + "" );
+            }
+
+            if (invZShapeFileHandle.exists()) {
+                recognizer.addGestureFromFile(invZShapeFileHandle);
+                InvertedZShapeFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (horizontalFileHandle.exists()) {
+                recognizer.addGestureFromFile(horizontalFileHandle);
+                HorizontalLineFileCount += 1;
+                noMoreFilesToAdd = false;
+
+            }
+
+            if (verticalFileHandle.exists()) {
+                recognizer.addGestureFromFile(verticalFileHandle);
+                VerticalLineFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (vShapeFileHandle.exists()) {
+                recognizer.addGestureFromFile(vShapeFileHandle);
+                VShapeTypeFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (invVShapeFileHandle.exists()) {
+                recognizer.addGestureFromFile(invVShapeFileHandle);
+                InvertedVShapeFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (alphaFileHandle.exists()) {
+                recognizer.addGestureFromFile(alphaFileHandle);
+                AlphaFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (gammaFileHandle.exists()) {
+                recognizer.addGestureFromFile(gammaFileHandle);
+                GammaFileCount += 1;
+                noMoreFilesToAdd = false;
+            }
+
+            if (noMoreFilesToAdd) {
+                break;
+            }
+
+        }
+
+
+        //--For
+
+//        //--For Inverted Z Shape Files//
+//        while (true) {
+//            fileHandle = Gdx.files.internal("gestures/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
+//            if (fileHandle.exists()) {
+//                recognizer.addGestureFromFile(fileHandle);
+//                InvertedZShapeFileCount += 1;
+//            } else {
+//                break;
+//            }
+//        }
+
+
+
 
         originalPath = new ArrayList<Vector2>();
 
@@ -187,8 +303,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         /*-------Gesture Path Display---------*/
         resolve();
-        //inputPoints.clear();
         isDrawing = false;
+        simplified.clear();
 
         return false;
     }
@@ -196,26 +312,36 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private GestureRock.GestureType convertToGestureType(String name) {
         Gdx.app.log("Gesture Convert", name.split(" ")[1]);
 
-        if (name.contains("rectangle")) {
-            Gdx.app.log("Gesture Convert", "rectangle");
+        if (name.contains(InvertedZShapeType)) {
             return GestureRock.GestureType.INVERTED_Z_SHAPE;
-        } else if (name.contains("triangle")) {
+
+        } else if (name.contains(ZShapeType)) {
+            return GestureRock.GestureType.Z_SHAPE;
+
+        }else if (name.contains(VerticalLine)) {
+            return GestureRock.GestureType.VERTICAL_LINE;
+
+
+        } else if (name.contains(HorizontalLine)) {
+            return GestureRock.GestureType.HORIZONTAL_LINE;
+
+        } else if (name.contains(InvertedVShapeType)) {
+            Gdx.app.log("VShape: ","Vshape killed");
+            return GestureRock.GestureType.INVERTED_V_SHAPE;
+
+        }else if (name.contains(VShapeType)) {
+            return GestureRock.GestureType.V_SHAPE;
+
+        }else if (name.contains(GammaType)) {
+            return GestureRock.GestureType.GAMMA;
+
+        }else if (name.contains(AlphaType)) {
             return GestureRock.GestureType.ALPHA;
         }
-
         else {
             return null;
         }
 
-//        switch (name) {
-//            case "rectangle":
-//                return GestureType.SQUARE;
-//            case "triangle":
-//                return GestureType.HORIZONTALLINE;
-//
-//            default:
-//                return null;
-//        }
     }
 
 
