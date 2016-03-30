@@ -39,9 +39,10 @@ public class ProtractorGestureRecognizer {
 			String _name = String.valueOf(map.get("Name"));
 			//Gdx.app.log("Name: " , _name);
 
-			JsonValue getPoints = map.get("Points");
+			//TODO: Generate vector with the method Vectorize(ArrayList<Vector2> points)
+			//		this is done with the TemplateGesture constructor.
 
-			float[] getVector = map.get("Vector").asFloatArray();
+			JsonValue getPoints = map.get("Points");
 
 			ArrayList<Vector2> _arrlist_vector = new ArrayList<Vector2>();
 			for( JsonValue point : getPoints.iterator()) {
@@ -71,7 +72,7 @@ public class ProtractorGestureRecognizer {
 //			for (int i = 0; i < _vector.size; i++)
 //				_arr_vector[i] = _vector.get(i);
 			
-			addGesture(new TemplateGesture(_name, _arrlist_vector, getVector));
+			addGesture(new TemplateGesture(_name, _arrlist_vector));
 		}
 	}
 
