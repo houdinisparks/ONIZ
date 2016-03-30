@@ -69,10 +69,10 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-        Gdx.app.log("isTouchDown", "true");
+//        Gdx.app.log("isTouchDown", "true");
         if (gameWorld.isReady()) {
             playButton.isTouchDown(screenX, screenY);
-            Gdx.app.log("isTouchDownReady", "true");
+//            Gdx.app.log("isTouchDownReady", "true");
 
 
         } else if (gameWorld.isRunning()) {
@@ -103,11 +103,11 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-        Gdx.app.log("isTouchDown", "true");
+//        Gdx.app.log("isTouchDown", "true");
         if (gameWorld.isReady()) {
             if (playButton.isTouchUp(screenX, screenY)) {
                 gameWorld.setState(GameWorld.GAME_RUNNING);
-                Gdx.app.log("isTouchUpReady", "true");
+//                Gdx.app.log("isTouchUpReady", "true");
                 return true;
             }
         } else if (gameWorld.isRunning()) {

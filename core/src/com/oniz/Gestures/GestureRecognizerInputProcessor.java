@@ -222,7 +222,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        Gdx.app.log(TAG, "touchDown x: " + x + " y: " + y);
+//        Gdx.app.log(TAG, "touchDown x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
 
@@ -244,7 +244,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
-        Gdx.app.log(TAG, "touchDragged x: " + x + " y: " + y);
+//        Gdx.app.log(TAG, "touchDragged x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
 
@@ -278,7 +278,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-        Gdx.app.log(TAG, "touchUp x: " + x + " y: " + y);
+//        Gdx.app.log(TAG, "touchUp x: " + x + " y: " + y);
 
         /*-------Gesture Detection-----------*/
 
@@ -287,11 +287,10 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             MatchingGesture match = recognizer.Recognize(originalPath);
 
             if (match.getScore() < 2) {
-                Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
+//                Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
             } else {
-                Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
-                        + Float.toString(match.getScore()));
-
+//                Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
+//                        + Float.toString(match.getScore()));
                 gameWorld.weakenZombie(convertToGestureType(match.getGesture().getName()));
             }
 
@@ -308,7 +307,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     }
 
     private GestureRock.GestureType convertToGestureType(String name) {
-        Gdx.app.log("Gesture Convert", name.split(" ")[1]);
+//        Gdx.app.log("Gesture Convert", name.split(" ")[1]);
 
         if (name.contains(InvertedZShapeType)) {
             return GestureRock.GestureType.INVERTED_Z_SHAPE;
@@ -324,7 +323,6 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             return GestureRock.GestureType.HORIZONTAL_LINE;
 
         } else if (name.contains(InvertedVShapeType)) {
-            Gdx.app.log("VShape: ", "Vshape killed");
             return GestureRock.GestureType.INVERTED_V_SHAPE;
 
         } else if (name.contains(VShapeType)) {

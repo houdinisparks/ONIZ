@@ -99,7 +99,6 @@ public class StartScreen implements Screen {
 
     //Google Services Methods
     private void signInOut() {
-        Gdx.app.log("isSIGNEDin?", zGame.playServices.isSignedIn()+"");
         if(zGame.playServices.isSignedIn()) {
             zGame.playServices.signOut();
             signInOutBtn.setText("Sign In");
@@ -139,27 +138,27 @@ public class StartScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        Gdx.app.log("LIFECYCLE", "RESIZE");
     }
 
     @Override
     public void pause() {
-
+        Gdx.app.log("LIFECYCLE", "PAUSE");
     }
 
     @Override
     public void resume() {
-
+        Gdx.app.log("LIFECYCLE", "RESUME");
     }
 
     @Override
     public void hide() {
-
+        Gdx.app.log("LIFECYCLE", "HIDE");
     }
 
     @Override
     public void dispose() {
-
+        Gdx.app.log("LIFECYCLE", "DISPOSE");
     }
 
 

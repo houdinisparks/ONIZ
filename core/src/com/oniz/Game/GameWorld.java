@@ -77,11 +77,11 @@ public class GameWorld {
                 zombie.update(deltaTime);
             } else {
                 score += 1;
-                Gdx.app.log("Zombie status", "killed");
+//                Gdx.app.log("Zombie status", "killed");
                 iterator.remove();
 
                 //send zombie to other player
-                zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
+//                zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
             }
         }
         // spawn zombies at random time intervals
@@ -110,7 +110,7 @@ public class GameWorld {
     public void weakenZombie(GestureRock.GestureType gestureType) {
         for (ChildZombie zombie: childZombies) {
             if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
-                Gdx.app.log("Zombie status", "weakened");
+//                Gdx.app.log("Zombie status", "weakened");
                 zombie.getGestureRock().decrementStage();
             }
         }
@@ -163,7 +163,7 @@ public class GameWorld {
         if(msg.startsWith("SPAWN")) {
             spawnZombie(true);
         }
-        Gdx.app.log("REALTIMEUPDATE", msg);
+//        Gdx.app.log("REALTIMEUPDATE", msg);
     }
 }
 
