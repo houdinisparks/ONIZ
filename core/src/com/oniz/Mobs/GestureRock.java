@@ -33,7 +33,7 @@ public class GestureRock {
         private static Random random = new Random();
 
         public static GestureType generateRandomGestureType() {
-            return GESTURE_TYPES[random.nextInt(SIZE-6)];
+            return GESTURE_TYPES[random.nextInt(SIZE)];
         }
     }
 
