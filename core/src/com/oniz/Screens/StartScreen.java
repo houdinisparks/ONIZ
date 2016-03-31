@@ -99,6 +99,7 @@ public class StartScreen implements Screen {
         singlePlayer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                zGame.setMultiplayerMode(false);
                 zGame.switchScreen(ZGame.ScreenState.MAIN);
             }
         });
@@ -127,6 +128,7 @@ public class StartScreen implements Screen {
     private void quickGame() {
         Gdx.app.log("isSIGNEDin?", zGame.playServices.isSignedIn()+"");
         if(zGame.playServices.isSignedIn()) {
+            zGame.setMultiplayerMode(true);
             zGame.switchScreen(ZGame.ScreenState.MATCHMAKING);
             zGame.playServices.startQuickGame();
         }

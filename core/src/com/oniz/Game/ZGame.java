@@ -20,6 +20,8 @@ public class ZGame extends Game {
 
     private GameWorld gameWorld;
 
+    private boolean multiplayerMode = false;
+
     public ZGame(PlayServices playServices) {
         super();
         this.playServices = playServices;
@@ -87,5 +89,13 @@ public class ZGame extends Game {
     public void dispose() {
         super.dispose();
         assets.dispose();
+    }
+
+    public void setMultiplayerMode(boolean value) {
+        this.multiplayerMode = value;
+    }
+
+    public boolean isMultiplayerMode() {
+        return this.multiplayerMode;
     }
 }
