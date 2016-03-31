@@ -100,7 +100,7 @@ public final class AssetLoader {
         sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 980, 0, 200, 200));
         sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 980, 200, 200, 200));
         sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 980, 400, 200, 200));
-        gestureHints.put(GestureRock.GestureType.HORIZONTAL_LINE, sprites.get("horizontalLine"));
+//        gestureHints.put(GestureRock.GestureType.HORIZONTAL_LINE, sprites.get("horizontalLine"));
         gestureHints.put(GestureRock.GestureType.VERTICAL_LINE, sprites.get("verticalLine"));
         gestureHints.put(GestureRock.GestureType.V_SHAPE, sprites.get("Vshape"));
         gestureHints.put(GestureRock.GestureType.INVERTED_V_SHAPE, sprites.get("invertedVshape"));

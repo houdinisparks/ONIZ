@@ -47,7 +47,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     /**
      * The minimum ditance between two points in a drawn line (starting at the second point)
      */
-    public int minDistance = 20;
+    public int minDistance = 5;
 
     private Vector2 lastPoint = new Vector2();
 
@@ -282,15 +282,16 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         /*-------Gesture Detection-----------*/
 
-        if (originalPath.size() >= 10) {
+        Gdx.app.log("Gesture Point Count", "Count is: " + originalPath.size());
+        if (originalPath.size() >= 8) {
             originalPath.add(new Vector2(x, y));
             MatchingGesture match = recognizer.Recognize(originalPath);
 
             if (match.getScore() < 2) {
-//                Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
+                Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
             } else {
-//                Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
-//                        + Float.toString(match.getScore()));
+                Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
+                        + Float.toString(match.getScore()));
                 gameWorld.weakenZombie(convertToGestureType(match.getGesture().getName()));
             }
 
@@ -319,8 +320,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             return GestureRock.GestureType.VERTICAL_LINE;
 
 
-        } else if (name.contains(HorizontalLine)) {
-            return GestureRock.GestureType.HORIZONTAL_LINE;
+//        } else if (name.contains(HorizontalLine)) {
+//            return GestureRock.GestureType.HORIZONTAL_LINE;
 
         } else if (name.contains(InvertedVShapeType)) {
             return GestureRock.GestureType.INVERTED_V_SHAPE;

@@ -21,7 +21,6 @@ public class GestureRock {
     public enum GestureType {
         INVERTED_Z_SHAPE,
         ALPHA,
-        HORIZONTAL_LINE,
         VERTICAL_LINE,
         V_SHAPE,
         INVERTED_V_SHAPE,

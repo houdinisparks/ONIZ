@@ -13,44 +13,44 @@ import com.badlogic.gdx.utils.ObjectMap;
 import sun.rmi.runtime.Log;
 
 public class ProtractorGestureRecognizer {
-	String tag = "ProtractorGestureRecognizer";
+    String tag = "ProtractorGestureRecognizer";
 
-	private ArrayList<TemplateGesture> registeredGestures;
+    private ArrayList<TemplateGesture> registeredGestures;
 
-	public ProtractorGestureRecognizer() {
-		registeredGestures = new ArrayList<TemplateGesture>();
-	}
+    public ProtractorGestureRecognizer() {
+        registeredGestures = new ArrayList<TemplateGesture>();
+    }
 
-	public void addGesture(TemplateGesture tg) {
-		registeredGestures.add(tg);
-	}
+    public void addGesture(TemplateGesture tg) {
+        registeredGestures.add(tg);
+    }
 
-	@SuppressWarnings("unchecked")
-	public void addGestureFromFile(FileHandle handle) {
-		if (handle.isDirectory()) {
-			FileHandle[] files = handle.list("json");
-			for (FileHandle f : files)
-				addGestureFromFile(f);
-			
-		} else {
-			JsonReader jreader = new JsonReader();
+    @SuppressWarnings("unchecked")
+    public void addGestureFromFile(FileHandle handle) {
+        if (handle.isDirectory()) {
+            FileHandle[] files = handle.list("json");
+            for (FileHandle f : files)
+                addGestureFromFile(f);
 
-			JsonValue map = jreader.parse(handle);
-			String _name = String.valueOf(map.get("Name"));
-			//Gdx.app.log("Name: " , _name);
+        } else {
+            JsonReader jreader = new JsonReader();
 
-			//TODO: Generate vector with the method Vectorize(ArrayList<Vector2> points)
-			//		this is done with the TemplateGesture constructor.
+            JsonValue map = jreader.parse(handle);
+            String _name = String.valueOf(map.get("Name"));
+            //Gdx.app.log("Name: " , _name);
 
-			JsonValue getPoints = map.get("Points");
+            //TODO: Generate vector with the method Vectorize(ArrayList<Vector2> points)
+            //		this is done with the TemplateGesture constructor.
 
-			ArrayList<Vector2> _arrlist_vector = new ArrayList<Vector2>();
-			for( JsonValue point : getPoints.iterator()) {
-				float x = point.get("X").asFloat();
-				float y = point.get("Y").asFloat();
-				//System.out.println(tag + " "+ String.valueOf(x) + " " + y);
-				_arrlist_vector.add(new Vector2(x, y));
-			}
+            JsonValue getPoints = map.get("Points");
+
+            ArrayList<Vector2> _arrlist_vector = new ArrayList<Vector2>();
+            for (JsonValue point : getPoints.iterator()) {
+                float x = point.get("X").asFloat();
+                float y = point.get("Y").asFloat();
+                //System.out.println(tag + " "+ String.valueOf(x) + " " + y);
+                _arrlist_vector.add(new Vector2(x, y));
+            }
 
 
 //			ObjectMap obj =  (ObjectMap) jreader.parse(handle);	//obsolete. reads jsonvalue instead.
@@ -71,45 +71,70 @@ public class ProtractorGestureRecognizer {
 //			float[] _arr_vector = new float[_vector.size];
 //			for (int i = 0; i < _vector.size; i++)
 //				_arr_vector[i] = _vector.get(i);
-			
-			addGesture(new TemplateGesture(_name, _arrlist_vector));
-		}
-	}
 
-	public void removeGesture(TemplateGesture tg) {
-		registeredGestures.remove(tg);
-	}
+            addGesture(new TemplateGesture(_name, _arrlist_vector));
+        }
+    }
 
-	public MatchingGesture Recognize(ArrayList<Vector2> originalPath) {
-		float[] vector = DollarUnistrokeRecognizer.Vectorize(originalPath);
+    public void removeGesture(TemplateGesture tg) {
+        registeredGestures.remove(tg);
+    }
 
-		TemplateGesture match = null;
-		float b = Float.POSITIVE_INFINITY;
-		for (TemplateGesture gesture : registeredGestures) {
-			float d = OptimalCosineDistance(gesture.getVector(), vector);
+    public MatchingGesture Recognize(ArrayList<Vector2> originalPath) {
+        float[] vector = DollarUnistrokeRecognizer.Vectorize(originalPath);
 
-			if (d < b) {
-				b = d;
-				match = gesture;
-			}
-		}
+        TemplateGesture match = null;
+        float maxScore = 0;
+        float currentScore;
+        for (TemplateGesture gesture : registeredGestures) {
+            currentScore = 1.0f / (OptimalCosineDistance(gesture.getVector(), vector));
 
-		return new MatchingGesture(match, 1.0f / b);
-	}
+            if (currentScore > maxScore) {
+                maxScore = currentScore;
+                match = gesture;
+            }
+        }
 
-	private float OptimalCosineDistance(float[] v1, float[] v2) {
-		float a = 0.0f;
-		float b = 0.0f;
-		float angle = 0.0f;
+        return new MatchingGesture(match, maxScore);
+    }
 
-		int len = Math.min(v1.length, v2.length);
-		for (int i = 0; i < len; i += 2) {
-			a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];
-			b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
-		}
+//    public MatchingGesture Recognize(ArrayList<Vector2> originalPath) {
+//        float[] vector = DollarUnistrokeRecognizer.Vectorize(originalPath);
+//
+//        TemplateGesture match = null;
+//        float b = Float.POSITIVE_INFINITY;
+//        for (TemplateGesture gesture : registeredGestures) {
+//            float d = OptimalCosineDistance(gesture.getVector(), vector);
+//
+//            if (d < b) {
+//                b = d;
+//                match = gesture;
+//            }
+//        }
+//
+//        return new MatchingGesture(match, 1.0f / b);
+//    }
 
-		angle = (float) Math.atan(b / a);
-		return (float) Math.acos(a * Math.cos(angle) + b * Math.sin(angle));
-	}
+//	RECOGNIZE (vector, templates)
+//	maxScore ← 0
+//	foreach template in templates do
+//	distance ← OPTIMAL-COSINE-DISTANCE (templatevector, vector) score ← 1 / distance
+//	if score > maxScore then maxScore ← score
+//	match ← templatename return 〈match, score〉
+
+    private float OptimalCosineDistance(float[] v1, float[] v2) {
+        float a = 0.0f;
+        float b = 0.0f;
+        float angle = 0.0f;
+
+        int len = Math.min(v1.length, v2.length);
+        for (int i = 0; i < len; i += 2) {
+            a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];
+            b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
+        }
+
+        angle = (float) Math.atan(b / a);
+        return (float) Math.acos(a * Math.cos(angle) + b * Math.sin(angle));
+    }
 
 }
