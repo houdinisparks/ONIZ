@@ -17,6 +17,7 @@ public class ProtractorGestureRecognizer {
     String tag = "ProtractorGestureRecognizer";
 
 
+
     /*
     ---------------------FIELDS--------------------
      */
@@ -37,6 +38,7 @@ public class ProtractorGestureRecognizer {
      */
     public ProtractorGestureRecognizer() {
         registeredGestures = new ArrayList<TemplateGesture>();
+
     }
 
     /*
@@ -45,7 +47,6 @@ public class ProtractorGestureRecognizer {
     public void addGesture(TemplateGesture tg) {
         registeredGestures.add(tg);
     }
-
 
     @SuppressWarnings("unchecked")
     public void addGestureFromFile(FileHandle handle) {
@@ -342,6 +343,7 @@ public class ProtractorGestureRecognizer {
     }
 
 
+
 //    public MatchingGesture Recognize(ArrayList<Vector2> originalPath) {
 //        float[] vector = DollarUnistrokeRecognizer.Vectorize(originalPath);
 //
@@ -367,17 +369,18 @@ public class ProtractorGestureRecognizer {
 //	match ← templatename return 〈match, score〉
 
 
+
     private float OptimalCosineDistance(float[] v1, float[] v2) {
         float a = 0.0f;
         float b = 0.0f;
         float angle = 0.0f;
 
-
         //int len = Math.min(v1.length, v2.length);
         Gdx.app.log("OptimalCosineDistance", "Size of v1: " + v1.length +
                 "Size of v2: " + v2.length);
         for (int i = 0; i < v1.length; i += 2) {
-            a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];git
+
+
             b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
         }
 

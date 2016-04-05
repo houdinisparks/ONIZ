@@ -284,6 +284,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
 
         Gdx.app.log("Gesture Point Count", "Count is: " + originalPath.size());
+
         if (originalPath.size() >= 8) {
             originalPath.add(new Vector2(x, y));
             MatchingGesture match = recognizer.Recognize(originalPath);

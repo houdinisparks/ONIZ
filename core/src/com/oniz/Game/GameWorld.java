@@ -1,4 +1,5 @@
 package com.oniz.Game;
+
 ;
 import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
@@ -64,7 +65,7 @@ public class GameWorld {
 
     private void updateRunning(float deltaTime) {
         // update zombie position
-        for (Iterator<ChildZombie> iterator = childZombies.iterator(); iterator.hasNext();){
+        for (Iterator<ChildZombie> iterator = childZombies.iterator(); iterator.hasNext(); ) {
             ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
@@ -80,8 +81,9 @@ public class GameWorld {
 //                Gdx.app.log("Zombie status", "killed");
                 iterator.remove();
 
+
                 //send zombie to other player, if multiplayer mode
-                if(zgame.isMultiplayerMode()) {
+                if (zgame.isMultiplayerMode()) {
                     zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
                 }
 
@@ -112,7 +114,7 @@ public class GameWorld {
     }
 
     public void weakenZombie(GestureRock.GestureType gestureType) {
-        for (ChildZombie zombie: childZombies) {
+        for (ChildZombie zombie : childZombies) {
             if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
 //                Gdx.app.log("Zombie status", "weakened");
                 zombie.getGestureRock().decrementStage();
@@ -164,7 +166,7 @@ public class GameWorld {
         //this method will be called by ONIZGameHelper when a message is received
         //we can decide what to do here
         //for starters it should spawn an additional zombie
-        if(msg.startsWith("SPAWN")) {
+        if (msg.startsWith("SPAWN")) {
             spawnZombie(true);
         }
 //        Gdx.app.log("REALTIMEUPDATE", msg);
