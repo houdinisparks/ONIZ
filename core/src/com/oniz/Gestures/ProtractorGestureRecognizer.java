@@ -377,7 +377,7 @@ public class ProtractorGestureRecognizer {
         Gdx.app.log("OptimalCosineDistance", "Size of v1: " + v1.length +
                 "Size of v2: " + v2.length);
         for (int i = 0; i < v1.length; i += 2) {
-            a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];
+            a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];git
             b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
         }
 
