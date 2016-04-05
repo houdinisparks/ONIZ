@@ -47,7 +47,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     /**
      * The minimum ditance between two points in a drawn line (starting at the second point)
      */
-    public int minDistance = 20;
+    public int minDistance = 5;
 
     private Vector2 lastPoint = new Vector2();
 
@@ -105,14 +105,14 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
             noMoreFilesToAdd = true;
 
-            zShapeFileHandle = Gdx.files.internal("gestures/" + ZShapeType + ZShapeFileCount + ".json");
-            invZShapeFileHandle = Gdx.files.internal("gestures/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
-            horizontalFileHandle = Gdx.files.internal("gestures/" + HorizontalLine + HorizontalLineFileCount + ".json");
-            verticalFileHandle = Gdx.files.internal("gestures/" + VerticalLine + VerticalLineFileCount + ".json");
-            vShapeFileHandle = Gdx.files.internal("gestures/" + VShapeType + VShapeTypeFileCount + ".json");
-            invVShapeFileHandle = Gdx.files.internal("gestures/" + InvertedVShapeType + InvertedVShapeFileCount + ".json");
-            alphaFileHandle = Gdx.files.internal("gestures/" + AlphaType + AlphaFileCount + ".json");
-            gammaFileHandle = Gdx.files.internal("gestures/" + GammaType + GammaFileCount + ".json");
+            zShapeFileHandle = Gdx.files.internal("gestures/zshape/" + ZShapeType + ZShapeFileCount + ".json");
+            invZShapeFileHandle = Gdx.files.internal("gestures/invertedzshape/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
+            horizontalFileHandle = Gdx.files.internal("gestures/horizontalline/" + HorizontalLine + HorizontalLineFileCount + ".json");
+            verticalFileHandle = Gdx.files.internal("gestures/verticalline/" + VerticalLine + VerticalLineFileCount + ".json");
+            vShapeFileHandle = Gdx.files.internal("gestures/vshape/" + VShapeType + VShapeTypeFileCount + ".json");
+            invVShapeFileHandle = Gdx.files.internal("gestures/invertedvshape/" + InvertedVShapeType + InvertedVShapeFileCount + ".json");
+            alphaFileHandle = Gdx.files.internal("gestures/alpha/" + AlphaType + AlphaFileCount + ".json");
+            gammaFileHandle = Gdx.files.internal("gestures/gamma/" + GammaType + GammaFileCount + ".json");
 
             if (zShapeFileHandle.exists()) {
                 ZShapeFileCount += 1;
@@ -282,11 +282,11 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         /*-------Gesture Detection-----------*/
 
-        if (originalPath.size() >= 10) {
+        if (originalPath.size() >= 8) {
             originalPath.add(new Vector2(x, y));
             MatchingGesture match = recognizer.Recognize(originalPath);
 
-            if (match.getScore() < 2) {
+            if (match.getScore() < 3) {
                 Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
             } else {
                 Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
