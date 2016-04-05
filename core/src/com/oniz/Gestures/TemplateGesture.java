@@ -15,7 +15,7 @@ public class TemplateGesture {
 	public TemplateGesture(String name, ArrayList<Vector2> points) {
 		this.name = name;
 		this.points = points;
-		this.vector = DollarUnistrokeRecognizer.Vectorize(this.points);
+		this.vector = ProtractorGestureRecognizer.Vectorize(this.points);
 	}
 
 	public TemplateGesture(String name, ArrayList<Vector2> points,

@@ -21,33 +21,40 @@ public class CreateJsonFile {
     private static final String AlphaType = "alpha";
     private static final String GammaType = "gamma";
 
-    private static int ZShapeFileCount = 3;
-    private static int InvertedZShapeFileCount = 6;
-    private static int HorizontalLineFileCount = 9;
-    private static int VerticalLineFileCount = 6;
+    private static int ZShapeFileCount = 11;
+    private static int InvertedZShapeFileCount = 14;
+    private static int HorizontalLineFileCount = 28;
+    private static int VerticalLineFileCount = 14;
     private static int VShapeTypeFileCount = 8;
     private static int InvertedVShapeFileCount = 6;
-    private static int AlphaFileCount = 5;
-    private static int GammaFileCount = 5;
+    private static int AlphaFileCount = 42;
+    private static int GammaFileCount = 10;
 
     private static int CurrentFileCount = 0;
 
 
     public static void main(String[] args) {
 
+        boolean shapeChosen = false;
+        String typeOfShape = null;
+
         while (true) {
             Scanner console = new Scanner(System.in);
-            System.out.println("Input type of shape: ");
-            String userInput = console.nextLine();
 
-            if (userInput.equals("exit")) {
-                break;
-
-            } else {
+            if (!shapeChosen) {
+                System.out.println("Input type of shape: ");
+                String userInput = console.nextLine();
+                shapeChosen = true;
+                typeOfShape = typeOfShape(userInput);
+            }
+//            if (userInput.equals("exit")) {
+//                break;
+//
+//            }
+            else {
 
                 JSONObject jsonObject = new JSONObject();
 
-                String typeOfShape = typeOfShape(userInput);
                 jsonObject.put("Name", typeOfShape);
                 System.out.println("Input Points (2D List): ");
 
@@ -82,7 +89,7 @@ public class CreateJsonFile {
                 jsonObject.put("Points", jsonArrayOfHashMaps);
 
                 try {
-
+                    CurrentFileCount += 1;
                     FileWriter file = new FileWriter(new File("C:\\Users\\yanyee\\" + typeOfShape + CurrentFileCount + ".json"));
                     file.write(jsonObject.toJSONString());
                     file.flush();
@@ -102,42 +109,42 @@ public class CreateJsonFile {
     public static String typeOfShape(String userInput) {
 
         if (userInput.contains("zshape")) {
-            ZShapeFileCount += 1;
+            //ZShapeFileCount += 1;
             CurrentFileCount = ZShapeFileCount;
             return ZShapeType;
 
         } else if (userInput.contains("invz")) {
-            InvertedZShapeFileCount += 1;
+            //InvertedZShapeFileCount += 1;
             CurrentFileCount = InvertedZShapeFileCount;
             return InvertedZShapeType;
 
         } else if (userInput.contains("horizontal")) {
-            HorizontalLineFileCount += 1;
+            //HorizontalLineFileCount += 1;
             CurrentFileCount = HorizontalLineFileCount;
             return HorizontalLine;
 
         } else if (userInput.contains("vertical")) {
-            VerticalLineFileCount += 1;
+            //VerticalLineFileCount += 1;
             CurrentFileCount = VerticalLineFileCount;
             return VerticalLine;
 
-        }else if (userInput.contains("vshape")) {
-            VShapeTypeFileCount += 1;
+        } else if (userInput.contains("vshape")) {
+            //VShapeTypeFileCount += 1;
             CurrentFileCount = VShapeTypeFileCount;
             return VShapeType;
 
         } else if (userInput.contains("invv")) {
-            InvertedVShapeFileCount += 1;
+            //InvertedVShapeFileCount += 1;
             CurrentFileCount = InvertedVShapeFileCount;
             return InvertedVShapeType;
 
         } else if (userInput.contains("alpha")) {
-            AlphaFileCount += 1;
+            //AlphaFileCount += 1;
             CurrentFileCount = AlphaFileCount;
             return AlphaType;
 
         } else if (userInput.contains("gamma")) {
-            GammaFileCount += 1;
+            //GammaFileCount += 1;
             CurrentFileCount = GammaFileCount;
             return GammaType;
 
