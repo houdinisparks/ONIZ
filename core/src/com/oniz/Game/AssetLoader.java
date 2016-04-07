@@ -65,21 +65,27 @@ public final class AssetLoader {
         fonts.put("badaboom", new BitmapFont(Gdx.files.internal("data/badaboom.fnt"), true));
         fonts.get("badaboom").getData().setScale(1f, -1f);
 
-        // menu icons
+        // menu icons V2
         textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
-        sprites.put("pauseTitle", new TextureRegion(textures.get("menuTexture"), 240, 0, 320, 100));
-        sprites.put("playUp", new TextureRegion(textures.get("menuTexture"), 240, 580, 260, 160));
-        sprites.put("playDown", new TextureRegion(textures.get("menuTexture"), 240, 740, 260, 160));
-        sprites.put("playAgainUp", new TextureRegion(textures.get("menuTexture"), 240, 260, 280, 160));
-        sprites.put("playAgainDown", new TextureRegion(textures.get("menuTexture"), 240, 420, 280, 160));
-        sprites.put("resumeUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 100));
-        sprites.put("resumeDown", new TextureRegion(textures.get("menuTexture"), 0, 100, 200, 100));
-        sprites.put("restartUp", new TextureRegion(textures.get("menuTexture"), 0, 200, 200, 100));
-        sprites.put("restartDown", new TextureRegion(textures.get("menuTexture"), 0, 300, 200, 100));
-        sprites.put("homeUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 100));
-        sprites.put("homeDown", new TextureRegion(textures.get("menuTexture"), 0, 500, 200, 100));
-        sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
-        sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
+        sprites.put("mainPlayBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 120));
+        sprites.put("mainPlayBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 120, 200, 120));
+        sprites.put("loginBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 240, 200, 80));
+        sprites.put("loginBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 320, 200, 80));
+        sprites.put("logoutBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 80));
+        sprites.put("logoutBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 480, 200, 80));
+        sprites.put("settingsBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 560, 80, 80));
+        sprites.put("settingsBtnDown", new TextureRegion(textures.get("menuTexture"), 80, 560, 80, 80));
+        sprites.put("singlePlayerBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 640, 80, 80));
+        sprites.put("singlePlayerBtnDown", new TextureRegion(textures.get("menuTexture"), 80, 640, 80, 80));
+        sprites.put("pauseBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 720, 80, 80));
+        sprites.put("pauseBtnDown", new TextureRegion(textures.get("menuTexture"), 80, 720, 80, 80));
+        sprites.put("resumeBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 560, 80, 80));
+        sprites.put("resumeBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 560, 80, 80));
+        sprites.put("menuBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 640, 80, 80));
+        sprites.put("menuBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 640, 80, 80));
+        sprites.put("restartBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 720, 80, 80));
+        sprites.put("restartBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 720, 80, 80));
+        sprites.put("pauseMenu", new TextureRegion(textures.get("menuTexture"), 0, 800, 400, 200));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 580, 0, 200, 200));
@@ -100,7 +106,6 @@ public final class AssetLoader {
         sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 980, 0, 200, 200));
         sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 980, 200, 200, 200));
         sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 980, 400, 200, 200));
-//        gestureHints.put(GestureRock.GestureType.HORIZONTAL_LINE, sprites.get("horizontalLine"));
         gestureHints.put(GestureRock.GestureType.VERTICAL_LINE, sprites.get("verticalLine"));
         gestureHints.put(GestureRock.GestureType.V_SHAPE, sprites.get("Vshape"));
         gestureHints.put(GestureRock.GestureType.INVERTED_V_SHAPE, sprites.get("invertedVshape"));
@@ -181,13 +186,33 @@ public final class AssetLoader {
         explosionAnimation = new Animation(0.15f, explosion);
         explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
+        // background
+        textures.put("backgrounds", new Texture(Gdx.files.internal("data/backgrounds.png")));
+        sprites.put("pizzaBuilding", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
+        sprites.put("tallBuilding", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
+        sprites.put("nightBuilding", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
+        sprites.put("cloudsBackground", new TextureRegion(textures.get("backgrounds"), 1350, 0, 450, 800));
 
-        textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
-        textures.put("cloudsBg", new Texture(Gdx.files.internal("data/cloudsBg.png")));
         textures.put("waitingBg", new Texture(Gdx.files.internal("data/waitingScreen.png")));
-        sprites.put("background", new TextureRegion(textures.get("pizzaStore"), 338, 1, 325, 758));
-        sprites.put("cloudsBackground", new TextureRegion(textures.get("cloudsBg"), 338, 1, 325, 758));
         sprites.put("waitingBackground", new TextureRegion(textures.get("waitingBg"), 338, 1, 325, 758));
+
+        /*
+        // menu icons (UNUSED FOR NOW)
+        textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
+        sprites.put("pauseTitle", new TextureRegion(textures.get("menuTexture"), 240, 0, 320, 100));
+        sprites.put("playUp", new TextureRegion(textures.get("menuTexture"), 240, 580, 260, 160));
+        sprites.put("playDown", new TextureRegion(textures.get("menuTexture"), 240, 740, 260, 160));
+        sprites.put("playAgainUp", new TextureRegion(textures.get("menuTexture"), 240, 260, 280, 160));
+        sprites.put("playAgainDown", new TextureRegion(textures.get("menuTexture"), 240, 420, 280, 160));
+        sprites.put("resumeUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 100));
+        sprites.put("resumeDown", new TextureRegion(textures.get("menuTexture"), 0, 100, 200, 100));
+        sprites.put("restartUp", new TextureRegion(textures.get("menuTexture"), 0, 200, 200, 100));
+        sprites.put("restartDown", new TextureRegion(textures.get("menuTexture"), 0, 300, 200, 100));
+        sprites.put("homeUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 100));
+        sprites.put("homeDown", new TextureRegion(textures.get("menuTexture"), 0, 500, 200, 100));
+        sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
+        sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
+        */
     }
 
     public void dispose() {

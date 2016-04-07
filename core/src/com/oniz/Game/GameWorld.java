@@ -68,7 +68,7 @@ public class GameWorld {
             ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
-            if (zombie.getY() > 548) {
+            if (zombie.getY() > 580) {
                 this.state = GAME_OVER;
             }
 
@@ -106,7 +106,7 @@ public class GameWorld {
     }
 
     private void spawnZombie(boolean isEnemy) {
-        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], 0, isEnemy);
+        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], -130, isEnemy);
         childZombies.add(childZombie);
     }
 

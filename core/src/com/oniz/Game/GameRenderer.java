@@ -125,17 +125,17 @@ public class GameRenderer {
     }
 
     private void initAssets() {
-        background = AssetLoader.getInstance().sprites.get("background");
+        background = AssetLoader.getInstance().sprites.get("pizzaBuilding");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
         explosionAnimation = AssetLoader.getInstance().explosionAnimation;
         zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
-        pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
+        pauseTitle = AssetLoader.getInstance().sprites.get("pauseMenu");
         font = AssetLoader.getInstance().fonts.get("badaboom");
     }
 
     private void drawPauseMenu() {
-        batcher.draw(pauseTitle, 70, 550, 320, 100);
+        batcher.draw(pauseTitle, 25, 350, 400, 200);
         menuButtons.get("resumeButton").draw(batcher);
         menuButtons.get("restartButton").draw(batcher);
         menuButtons.get("homeButton").draw(batcher);
