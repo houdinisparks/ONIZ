@@ -87,7 +87,7 @@ public class MainScreen implements Screen {
     public void render(float delta) {
         runTime += delta;
         gameWorld.update(delta);
-        gameRenderer.render(runTime);
+        gameRenderer.render(runTime, delta);
 
 //      draw stage over everything else
         stage.draw();

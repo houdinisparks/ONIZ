@@ -1,5 +1,7 @@
 package com.oniz.Mobs;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
@@ -14,7 +16,10 @@ public class ChildZombie {
     private final float width = 60;
     private final float height = 122;
     private boolean isAlive;
+    private boolean isExploding;
     private boolean isEnemy;
+
+    private float explosionRunTime = 0;
 
 
     public ChildZombie(float x, float y, boolean isEnemy) {
@@ -22,6 +27,7 @@ public class ChildZombie {
         position = new Vector2(x, y);
         velocity = new Vector2(0, r.nextInt(20)+20);
         isAlive = true;
+        isExploding = false;
         this.isEnemy = isEnemy;
         gestureRock = new GestureRock(new Vector2(x+10, y+120));
     }
@@ -30,8 +36,20 @@ public class ChildZombie {
         position.add(velocity.cpy().scl(delta));
         gestureRock.updatePosition(velocity, delta);
 
-        if (gestureRock.getY() <= position.y + 100) {
-            isAlive = false;
+        if (gestureRock.getY() <= position.y + 70) {
+            isExploding = true;
+        }
+    }
+
+
+    public void drawExplosion(SpriteBatch batcher, Animation explosionAnimation, float deltaTime) {
+        if (isExploding()) {
+            explosionRunTime += deltaTime;
+            batcher.draw(explosionAnimation.getKeyFrame(explosionRunTime), position.x - 30, position.y, 130, 130);
+
+            if (explosionAnimation.isAnimationFinished(explosionRunTime + 60 * deltaTime)) {
+                isAlive = false;
+            }
         }
     }
 
@@ -53,6 +71,10 @@ public class ChildZombie {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public boolean isExploding() {
+        return isExploding;
     }
 
     public boolean isEnemy() {

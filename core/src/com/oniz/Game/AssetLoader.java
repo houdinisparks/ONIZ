@@ -29,7 +29,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
-    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation;
+    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
     public Skin skin;
 
     public static AssetLoader getInstance() {
@@ -136,6 +136,12 @@ public final class AssetLoader {
         sprites.put("zombieClimb5", new TextureRegion(textures.get("zombies"), 305, 24, 60, 122));
         sprites.put("zombieClimb6", new TextureRegion(textures.get("zombies"), 377, 24, 60, 122));
 
+        // zombie climbing animation
+        TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"),
+                                          sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
+        zombieClimbingAnimation = new Animation(0.2f, zombieClimbing);
+        zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         // sprites of zombie climbing (ENEMY)
         textures.put("enemyZombies", new Texture(Gdx.files.internal("data/climbAnimationEnemy.png")));
         sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("enemyZombies"), 17, 24, 60, 122));
@@ -145,13 +151,36 @@ public final class AssetLoader {
         sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("enemyZombies"), 305, 24, 60, 122));
         sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("enemyZombies"), 377, 24, 60, 122));
 
-        TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"), sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
-        zombieClimbingAnimation = new Animation(0.2f, zombieClimbing);
-        zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
-        TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"), sprites.get("enemyZombieClimb4"), sprites.get("enemyZombieClimb5"), sprites.get("enemyZombieClimb6")};
+        // zombie climbing animation (ENEMY)
+        TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"),
+                                               sprites.get("enemyZombieClimb4"), sprites.get("enemyZombieClimb5"), sprites.get("enemyZombieClimb6")};
         enemyZombieClimbingAnimation = new Animation(0.2f, enemyZombieClimbing);
         enemyZombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        // sprites of explosion
+        textures.put("explosion", new Texture(Gdx.files.internal("data/explosion.png")));
+        sprites.put("explosion1", new TextureRegion(textures.get("explosion"), 0, 0, 120, 120));
+        sprites.put("explosion2", new TextureRegion(textures.get("explosion"), 130, 0, 120, 120));
+        sprites.put("explosion3", new TextureRegion(textures.get("explosion"), 260, 0, 120, 120));
+        sprites.put("explosion4", new TextureRegion(textures.get("explosion"), 380, 0, 120, 120));
+        sprites.put("explosion5", new TextureRegion(textures.get("explosion"), 0, 130, 120, 120));
+        sprites.put("explosion6", new TextureRegion(textures.get("explosion"), 130, 130, 120, 120));
+        sprites.put("explosion7", new TextureRegion(textures.get("explosion"), 260, 130, 120, 120));
+        sprites.put("explosion8", new TextureRegion(textures.get("explosion"), 380, 130, 120, 120));
+        sprites.put("explosion9", new TextureRegion(textures.get("explosion"), 0, 260, 120, 120));
+        sprites.put("explosion10", new TextureRegion(textures.get("explosion"), 130, 260, 120, 120));
+        sprites.put("explosion11", new TextureRegion(textures.get("explosion"), 260, 260, 120, 120));
+        sprites.put("explosion12", new TextureRegion(textures.get("explosion"), 380, 260, 120, 120));
+        sprites.put("explosion13", new TextureRegion(textures.get("explosion"), 0, 380, 120, 120));
+        sprites.put("explosion14", new TextureRegion(textures.get("explosion"), 130, 380, 120, 120));
+
+        // explosion animation
+        TextureRegion[] explosion = {sprites.get("explosion1"), sprites.get("explosion2"), sprites.get("explosion3"), sprites.get("explosion4"), sprites.get("explosion5"),
+                                     sprites.get("explosion6"), sprites.get("explosion7"), sprites.get("explosion8"), sprites.get("explosion9"), sprites.get("explosion10"),
+                                     sprites.get("explosion11"), sprites.get("explosion12"), sprites.get("explosion13"), sprites.get("explosion14")};
+        explosionAnimation = new Animation(0.15f, explosion);
+        explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+
 
         textures.put("pizzaStore", new Texture(Gdx.files.internal("data/pizzaStore.png")));
         textures.put("cloudsBg", new Texture(Gdx.files.internal("data/cloudsBg.png")));
