@@ -30,7 +30,7 @@ public class GameWorld {
     ZGame zgame;
 
     public GameWorld() {
-        this.state = GAME_READY;
+        this.state = GAME_RUNNING;
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
