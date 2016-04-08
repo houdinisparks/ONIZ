@@ -15,7 +15,7 @@ public class InputHandler implements InputProcessor {
     private GameWorld gameWorld;
 
     private Hashtable<String, MenuButton> menuButtons;
-    private MenuButton playButton, resumeButton, restartButton, homeButton, pauseButton, playAgainButton;
+    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, playAgainButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -34,24 +34,27 @@ public class InputHandler implements InputProcessor {
 
         menuButtons = new Hashtable<String, MenuButton>();
 
-        playButton = new MenuButton(100, 320, 260, 160,
-                AssetLoader.getInstance().sprites.get("playUp"), AssetLoader.getInstance().sprites.get("playDown"));
-        resumeButton = new MenuButton(140, 400, 160, 80,
-                AssetLoader.getInstance().sprites.get("resumeUp"), AssetLoader.getInstance().sprites.get("resumeDown"));
-        restartButton = new MenuButton(140, 300, 160, 80,
-                AssetLoader.getInstance().sprites.get("restartUp"), AssetLoader.getInstance().sprites.get("restartDown"));
-        homeButton = new MenuButton(140, 200, 160, 80,
-                AssetLoader.getInstance().sprites.get("homeUp"), AssetLoader.getInstance().sprites.get("homeDown"));
-        pauseButton = new MenuButton(450-60, 800-52, 60, 52,
-                AssetLoader.getInstance().sprites.get("pauseUp"), AssetLoader.getInstance().sprites.get("pauseDown"));
-        playAgainButton = new MenuButton(80, 320, 280, 160,
-                AssetLoader.getInstance().sprites.get("playAgainUp"), AssetLoader.getInstance().sprites.get("playAgainDown"));
+        playButton = new MenuButton(120, 320, 200, 120,
+                AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
+        resumeButton = new MenuButton(85, 390, 80, 80,
+                AssetLoader.getInstance().sprites.get("resumeBtnUp"), AssetLoader.getInstance().sprites.get("resumeBtnDown"));
+        restartButton = new MenuButton(185, 390, 80, 80,
+                AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
+        pauseButton = new MenuButton(450-80, 800-80, 80, 80,
+                AssetLoader.getInstance().sprites.get("pauseBtnUp"), AssetLoader.getInstance().sprites.get("pauseBtnDown"));
+        pauseHomeButton = new MenuButton(285, 390, 80, 80,
+                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
+        gameOverHomeButton = new MenuButton(250, 270, 80, 80,
+                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
+        playAgainButton = new MenuButton(120, 270, 80, 80,
+                AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
 
         menuButtons.put("playButton", playButton);
         menuButtons.put("resumeButton", resumeButton);
         menuButtons.put("restartButton", restartButton);
-        menuButtons.put("homeButton", homeButton);
         menuButtons.put("pauseButton", pauseButton);
+        menuButtons.put("pauseHomeButton", pauseHomeButton);
+        menuButtons.put("gameOverHomeButton", gameOverHomeButton);
         menuButtons.put("playAgainButton", playAgainButton);
     }
 
@@ -69,11 +72,9 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-//        Gdx.app.log("isTouchDown", "true");
+
         if (gameWorld.isReady()) {
             playButton.isTouchDown(screenX, screenY);
-//            Gdx.app.log("isTouchDownReady", "true");
-
 
         } else if (gameWorld.isRunning()) {
             pauseButton.isTouchDown(screenX, screenY);
@@ -81,10 +82,11 @@ public class InputHandler implements InputProcessor {
         } else if (gameWorld.isPaused()) {
             resumeButton.isTouchDown(screenX, screenY);
             restartButton.isTouchDown(screenX, screenY);
-            homeButton.isTouchDown(screenX, screenY);
+            pauseHomeButton.isTouchDown(screenX, screenY);
 
         } else if (gameWorld.isGameOver()) {
             playAgainButton.isTouchDown(screenX, screenY);
+            gameOverHomeButton.isTouchDown(screenX, screenY);
         }
         return false;
     }
@@ -103,11 +105,10 @@ public class InputHandler implements InputProcessor {
         screenX = scaleX(screenX);
         // change to Cartesian coordinates
         screenY = 800 - scaleY(screenY);
-//        Gdx.app.log("isTouchDown", "true");
+
         if (gameWorld.isReady()) {
             if (playButton.isTouchUp(screenX, screenY)) {
                 gameWorld.setState(GameWorld.GAME_RUNNING);
-//                Gdx.app.log("isTouchUpReady", "true");
                 return true;
             }
         } else if (gameWorld.isRunning()) {
@@ -122,14 +123,16 @@ public class InputHandler implements InputProcessor {
             } else if (restartButton.isTouchUp(screenX, screenY)) {
                 gameWorld.restartGame();
                 return true;
-            } else if (homeButton.isTouchUp(screenX, screenY)) {
-                // TODO: handle homeButton touch events
+            } else if (pauseHomeButton.isTouchUp(screenX, screenY)) {
                 gameWorld.goHome();
                 return true;
             }
         } else if (gameWorld.isGameOver()) {
             if (playAgainButton.isTouchUp(screenX, screenY)) {
                 gameWorld.restartGame();
+                return true;
+            } else if (gameOverHomeButton.isTouchUp(screenX, screenY)) {
+                gameWorld.goHome();
                 return true;
             }
         }

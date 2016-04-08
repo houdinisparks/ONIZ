@@ -17,13 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.ZGame;
+import com.oniz.UI.MenuButton;
 import com.oniz.UI.SimpleButton;
 
-/**
- * Created by yanyee on 3/18/2016.
- */
-public class StartScreen implements Screen {
 
+public class StartScreen implements Screen {
 
     public static ZGame zGame;
 
@@ -33,7 +31,7 @@ public class StartScreen implements Screen {
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
-    private TextButton signInOutBtn;
+    private SimpleButton quickGameBtn, loginBtn, logoutBtn, settingsBtn, singlePlayerBtn;
 
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
@@ -42,61 +40,48 @@ public class StartScreen implements Screen {
         cloudsBackground =  AssetLoader.getInstance().sprites.get("cloudsBackground");
         stage = new Stage(new FitViewport(450, 800));
 
-
-
-        //Viewport - Aspect Radio
+        // Viewport - Aspect Radio
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 450, 800); //false for y upwards
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
 
-        final TextButton button = new TextButton("Quick Game", skin, "default");
-
-        button.setWidth(200);
-        button.setHeight(50);
-        button.setPosition(100, 600);
-
-        button.addListener(new ClickListener() {
+        // buttons
+        quickGameBtn = new SimpleButton(125, 400, 200, 120, AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
+        quickGameBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 quickGame();
             }
         });
 
-        signInOutBtn = new TextButton("Sign In", skin, "default");
-        if(zGame.playServices.isSignedIn()) {
-            signInOutBtn.setText("Sign Out");
-        }
-        signInOutBtn.setWidth(200);
-        signInOutBtn.setHeight(50);
-        signInOutBtn.setPosition(100, 500);
-
-        signInOutBtn.addListener(new ClickListener() {
+        loginBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
+        loginBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 signInOut();
             }
         });
 
-        final TextButton sendMessageBtn = new TextButton("Send message", skin, "default");
-        sendMessageBtn.setWidth(200);
-        sendMessageBtn.setHeight(50);
-        sendMessageBtn.setPosition(100, 400);
+        logoutBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("logoutBtnUp"), AssetLoader.getInstance().sprites.get("logoutBtnDown"));
+        logoutBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                signInOut();
+            }
+        });
 
-        sendMessageBtn.addListener(new ClickListener() {
+        settingsBtn = new SimpleButton(10, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
+        settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sendMessage();
             }
         });
 
-        final TextButton singlePlayer = new TextButton("Single Player", skin, "default");
-        singlePlayer.setWidth(200);
-        singlePlayer.setHeight(50);
-        singlePlayer.setPosition(100, 300);
-
-        singlePlayer.addListener(new ClickListener() {
+        singlePlayerBtn = new SimpleButton(450-90, 10, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
+        singlePlayerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 zGame.setMultiplayerMode(false);
@@ -104,43 +89,52 @@ public class StartScreen implements Screen {
             }
         });
 
-        stage.addActor(signInOutBtn);
-        stage.addActor(button);
-        stage.addActor(sendMessageBtn);
-        stage.addActor(singlePlayer);
+        stage.addActor(quickGameBtn);
+        stage.addActor(loginBtn);
+        stage.addActor(logoutBtn);
+        stage.addActor(settingsBtn);
+        stage.addActor(singlePlayerBtn);
+
+        // show "login" button when not signed in; show "logout" button when signed in
+        if (zGame.playServices.isSignedIn()) {
+            loginBtn.setVisible(false);
+            logoutBtn.setVisible(true);
+        } else {
+            loginBtn.setVisible(true);
+            logoutBtn.setVisible(false);
+        }
 
         Gdx.app.log("WIDTH:", Gdx.graphics.getWidth() + "");
         Gdx.app.log("HEIGHT:", Gdx.graphics.getHeight() + "");
 
     }
 
-    //Google Services Methods
+    // Google Services Methods
     private void signInOut() {
         if(zGame.playServices.isSignedIn()) {
             zGame.playServices.signOut();
-            signInOutBtn.setText("Sign In");
+            loginBtn.setVisible(true);
+            logoutBtn.setVisible(false);
         } else {
             zGame.playServices.signIn();
-            signInOutBtn.setText("Sign Out");
+            loginBtn.setVisible(false);
+            logoutBtn.setVisible(true);
         }
     }
 
     private void quickGame() {
-        Gdx.app.log("isSIGNEDin?", zGame.playServices.isSignedIn()+"");
+        Gdx.app.log("isSignedIn?", zGame.playServices.isSignedIn()+"");
         if(zGame.playServices.isSignedIn()) {
             zGame.setMultiplayerMode(true);
             zGame.switchScreen(ZGame.ScreenState.MATCHMAKING);
             zGame.playServices.startQuickGame();
         }
-
     }
 
     private void sendMessage() {
         if(zGame.playServices.isSignedIn())
             zGame.playServices.broadcastMessage("hello");
     }
-
-
 
     @Override
     public void show() {
@@ -154,13 +148,13 @@ public class StartScreen implements Screen {
 
         batcher.begin();
         batcher.disableBlending();
+
         // draw the background
         batcher.draw(cloudsBackground, 0, 0, 450, 800);
 
         batcher.enableBlending();
-        batcher.end();
-
         stage.draw();
+        batcher.end();
     }
 
     @Override
@@ -187,6 +181,4 @@ public class StartScreen implements Screen {
     public void dispose() {
         Gdx.app.log("LIFECYCLE", "DISPOSE");
     }
-
-
 }

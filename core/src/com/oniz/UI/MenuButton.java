@@ -3,8 +3,9 @@ package com.oniz.UI;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-public class MenuButton {
+public class MenuButton extends Button{
 
     private float x, y, width, height;
 

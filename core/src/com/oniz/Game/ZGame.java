@@ -62,6 +62,7 @@ public class ZGame extends Game {
                 break;
             case MAIN:
                 setScreen(gameScreen);
+                gameWorld.restartGame();
                 break;
             case GAMEOVER:
                 setScreen(startScreen);

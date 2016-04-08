@@ -41,10 +41,10 @@ public class GameRenderer {
 
     // Game Assets
     private TextureRegion background;
-    private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation;
+    private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
     private TextureRegion zombie;
-    private TextureRegion pauseTitle;
-    private BitmapFont font;
+    private TextureRegion pauseMenu, gameOverMenu;
+    private BitmapFont scoreFont, menuFont;
 
     // Buttons
     private Hashtable<String, MenuButton> menuButtons;
@@ -125,19 +125,28 @@ public class GameRenderer {
     }
 
     private void initAssets() {
-        background = AssetLoader.getInstance().sprites.get("background");
+        background = AssetLoader.getInstance().sprites.get("pizzaBuilding");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
+        explosionAnimation = AssetLoader.getInstance().explosionAnimation;
         zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
-        pauseTitle = AssetLoader.getInstance().sprites.get("pauseTitle");
-        font = AssetLoader.getInstance().fonts.get("badaboom");
+        pauseMenu = AssetLoader.getInstance().sprites.get("pauseMenu");
+        gameOverMenu = AssetLoader.getInstance().sprites.get("gameOverMenu");
+        scoreFont = AssetLoader.getInstance().fonts.get("scoreText");
+        menuFont = AssetLoader.getInstance().fonts.get("menuText");
     }
 
     private void drawPauseMenu() {
-        batcher.draw(pauseTitle, 70, 550, 320, 100);
+        batcher.draw(pauseMenu, 25, 350, 400, 200);
         menuButtons.get("resumeButton").draw(batcher);
         menuButtons.get("restartButton").draw(batcher);
-        menuButtons.get("homeButton").draw(batcher);
+        menuButtons.get("pauseHomeButton").draw(batcher);
+    }
+
+    private void drawGameOverMenu() {
+        batcher.draw(gameOverMenu, 25, 250, 400, 290);
+        menuButtons.get("playAgainButton").draw(batcher);
+        menuButtons.get("gameOverHomeButton").draw(batcher);
     }
 
     /**
@@ -155,15 +164,18 @@ public class GameRenderer {
             }
 
             // draw corresponding gesture rocks
-            childZombies.get(i).getGestureRock().draw(batcher);
+            if (!childZombies.get(i).isExploding()) {
+                childZombies.get(i).getGestureRock().draw(batcher);
+            }
         }
     }
 
     /**
      * Rendering all the graphics - this is where the magic happens.
-     * @param deltaTime - time since the game started
+     * @param runTime - time since the game started
+     * @param deltaTime - incremental increase in time
      */
-    public void render(float deltaTime) {
+    public void render(float runTime, float deltaTime) {
 
         // set black to prevent flicker. rgba format.
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
@@ -177,6 +189,12 @@ public class GameRenderer {
 
         batcher.enableBlending();
 
+        // Convert integer into String
+        String score = Integer.toString(gameWorld.getScore());
+        // Draw score
+        scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
+
+
         // when game is ready, draw the play button
         if (gameWorld.isReady()) {
             menuButtons.get("playButton").draw(batcher);
@@ -186,20 +204,25 @@ public class GameRenderer {
             for(int i = 0; i < childZombies.size(); i++){
                 // draw zombies
                 if (childZombies.get(i).isEnemy()) {
-                    batcher.draw(enemyZombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                    batcher.draw(enemyZombieClimbingAnimation.getKeyFrame(runTime + i), childZombies.get(i).getX(),
                             childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
                 } else {
-                    batcher.draw(zombieClimbingAnimation.getKeyFrame(deltaTime + i), childZombies.get(i).getX(),
+                    batcher.draw(zombieClimbingAnimation.getKeyFrame(runTime + i), childZombies.get(i).getX(),
                             childZombies.get(i).getY(), childZombies.get(i).getWidth(), childZombies.get(i).getHeight());
                 }
 
-                // draw corresponding gesture rocks
-                childZombies.get(i).getGestureRock().draw(batcher);
+                // if not detonated, draw corresponding gesture rocks
+                if (!childZombies.get(i).isExploding()) {
+                    childZombies.get(i).getGestureRock().draw(batcher);
+                }
+
+                // draw explosion animation
+                childZombies.get(i).drawExplosion(batcher, explosionAnimation, deltaTime);
             }
             menuButtons.get("pauseButton").draw(batcher);
 
             // refresh freezeFrameTime with the current running time
-            freezeFrameTime = deltaTime;
+            freezeFrameTime = runTime;
 
         // when game is paused, freeze the animating zombies, and display the pause menu
         } else if (gameWorld.isPaused()) {
@@ -209,13 +232,10 @@ public class GameRenderer {
         // when game is over, freeze the animating zombies, and draw the PLAY AGAIN button
         } else if (gameWorld.isGameOver()) {
             drawZombiesFreezeFrame();
-            menuButtons.get("playAgainButton").draw(batcher);
+            drawGameOverMenu();
+            menuFont.draw(batcher, score, 300, 435);
+            menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 300, 390);
         }
-
-        // Convert integer into String
-        String score = Integer.toString(gameWorld.getScore());
-        // Draw score
-        font.draw(batcher, score, (450/2) - (18*score.length()), 750);
 
         batcher.end();
 
