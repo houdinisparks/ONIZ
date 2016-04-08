@@ -1,6 +1,7 @@
 package com.oniz.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -30,6 +31,7 @@ public final class AssetLoader {
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
     public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
+    private static Preferences prefs;
     public Skin skin;
 
     public static AssetLoader getInstance() {
@@ -50,11 +52,17 @@ public final class AssetLoader {
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
         gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
+        prefs = Gdx.app.getPreferences("ONIZ");
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
     }
 
     public void load() {
+
+        // store high score
+        if (!prefs.contains("highScore")) {
+            prefs.putInteger("highScore", 0);
+        }
 
         // splash screen logo
         textures.put("logoTexture", new Texture(Gdx.files.internal("data/logo.png")));
@@ -220,6 +228,17 @@ public final class AssetLoader {
         sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
         sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
         */
+    }
+
+    // Receives an integer and maps it to the String highScore in prefs
+    public static void setHighScore(int score) {
+        prefs.putInteger("highScore", score);
+        prefs.flush();
+    }
+
+    // Retrieves the current high score
+    public static int getHighScore() {
+        return prefs.getInteger("highScore");
     }
 
     public void dispose() {

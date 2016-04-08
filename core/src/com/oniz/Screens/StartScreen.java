@@ -64,7 +64,7 @@ public class StartScreen implements Screen {
             }
         });
 
-        logoutBtn = new SimpleButton(125, 250, 200, 80, AssetLoader.getInstance().sprites.get("logoutBtnUp"), AssetLoader.getInstance().sprites.get("logoutBtnDown"));
+        logoutBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("logoutBtnUp"), AssetLoader.getInstance().sprites.get("logoutBtnDown"));
         logoutBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

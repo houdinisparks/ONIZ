@@ -234,9 +234,8 @@ public class GameRenderer {
             drawZombiesFreezeFrame();
             drawGameOverMenu();
             menuFont.draw(batcher, score, 300, 435);
+            menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 300, 390);
         }
-
-
 
         batcher.end();
 

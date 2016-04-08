@@ -18,7 +18,7 @@ public class GameWorld {
     public static final int GAME_PAUSED = 2;
     public static final int GAME_LEVEL_END = 3;
     public static final int GAME_OVER = 4;
-    static final int[] zombiePaths = {40, 115, 190, 265, 340};
+    static final int[] zombiePaths = {40, 78, 115, 153, 190, 228, 265, 303, 340};
     private int state;
     private int score = 0;
 
@@ -69,6 +69,9 @@ public class GameWorld {
 
             // if one of the zombies reaches the roof
             if (zombie.getY() > 580) {
+                if (score > AssetLoader.getHighScore()) {
+                    AssetLoader.setHighScore(score);
+                }
                 this.state = GAME_OVER;
             }
 
@@ -106,7 +109,7 @@ public class GameWorld {
     }
 
     private void spawnZombie(boolean isEnemy) {
-        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(5)], -130, isEnemy);
+        ChildZombie childZombie = new ChildZombie(zombiePaths[random.nextInt(9)], -130, isEnemy);
         childZombies.add(childZombie);
     }
 
