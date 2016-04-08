@@ -15,7 +15,7 @@ public class InputHandler implements InputProcessor {
     private GameWorld gameWorld;
 
     private Hashtable<String, MenuButton> menuButtons;
-    private MenuButton playButton, resumeButton, restartButton, homeButton, pauseButton, playAgainButton;
+    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, playAgainButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -40,18 +40,21 @@ public class InputHandler implements InputProcessor {
                 AssetLoader.getInstance().sprites.get("resumeBtnUp"), AssetLoader.getInstance().sprites.get("resumeBtnDown"));
         restartButton = new MenuButton(185, 390, 80, 80,
                 AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
-        homeButton = new MenuButton(285, 390, 80, 80,
-                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
         pauseButton = new MenuButton(450-80, 800-80, 80, 80,
                 AssetLoader.getInstance().sprites.get("pauseBtnUp"), AssetLoader.getInstance().sprites.get("pauseBtnDown"));
-        playAgainButton = new MenuButton(120, 320, 200, 120,
-                AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
+        pauseHomeButton = new MenuButton(285, 390, 80, 80,
+                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
+        gameOverHomeButton = new MenuButton(250, 270, 80, 80,
+                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
+        playAgainButton = new MenuButton(120, 270, 80, 80,
+                AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
 
         menuButtons.put("playButton", playButton);
         menuButtons.put("resumeButton", resumeButton);
         menuButtons.put("restartButton", restartButton);
-        menuButtons.put("homeButton", homeButton);
         menuButtons.put("pauseButton", pauseButton);
+        menuButtons.put("pauseHomeButton", pauseHomeButton);
+        menuButtons.put("gameOverHomeButton", gameOverHomeButton);
         menuButtons.put("playAgainButton", playAgainButton);
     }
 
@@ -79,10 +82,11 @@ public class InputHandler implements InputProcessor {
         } else if (gameWorld.isPaused()) {
             resumeButton.isTouchDown(screenX, screenY);
             restartButton.isTouchDown(screenX, screenY);
-            homeButton.isTouchDown(screenX, screenY);
+            pauseHomeButton.isTouchDown(screenX, screenY);
 
         } else if (gameWorld.isGameOver()) {
             playAgainButton.isTouchDown(screenX, screenY);
+            gameOverHomeButton.isTouchDown(screenX, screenY);
         }
         return false;
     }
@@ -119,14 +123,16 @@ public class InputHandler implements InputProcessor {
             } else if (restartButton.isTouchUp(screenX, screenY)) {
                 gameWorld.restartGame();
                 return true;
-            } else if (homeButton.isTouchUp(screenX, screenY)) {
-                // TODO: handle homeButton touch events
+            } else if (pauseHomeButton.isTouchUp(screenX, screenY)) {
                 gameWorld.goHome();
                 return true;
             }
         } else if (gameWorld.isGameOver()) {
             if (playAgainButton.isTouchUp(screenX, screenY)) {
                 gameWorld.restartGame();
+                return true;
+            } else if (gameOverHomeButton.isTouchUp(screenX, screenY)) {
+                gameWorld.goHome();
                 return true;
             }
         }

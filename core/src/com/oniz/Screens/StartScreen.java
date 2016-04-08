@@ -56,7 +56,7 @@ public class StartScreen implements Screen {
             }
         });
 
-        loginBtn = new SimpleButton(125, 250, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
+        loginBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
         loginBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -72,7 +72,7 @@ public class StartScreen implements Screen {
             }
         });
 
-        settingsBtn = new SimpleButton(0, 0, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
+        settingsBtn = new SimpleButton(10, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -80,7 +80,7 @@ public class StartScreen implements Screen {
             }
         });
 
-        singlePlayerBtn = new SimpleButton(450-80, 0, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
+        singlePlayerBtn = new SimpleButton(450-90, 10, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
         singlePlayerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

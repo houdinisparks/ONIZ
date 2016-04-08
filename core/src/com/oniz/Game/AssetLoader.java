@@ -62,8 +62,10 @@ public final class AssetLoader {
         sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
 
         // fonts
-        fonts.put("badaboom", new BitmapFont(Gdx.files.internal("data/badaboom.fnt"), true));
-        fonts.get("badaboom").getData().setScale(1f, -1f);
+        fonts.put("scoreText", new BitmapFont(Gdx.files.internal("data/carterOne.fnt"), true));
+        fonts.get("scoreText").getData().setScale(1f, -1f);
+        fonts.put("menuText", new BitmapFont(Gdx.files.internal("data/carterOne.fnt"), true));
+        fonts.get("menuText").getData().setScale(0.5f, -0.5f);
 
         // menu icons V2
         textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
@@ -86,26 +88,31 @@ public final class AssetLoader {
         sprites.put("restartBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 720, 80, 80));
         sprites.put("restartBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 720, 80, 80));
         sprites.put("pauseMenu", new TextureRegion(textures.get("menuTexture"), 0, 800, 400, 200));
+        sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
 
         // gesture stages
-        sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 580, 0, 200, 200));
-        sprites.put("redRock", new TextureRegion(textures.get("menuTexture"), 580, 200, 200, 200));
-        sprites.put("yellowRock", new TextureRegion(textures.get("menuTexture"), 580, 400, 200, 200));
-        sprites.put("greenRock", new TextureRegion(textures.get("menuTexture"), 580, 600, 200, 200));
+        sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
+        sprites.put("redRock", new TextureRegion(textures.get("menuTexture"), 1900, 100, 100, 100));
+        sprites.put("yellowRock", new TextureRegion(textures.get("menuTexture"), 1900, 200, 100, 100));
+        sprites.put("greenRock", new TextureRegion(textures.get("menuTexture"), 1900, 300, 100, 100));
         gestureStages.put(GestureRock.Stage.BROWN, sprites.get("brownRock"));
         gestureStages.put(GestureRock.Stage.RED, sprites.get("redRock"));
         gestureStages.put(GestureRock.Stage.YELLOW, sprites.get("yellowRock"));
         gestureStages.put(GestureRock.Stage.GREEN, sprites.get("greenRock"));
 
         // gesture hints
-        sprites.put("horizontalLine", new TextureRegion(textures.get("menuTexture"), 780, 0, 200, 200));
-        sprites.put("verticalLine", new TextureRegion(textures.get("menuTexture"), 780, 200, 200, 200));
-        sprites.put("Vshape", new TextureRegion(textures.get("menuTexture"), 780, 400, 200, 200));
-        sprites.put("invertedVshape", new TextureRegion(textures.get("menuTexture"), 780, 600, 200, 200));
-        sprites.put("alpha", new TextureRegion(textures.get("menuTexture"), 780, 800, 200, 200));
-        sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 980, 0, 200, 200));
-        sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 980, 200, 200, 200));
-        sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 980, 400, 200, 200));
+        sprites.put("horizontalLine", new TextureRegion(textures.get("menuTexture"), 1900, 400, 100, 100));
+        sprites.put("verticalLine", new TextureRegion(textures.get("menuTexture"), 1900, 500, 100, 100));
+        sprites.put("Vshape", new TextureRegion(textures.get("menuTexture"), 1900, 600, 100, 100));
+        sprites.put("invertedVshape", new TextureRegion(textures.get("menuTexture"), 1900, 700, 100, 100));
+        sprites.put("alpha", new TextureRegion(textures.get("menuTexture"), 1900, 800, 100, 100));
+        sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 1900, 900, 100, 100));
+        sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 1800, 0, 100, 100));
+        sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 1800, 100, 100, 100));
+        sprites.put("Mshape", new TextureRegion(textures.get("menuTexture"), 1800, 200, 100, 100));
+        sprites.put("sigma", new TextureRegion(textures.get("menuTexture"), 1800, 300, 100, 100));
+        sprites.put("triangle", new TextureRegion(textures.get("menuTexture"), 1800, 400, 100, 100));
+        sprites.put("invertedCshape", new TextureRegion(textures.get("menuTexture"), 1800, 500, 100, 100));
         gestureHints.put(GestureRock.GestureType.VERTICAL_LINE, sprites.get("verticalLine"));
         gestureHints.put(GestureRock.GestureType.V_SHAPE, sprites.get("Vshape"));
         gestureHints.put(GestureRock.GestureType.INVERTED_V_SHAPE, sprites.get("invertedVshape"));
