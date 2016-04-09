@@ -37,6 +37,8 @@ public class MatchMakingScreen implements Screen{
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
+    private boolean isCancellable = false;
+
     public MatchMakingScreen(ZGame zgame) {
         this.zgame = zgame;
         this.stage = new Stage(new FitViewport(450, 800));
@@ -60,10 +62,6 @@ public class MatchMakingScreen implements Screen{
             }
         });
 
-        stage.addActor(cancelBtn);
-
-        //TODO: enable cancel?
-
     }
 
     //cancel matchmaking process
@@ -75,6 +73,8 @@ public class MatchMakingScreen implements Screen{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        //need to reset this when we switch back to this screen
+        isCancellable = false;
     }
 
     @Override
@@ -89,6 +89,15 @@ public class MatchMakingScreen implements Screen{
 
         batcher.enableBlending();
         batcher.end();
+
+
+        //show cancel when room is created
+        if(!isCancellable) {
+            if(zgame.playServices.canLeaveRoom()) {
+                stage.addActor(cancelBtn);
+                isCancellable = true;
+            }
+        }
 
         stage.draw();
     }

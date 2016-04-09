@@ -25,7 +25,6 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
     private ONIZGameHelper gameHelper;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,5 +227,10 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     @Override
     public boolean isSignedIn() {
         return gameHelper.isSignedIn();
+    }
+
+    @Override
+    public boolean canLeaveRoom() {
+        return gameHelper.canLeaveRoom();
     }
 }

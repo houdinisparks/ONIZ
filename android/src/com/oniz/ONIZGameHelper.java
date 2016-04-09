@@ -110,6 +110,11 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         return false;
     }
 
+    public boolean canLeaveRoom() {
+        if(mRoomId != null) return true;
+        return false;
+    }
+
     private RoomConfig.Builder makeBasicRoomConfigBuilder() {
         return RoomConfig.builder(this)
                 .setMessageReceivedListener(this)

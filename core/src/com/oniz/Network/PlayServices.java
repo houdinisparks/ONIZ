@@ -30,4 +30,6 @@ public interface PlayServices {
     public void showScore();
 
     public boolean isSignedIn();
+
+    public boolean canLeaveRoom();
 }

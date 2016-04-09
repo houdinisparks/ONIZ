@@ -26,7 +26,7 @@ public class DesktopPlayServices implements PlayServices {
     @Override
     public void leaveGame() {
         Gdx.app.log("DesktopPlayServices", "Leave game");
-    };
+    }
 
     @Override
     public void broadcastMessage(String message) {
@@ -65,6 +65,11 @@ public class DesktopPlayServices implements PlayServices {
 
     @Override
     public boolean isSignedIn() {
+        return false;
+    }
+
+    @Override
+    public boolean canLeaveRoom() {
         return false;
     }
 }
