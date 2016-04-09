@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
@@ -29,7 +31,7 @@ public class MatchMakingScreen implements Screen{
     private Skin skin;
     private Table table;
 
-    private SimpleButton buttonB;
+    private SimpleButton cancelBtn;
 
     private TextureRegion background;
     private SpriteBatch batcher;
@@ -50,9 +52,24 @@ public class MatchMakingScreen implements Screen{
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
 
+        cancelBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("logoutBtnUp"), AssetLoader.getInstance().sprites.get("logoutBtnDown"));
+        cancelBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                 cancelMatchmaking();
+            }
+        });
+
+        stage.addActor(cancelBtn);
 
         //TODO: enable cancel?
 
+    }
+
+    //cancel matchmaking process
+    private void cancelMatchmaking() {
+        zgame.playServices.leaveGame();
+        zgame.switchScreen(ZGame.ScreenState.START);
     }
 
     @Override

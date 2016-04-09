@@ -24,6 +24,11 @@ public class DesktopPlayServices implements PlayServices {
     }
 
     @Override
+    public void leaveGame() {
+        Gdx.app.log("DesktopPlayServices", "Leave game");
+    };
+
+    @Override
     public void broadcastMessage(String message) {
         Gdx.app.log("DesktopPlayServices", "Broadcast message");
     }

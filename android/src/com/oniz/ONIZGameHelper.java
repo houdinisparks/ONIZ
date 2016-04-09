@@ -82,7 +82,7 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         Gdx.app.log(TAG, "ROOM BUILDER DONE");
         // create room:
         try {
-            Gdx.app.log(TAG, "CREATING RTM....");
+            Gdx.app.log(TAG, " TRYING TO CREATING RTM....");
             Games.RealTimeMultiplayer.create(getApiClient(), roomConfig);
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
@@ -92,6 +92,22 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         this.activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // go to game screen? nah. we will check if there are enuh players first
+    }
+
+    public boolean leaveGame() {
+        try {
+            if (mRoomId != null) {
+                //use "this" as this class implements RoomUpdateListener
+                Games.RealTimeMultiplayer.leave(getApiClient(), this, mRoomId);
+                stopKeepingScreenOn();
+                return true;
+            } else {
+                Gdx.app.log(TAG, "There wasn't a room in the first place.");
+            }
+        } catch (Exception ex){
+            Gdx.app.log(TAG, ex.getMessage());
+        }
+        return false;
     }
 
     private RoomConfig.Builder makeBasicRoomConfigBuilder() {
@@ -229,10 +245,14 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     @Override
     public void onRoomCreated(int statusCode, Room room) {
         if (statusCode != GamesStatusCodes.STATUS_OK) {
-            Gdx.app.log(TAG, "Room created");
+            Gdx.app.log(TAG, "Room creation failed");
+            Gdx.app.log(TAG, "STATUS:"+statusCode+"  "+"room:"+room.getRoomId());
             // let screen go to sleep
             stopKeepingScreenOn();
             // show error message, return to main screen.
+        } else {
+            Gdx.app.log(TAG, "STATUS:"+statusCode+"  "+"room:"+room.getRoomId());
+            mRoomId = room.getRoomId();
         }
     }
 
@@ -248,7 +268,8 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
 
     @Override
     public void onLeftRoom(int i, String s) {
-        Gdx.app.log(TAG, "Left room.");
+        mRoomId = null;
+        Gdx.app.log(TAG, "Left room."+i+":"+s);
     }
 
     @Override

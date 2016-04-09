@@ -145,6 +145,21 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     }
 
     @Override
+    public void leaveGame() {
+        Gdx.app.log("LEAVEGAME", "LEAVING ROOM!");
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    gameHelper.leaveGame();
+                }
+            });
+        } catch (Exception e) {
+            Gdx.app.log("MainActivity", "leave room failed: " + e.getMessage() + ".");
+        }
+    }
+
+    @Override
     public void setGame(ZGame zgame) {
         try {
             gameHelper.setGame(zgame);

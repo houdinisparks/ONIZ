@@ -13,6 +13,8 @@ public interface PlayServices {
 
     public void startQuickGame();
 
+    public void leaveGame();
+
     public void broadcastMessage(String message);
 
     public void setGame(ZGame zgame);
