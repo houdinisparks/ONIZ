@@ -23,7 +23,7 @@ import com.oniz.UI.SimpleButton;
 
 public class StartScreen implements Screen {
 
-    public static ZGame zGame;
+    public ZGame zGame;
 
     private Stage stage;
     private Skin skin;
@@ -36,8 +36,15 @@ public class StartScreen implements Screen {
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
 
-        skin = AssetLoader.getInstance().skin;
-        cloudsBackground =  AssetLoader.getInstance().sprites.get("cloudsBackground");
+        loadAssets();
+        setup();
+
+    }
+
+    public void setup() {
+        //catch back button
+        Gdx.input.setCatchBackKey(true);
+
         stage = new Stage(new FitViewport(450, 800));
 
         // Viewport - Aspect Radio
@@ -76,7 +83,8 @@ public class StartScreen implements Screen {
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sendMessage();
+                //settings action
+                //sendMessage();
             }
         });
 
@@ -106,7 +114,13 @@ public class StartScreen implements Screen {
 
         Gdx.app.log("WIDTH:", Gdx.graphics.getWidth() + "");
         Gdx.app.log("HEIGHT:", Gdx.graphics.getHeight() + "");
+    }
 
+    //Load Assets
+    public void loadAssets() {
+        AssetLoader.getInstance();
+        skin = AssetLoader.getInstance().skin;
+        cloudsBackground =  AssetLoader.getInstance().sprites.get("cloudsBackground");
     }
 
     // Google Services Methods
@@ -138,6 +152,7 @@ public class StartScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.app.log("LIFECYCLE", "SHOW");
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -179,6 +194,7 @@ public class StartScreen implements Screen {
 
     @Override
     public void dispose() {
+        AssetLoader.getInstance().dispose();
         Gdx.app.log("LIFECYCLE", "DISPOSE");
     }
 }

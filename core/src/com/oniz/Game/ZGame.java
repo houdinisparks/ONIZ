@@ -16,7 +16,7 @@ public class ZGame extends Game {
 
     public PlayServices playServices;
 
-    public static Screen startScreen, matchMakingScreen, gameScreen;
+    public Screen startScreen, matchMakingScreen, gameScreen;
 
     private GameWorld gameWorld;
 
@@ -43,7 +43,7 @@ public class ZGame extends Game {
     @Override
     public void create() {
         Gdx.app.log("ONIZ", "created");
-        assets = new AssetLoader();
+        assets = AssetLoader.getInstance();
         gameScreen = new GameScreen(this);
         startScreen = new StartScreen(this);
         matchMakingScreen = new MatchMakingScreen(this);
@@ -86,11 +86,7 @@ public class ZGame extends Game {
         return gameWorld != null;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        assets.dispose();
-    }
+
 
     public void setMultiplayerMode(boolean value) {
         this.multiplayerMode = value;
@@ -99,4 +95,29 @@ public class ZGame extends Game {
     public boolean isMultiplayerMode() {
         return this.multiplayerMode;
     }
+
+
+    @Override
+    public void resize(int width, int height) {
+        Gdx.app.log("LIFECYCLE0", "RESIZE");
+    }
+
+    @Override
+    public void pause() {
+        Gdx.app.log("LIFECYCLE0", "PAUSE");
+    }
+
+    @Override
+    public void resume() {
+        Gdx.app.log("LIFECYCLE0", "RESUME");
+    }
+
+    @Override
+    public void dispose() {
+        Gdx.app.log("LIFECYCLE0", "DISPOSE");
+        assets.dispose();
+        super.dispose();
+//        assets.dispose();
+    }
+
 }

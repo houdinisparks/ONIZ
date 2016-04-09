@@ -1,9 +1,13 @@
 package com.oniz;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -14,41 +18,72 @@ import com.google.example.games.basegameutils.GameHelper;
 import com.oniz.Game.ZGame;
 import com.oniz.Network.PlayServices;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
 
     private ONIZGameHelper gameHelper;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        gameHelper = new ONIZGameHelper(this, GameHelper.CLIENT_GAMES);
-        gameHelper.enableDebugLog(false);
-
-        GameHelper.GameHelperListener gameHelperListener = new GameHelper.GameHelperListener() {
-            @Override
-            public void onSignInFailed() {
-                Gdx.app.log("LOGIN FAILED", "Sign in success!");
-            }
-
-            @Override
-            public void onSignInSucceeded() {
-                Gdx.app.log("LOGIN SUCCESS", "Sign in success!");
-            }
-
-        };
-
-        gameHelper.setup(gameHelperListener);
-
-        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         super.onCreate(savedInstanceState);
-        initialize(new ZGame(this), config);
+
+        if (checkAndRequestPermissions()) {
+            // carry on the normal flow, as the case of  permissions  granted.
+            gameHelper = new ONIZGameHelper(this, GameHelper.CLIENT_GAMES);
+            gameHelper.enableDebugLog(false);
+
+            GameHelper.GameHelperListener gameHelperListener = new GameHelper.GameHelperListener() {
+                @Override
+                public void onSignInFailed() {
+                    Gdx.app.log("LOGIN FAILED", "Sign in FAILED!");
+                }
+
+                @Override
+                public void onSignInSucceeded() {
+                    Gdx.app.log("LOGIN SUCCESS", "Sign in success!");
+                }
+
+            };
+
+            gameHelper.setup(gameHelperListener);
+
+            AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+            initialize(new ZGame(this), config);
+        }
+
+    }
+
+    private boolean checkAndRequestPermissions() {
+        int permissionInternet = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET);
+        int permissionNetworkState = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE);
+        int permissionWriteExternal = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionNetworkState != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_NETWORK_STATE);
+        }
+        if (permissionInternet != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.INTERNET);
+        }
+
+        if (permissionWriteExternal != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        gameHelper.onStart(this);
+//        gameHelper.onStart(this);
     }
 
     @Override

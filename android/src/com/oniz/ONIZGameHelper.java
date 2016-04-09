@@ -79,9 +79,10 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         RoomConfig.Builder roomConfigBuilder = makeBasicRoomConfigBuilder();
         roomConfigBuilder.setAutoMatchCriteria(am);
         RoomConfig roomConfig = roomConfigBuilder.build();
-
+        Gdx.app.log(TAG, "ROOM BUILDER DONE");
         // create room:
         try {
+            Gdx.app.log(TAG, "CREATING RTM....");
             Games.RealTimeMultiplayer.create(getApiClient(), roomConfig);
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());

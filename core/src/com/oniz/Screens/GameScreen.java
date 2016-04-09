@@ -3,6 +3,7 @@ package com.oniz.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameRenderer;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.InputHandler;
@@ -59,26 +60,27 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        Gdx.app.log("LIFECYCLE GAME SCREEN GAME SCREEN", "RESIZE");
     }
 
     @Override
     public void pause() {
-
+        Gdx.app.log("LIFECYCLE GAME SCREEN", "PAUSE");
     }
 
     @Override
     public void resume() {
-
+        Gdx.app.log("LIFECYCLE GAME SCREEN", "RESUME");
     }
 
     @Override
     public void hide() {
-
+        Gdx.app.log("LIFECYCLE GAME SCREEN", "HIDE");
     }
 
     @Override
     public void dispose() {
-
+        AssetLoader.getInstance().dispose();
+        Gdx.app.log("LIFECYCLE GAME SCREEN", "DISPOSE");
     }
 }
