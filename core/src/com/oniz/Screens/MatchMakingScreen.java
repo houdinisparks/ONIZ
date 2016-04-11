@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,7 +33,11 @@ public class MatchMakingScreen implements Screen{
 
     private SimpleButton buttonB;
 
-    private TextureRegion background;
+    private float runTime;
+    private TextureRegion background, backgroundTint;
+    private BitmapFont menuFont;
+    private Animation spinnerAnimation;
+
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
@@ -40,7 +46,11 @@ public class MatchMakingScreen implements Screen{
         this.stage = new Stage(new FitViewport(450, 800));
         this.skin = AssetLoader.getInstance().skin;
 
-        background =  AssetLoader.getInstance().sprites.get("waitingBackground");
+        background =  AssetLoader.getInstance().sprites.get("pizzaBuilding");
+        backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
+        menuFont = AssetLoader.getInstance().fonts.get("menuText");
+        spinnerAnimation = AssetLoader.getInstance().spinnerAnimation;
+
         stage = new Stage(new FitViewport(450, 800));
 
         //Viewport - Aspect Radio
@@ -62,6 +72,7 @@ public class MatchMakingScreen implements Screen{
 
     @Override
     public void render(float delta) {
+        runTime += delta;
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
         Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
@@ -71,6 +82,13 @@ public class MatchMakingScreen implements Screen{
         batcher.draw(background, 0, 0, 450, 800);
 
         batcher.enableBlending();
+        // draw the background tint
+        batcher.draw(backgroundTint, 0, 0, 450, 800);
+        // draw text
+        menuFont.draw(batcher, "Matchmaking", 122, 400);
+        // draw spinner animation
+        batcher.draw(spinnerAnimation.getKeyFrame(runTime), 175, 450, 100, 100);
+
         batcher.end();
 
         stage.draw();

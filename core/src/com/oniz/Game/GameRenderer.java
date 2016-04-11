@@ -40,7 +40,7 @@ public class GameRenderer {
     private ArrayList<ChildZombie> childZombies;
 
     // Game Assets
-    private TextureRegion background;
+    private TextureRegion background, backgroundTint;
     private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
     private TextureRegion zombie;
     private TextureRegion pauseMenu, gameOverMenu;
@@ -126,6 +126,7 @@ public class GameRenderer {
 
     private void initAssets() {
         background = AssetLoader.getInstance().sprites.get("pizzaBuilding");
+        backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
         explosionAnimation = AssetLoader.getInstance().explosionAnimation;
@@ -144,7 +145,7 @@ public class GameRenderer {
     }
 
     private void drawGameOverMenu() {
-        batcher.draw(gameOverMenu, 25, 250, 400, 290);
+        batcher.draw(gameOverMenu, 25, 280, 400, 290);
         menuButtons.get("playAgainButton").draw(batcher);
         menuButtons.get("gameOverHomeButton").draw(batcher);
     }
@@ -227,26 +228,33 @@ public class GameRenderer {
         // when game is paused, freeze the animating zombies, and display the pause menu
         } else if (gameWorld.isPaused()) {
             drawZombiesFreezeFrame();
+            // draw background tint
+            batcher.draw(backgroundTint, 0, 0, 450, 800);
             drawPauseMenu();
 
         // when game is over, freeze the animating zombies, and draw the PLAY AGAIN button
         } else if (gameWorld.isGameOver()) {
             drawZombiesFreezeFrame();
+            // draw background tint
+            batcher.draw(backgroundTint, 0, 0, 450, 800);
             drawGameOverMenu();
-            menuFont.draw(batcher, score, 300, 435);
-            menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 300, 390);
+            menuFont.draw(batcher, "Current score : ", 90, 465);
+            menuFont.draw(batcher, score, 310, 465);
+            menuFont.draw(batcher, "High score : ", 132, 420);
+            menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 310, 420);
         }
 
         batcher.end();
 
-        /*
-        GESTURE-ONLY RELATED RENDER
-         */
-        gesturePathTexture.bind();
-        swipeTriStrip.endcap = 5f;
-        swipeTriStrip.thickness = 30f;
-        swipeTriStrip.update(gestureRecognizerInputProcessor.path());
-        swipeTriStrip.color = Color.WHITE;
-        swipeTriStrip.draw(cam);
+        if (gameWorld.isRunning()) {
+            // GESTURE-ONLY RELATED RENDER
+            gesturePathTexture.bind();
+            swipeTriStrip.endcap = 5f;
+            swipeTriStrip.thickness = 30f;
+            swipeTriStrip.update(gestureRecognizerInputProcessor.path());
+            swipeTriStrip.color = Color.WHITE;
+            swipeTriStrip.draw(cam);
+        }
+
     }
 }
