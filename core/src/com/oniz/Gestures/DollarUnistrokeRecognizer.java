@@ -10,12 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * This class is orientation, position, and scale invariant.
  * Only the following methods are used, for Protractor Recogniser class
- * 	- RESAMPLE
- * 	- PATH LENGTH
- * 	- CENTROID
- * 	- TRANSLATE
- * 	- INDICATIVE ANGLE
- * 	- DISTANCE
+ * UNUSED CLASS.
  */
 public class DollarUnistrokeRecognizer {
 
@@ -66,7 +61,7 @@ public class DollarUnistrokeRecognizer {
 	}
 
 	/*
-	Step 1 : Resample
+	Step 1 : TemporalResample
 	To make gesture paths directly comparable even at different movement speeds.
 	32 <= N <= 256. Pseudocode uses N = 64.
 		1. Calculate total length of M Points Path

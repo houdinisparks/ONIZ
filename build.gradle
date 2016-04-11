@@ -102,11 +102,13 @@ project(":core") {
     apply plugin: "java"
 
 
+
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile fileTree(dir: '../libs', include: '*.jar')
     }
+
 }
 
 tasks.eclipse.doLast {
