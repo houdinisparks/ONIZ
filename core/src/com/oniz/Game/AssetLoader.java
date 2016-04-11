@@ -30,7 +30,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
-    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
+    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, spinnerAnimation;
     private static Preferences prefs;
     public Skin skin;
 
@@ -73,7 +73,7 @@ public final class AssetLoader {
         fonts.put("scoreText", new BitmapFont(Gdx.files.internal("data/carterOne.fnt"), true));
         fonts.get("scoreText").getData().setScale(1f, -1f);
         fonts.put("menuText", new BitmapFont(Gdx.files.internal("data/carterOne.fnt"), true));
-        fonts.get("menuText").getData().setScale(0.5f, -0.5f);
+        fonts.get("menuText").getData().setScale(0.4f, -0.4f);
 
         // menu icons V2
         textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
@@ -201,15 +201,40 @@ public final class AssetLoader {
         explosionAnimation = new Animation(0.15f, explosion);
         explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
+        // sprites of spinner
+        textures.put("spinner", new Texture(Gdx.files.internal("data/spinnerAnimation.png")));
+        sprites.put("spinner1", new TextureRegion(textures.get("spinner"), 0, 0, 100, 100));
+        sprites.put("spinner2", new TextureRegion(textures.get("spinner"), 100, 0, 100, 100));
+        sprites.put("spinner3", new TextureRegion(textures.get("spinner"), 200, 0, 100, 100));
+        sprites.put("spinner4", new TextureRegion(textures.get("spinner"), 300, 0, 100, 100));
+        sprites.put("spinner5", new TextureRegion(textures.get("spinner"), 400, 0, 100, 100));
+        sprites.put("spinner6", new TextureRegion(textures.get("spinner"), 500, 0, 100, 100));
+        sprites.put("spinner7", new TextureRegion(textures.get("spinner"), 600, 0, 100, 100));
+        sprites.put("spinner8", new TextureRegion(textures.get("spinner"), 700, 0, 100, 100));
+        sprites.put("spinner9", new TextureRegion(textures.get("spinner"), 800, 0, 100, 100));
+        sprites.put("spinner10", new TextureRegion(textures.get("spinner"), 900, 0, 100, 100));
+        sprites.put("spinner11", new TextureRegion(textures.get("spinner"), 1000, 0, 100, 100));
+        sprites.put("spinner12", new TextureRegion(textures.get("spinner"), 1100, 0, 100, 100));
+        sprites.put("spinner13", new TextureRegion(textures.get("spinner"), 1200, 0, 100, 100));
+        sprites.put("spinner14", new TextureRegion(textures.get("spinner"), 1300, 0, 100, 100));
+        sprites.put("spinner15", new TextureRegion(textures.get("spinner"), 1400, 0, 100, 100));
+        sprites.put("spinner16", new TextureRegion(textures.get("spinner"), 1500, 0, 100, 100));
+        sprites.put("spinner17", new TextureRegion(textures.get("spinner"), 1600, 0, 100, 100));
+
+        // spinner animation
+        TextureRegion[] spinner = {sprites.get("spinner1"), sprites.get("spinner2"), sprites.get("spinner3"), sprites.get("spinner4"), sprites.get("spinner5"), sprites.get("spinner6"),
+                                   sprites.get("spinner7"), sprites.get("spinner8"), sprites.get("spinner9"), sprites.get("spinner10"), sprites.get("spinner11"), sprites.get("spinner12"),
+                                   sprites.get("spinner13"), sprites.get("spinner14"), sprites.get("spinner15"), sprites.get("spinner16"), sprites.get("spinner17")};
+        spinnerAnimation = new Animation(0.05f, spinner);
+        spinnerAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         // background
         textures.put("backgrounds", new Texture(Gdx.files.internal("data/backgrounds.png")));
         sprites.put("pizzaBuilding", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
         sprites.put("tallBuilding", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
         sprites.put("nightBuilding", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
         sprites.put("cloudsBackground", new TextureRegion(textures.get("backgrounds"), 1350, 0, 450, 800));
-
-        textures.put("waitingBg", new Texture(Gdx.files.internal("data/waitingScreen.png")));
-        sprites.put("waitingBackground", new TextureRegion(textures.get("waitingBg"), 338, 1, 325, 758));
+        sprites.put("backgroundTint", new TextureRegion(textures.get("backgrounds"), 1800, 0, 450, 800));
 
         /*
         // menu icons (UNUSED FOR NOW)
