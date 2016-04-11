@@ -11,7 +11,10 @@ public class TemplateGesture{
 
 	private float[] protractorVector;
 
+
 	private float[] bitmapVector;
+
+	private Rect boundingBox;
 
 	private static final int PATCH_SAMPLE_SIZE = 32;
 
@@ -24,6 +27,7 @@ public class TemplateGesture{
 		this.bitmapVector = BitmapGestureRecogniser.spatialSampling(this.points, PATCH_SAMPLE_SIZE, false);
 	}
 
+
 	public float[] getProtractorVector() {
 		return protractorVector;
 	}
@@ -31,6 +35,7 @@ public class TemplateGesture{
 	public float[] getBitmapVector() {
 		return bitmapVector;
 	}
+
 
 
 	public ArrayList<Vector2> getPoints() {
@@ -41,4 +46,16 @@ public class TemplateGesture{
 		return name;
 	}
 
+
+
+	public Rect getBoundingBox() {
+		return boundingBox;
+	}
+
+
+
+
 }
+/**
+ * Rectangle Object for Bounding Box Object
+ */

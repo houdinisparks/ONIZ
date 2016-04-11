@@ -18,7 +18,9 @@ import java.util.Vector;
 
 public class BitmapGestureRecogniser {
 
+
     String tag = "BitmapGestureRecognizer";
+
 
     /*
     ---------------------FIELDS--------------------
@@ -294,6 +296,7 @@ public class BitmapGestureRecogniser {
     /**
      * Calculates the squared Euclidean distance between two vectors.
      *
+<<<<<<< HEAD
      * @param vector1   //testing vector
      * @param vector2   //template vector
      * @return the distance //score

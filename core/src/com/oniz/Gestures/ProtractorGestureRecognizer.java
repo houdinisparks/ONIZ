@@ -29,6 +29,7 @@ public class ProtractorGestureRecognizer {
 
     private final static float[] ORIENTATIONS = {
             0,
+
             (float) (Math.PI / 4),
             (float) (Math.PI / 2),
             (float) (Math.PI * 3 / 4),
@@ -37,6 +38,7 @@ public class ProtractorGestureRecognizer {
             (float) (-Math.PI / 4),
             (float) (-Math.PI / 2),
             (float) (-Math.PI * 3 / 4),
+
             (float) -Math.PI
     };
 
@@ -45,6 +47,7 @@ public class ProtractorGestureRecognizer {
      */
     public ProtractorGestureRecognizer() {
         registeredGestures = new ArrayList<TemplateGesture>();
+
     }
 
     /*
@@ -106,7 +109,12 @@ public class ProtractorGestureRecognizer {
     At the end of the day, templates and candidate gesture will have N Points.
     Note: This method is implemented in the Vectorise method.
     CHECKED : Output vector has 64 points.
+<<<<<<< HEAD
     TODO: 1. Configure spatialSampling (sequence insensitive)
+=======
+    Sequence insensitive - spatialSampler
+    TODO: 1. Configure spatialSampling
+>>>>>>> 56d9a90e1b3238d13fd62acc081d4d75daae1e9a
     TODO: 2. Change minimum Cosine Distance to Euclidean Distance (Cosine distance is position sensitive)
      */
     protected static ArrayList<Vector2> TemporalResample(ArrayList<Vector2> inputPoints) {
@@ -387,7 +395,6 @@ public class ProtractorGestureRecognizer {
     public MatchingGesture Recognize(ArrayList<Vector2> originalPath) {
         float[] vector = Vectorize(originalPath);
 
-
         TemplateGesture match = null;
         float maxScore = 0;
         float currentScore;
@@ -424,18 +431,22 @@ public class ProtractorGestureRecognizer {
 //    }
 
 
+
     private float OptimalCosineDistance(float[] v1, float[] v2) {
         float a = 0.0f;
         float b = 0.0f;
         float angle = 0.0f;
 
+
         Gdx.app.log("OptimalCosineDistance", "Size of v1: " + v1.length +
                 "Size of v2: " + v2.length);
 
         for (int i = 0; i < v1.length; i += 2) {
+
             a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];
             b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
         }
+
 
         //We allow maximum 4 orientations.
         Gdx.app.log("cosinedistancelog: ", "angle: " + angle + "more than: " + Math.PI / 4);
@@ -453,6 +464,7 @@ public class ProtractorGestureRecognizer {
         } else {
             return (float) Math.PI / 2;
         }
+
     }
 
 }
