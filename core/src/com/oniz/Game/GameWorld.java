@@ -83,10 +83,12 @@ public class GameWorld {
 //                Gdx.app.log("Zombie status", "killed");
                 iterator.remove();
 
+
                 //send zombie to other player, if multiplayer mode
                 if(zgame.isMultiplayerMode()) {
                     zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
                 }
+
 
             }
         }
