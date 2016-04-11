@@ -29,14 +29,14 @@ public class ProtractorGestureRecognizer {
 
     private final static float[] ORIENTATIONS = {
             0,
-           // (float) (Math.PI / 4),
+            (float) (Math.PI / 4),
             (float) (Math.PI / 2),
-           // (float) (Math.PI * 3 / 4),
+            (float) (Math.PI * 3 / 4),
             (float) Math.PI,
-            //-0,
-            //(float) (-Math.PI / 4),
+            -0,
+            (float) (-Math.PI / 4),
             (float) (-Math.PI / 2),
-           // (float) (-Math.PI * 3 / 4),
+            (float) (-Math.PI * 3 / 4),
             (float) -Math.PI
     };
 
@@ -429,22 +429,22 @@ public class ProtractorGestureRecognizer {
         float b = 0.0f;
         float angle = 0.0f;
 
-
         Gdx.app.log("OptimalCosineDistance", "Size of v1: " + v1.length +
                 "Size of v2: " + v2.length);
+
         for (int i = 0; i < v1.length; i += 2) {
             a += v1[i] * v2[i] + v1[i + 1] * v2[i + 1];
             b += v1[i] * v2[i + 1] - v1[i + 1] * v2[i];
         }
 
-        angle = (float) Math.atan(b / a);
-
         //We allow maximum 4 orientations.
         Gdx.app.log("cosinedistancelog: ", "angle: " + angle + "more than: " + Math.PI / 4);
         if (a != 0) {
+            angle = (float) Math.atan(b / a);
 
             if (Math.abs(angle) >= Math.PI / 4) {
                 return (float) Math.acos(a);
+
             } else {
                 final double cosine = Math.cos(angle);
                 final double sine = cosine * (b / a);
@@ -453,8 +453,6 @@ public class ProtractorGestureRecognizer {
         } else {
             return (float) Math.PI / 2;
         }
-
-        //return (float) Math.acos(a * Math.cos(angle) + b * Math.sin(angle));
     }
 
 }
