@@ -86,7 +86,7 @@ public class GameRenderer {
         swipeTriStrip = new SwipeTriStrip();
         gestureRecognizerInputProcessor = (GestureRecognizerInputProcessor)inputMultiplexer.getProcessors().get(1);
         gestureRecognizerInputProcessor.minDistance = 10;
-        gesturePathTexture = new Texture(Gdx.files.internal("gestures/gesturepath/gradient.png"));
+        gesturePathTexture = new Texture(Gdx.files.internal("gestures/aagesturepath/gradient.png"));
         gesturePathTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         /*

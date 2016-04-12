@@ -2,11 +2,19 @@ package com.oniz.Gestures;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * This class is orientation, position, and scale invariant.
+ * Only the following methods are used, for Protractor Recogniser class
+ * UNUSED CLASS.
+ */
 public class DollarUnistrokeRecognizer {
+
+
 
 	public static int NumSamples = 64;
 
@@ -18,7 +26,7 @@ public class DollarUnistrokeRecognizer {
 
 	private float radians;
 
-	private DollarUnistrokeRecognizer(ArrayList<Vector2> points) {
+	protected DollarUnistrokeRecognizer(ArrayList<Vector2> points) {
 		this.points = points;
 		this.radians = 0.0f;
 	}
@@ -26,7 +34,9 @@ public class DollarUnistrokeRecognizer {
 	// This should be in "ProtractorGestureRecognizer" class :P.
 	public static float[] Vectorize(ArrayList<Vector2> points) {
 		DollarUnistrokeRecognizer dollar = new DollarUnistrokeRecognizer(points);
+		//this.points = points
 		dollar.Resample();
+		Gdx.app.log("DollarUnistrokeRe: ", "" + dollar.points.size());
 		dollar.CalculateIndicativeAngle();
 		dollar.Rotate();
 		dollar.Scale();
@@ -50,7 +60,16 @@ public class DollarUnistrokeRecognizer {
 		return vector;
 	}
 
-	private void Resample() {
+	/*
+	Step 1 : TemporalResample
+	To make gesture paths directly comparable even at different movement speeds.
+	32 <= N <= 256. Pseudocode uses N = 64.
+		1. Calculate total length of M Points Path
+		2.Divide M by (N-1) = I (increment between N new points
+
+	At the end of the day, templates and candidate gesture will have N Points.
+	 */
+	protected void Resample() {
 		float I = PathLength() / (NumSamples - 1);
 		float D = 0.0f;
 		ArrayList<Vector2> newPoints = new ArrayList<Vector2>();
@@ -84,7 +103,7 @@ public class DollarUnistrokeRecognizer {
 		points = newPoints;
 	}
 
-	private Vector2 Centroid() {
+	protected Vector2 Centroid() {
 		float x = 0.0f;
 		float y = 0.0f;
 
@@ -99,12 +118,21 @@ public class DollarUnistrokeRecognizer {
 		return new Vector2(x, y);
 	}
 
-	private void CalculateIndicativeAngle() {
+	/*
+	Step 2.1 : Find Indicate Angle of Candidate Gesture
+	Angle formed between centroid of the gesture, and gesture's first point.
+	 */
+	protected void CalculateIndicativeAngle() {
 		Vector2 c = Centroid();
 		radians = MathUtils.atan2(c.y - points.get(0).y, c.x - points.get(0).x);
 	}
 
-	private void Rotate() {
+	/*
+	Step 2.2 : Rotate Candidate Gesture
+	Rotate the gesture until the indicative angle becomes 0 decgrees.
+	Finding the best angular match.
+	 */
+	protected void Rotate() {
 		Vector2 c = Centroid();
 		float cos = MathUtils.cos(-radians);
 		float sin = MathUtils.sin(-radians);
@@ -121,7 +149,12 @@ public class DollarUnistrokeRecognizer {
 		points = newPoints;
 	}
 
-	private void Scale() {
+	/*
+	Step 4 : Scaled to a Reference Square
+	Allow us to rotate the candidate about its centroid and asume that changes in pairwise
+	point-distances between C and Ti are due only to rotation, not to aspect ratio.
+	 */
+	protected void Scale() {
 		Rectangle B = BoundingBox();
 		ArrayList<Vector2> newPoints = new ArrayList<Vector2>();
 
@@ -135,7 +168,7 @@ public class DollarUnistrokeRecognizer {
 		points = newPoints;
 	}
 
-	private Rectangle BoundingBox() {
+	protected Rectangle BoundingBox() {
 		float minX = Float.POSITIVE_INFINITY;
 		float maxX = Float.NEGATIVE_INFINITY;
 		float minY = Float.POSITIVE_INFINITY;
@@ -155,7 +188,11 @@ public class DollarUnistrokeRecognizer {
 		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 	}
 
-	private void Translate() {
+	/*
+	Step 2.2 : Translated to Reference Point
+	Translates the gesture so that is centroid is at (0,0)
+	 */
+	protected void Translate() {
 		Vector2 c = Centroid();
 		ArrayList<Vector2> newPoints = new ArrayList<Vector2>();
 
@@ -169,7 +206,7 @@ public class DollarUnistrokeRecognizer {
 		points = newPoints;
 	}
 
-	private float PathLength() {
+	protected float PathLength() {
 		float d = 0.0f;
 
 		for (int i = 1; i < points.size(); i++) {
@@ -182,7 +219,7 @@ public class DollarUnistrokeRecognizer {
 		return d;
 	}
 
-	private float Distance(Vector2 a, Vector2 b) {
+	protected float Distance(Vector2 a, Vector2 b) {
 		float dx = b.x - a.x;
 		float dy = b.y - a.y;
 

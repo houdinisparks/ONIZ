@@ -3,9 +3,9 @@ package com.oniz.Gestures;
 public class MatchingGesture {
 	private TemplateGesture gesture;	
 
-	private float score;
+	private double score;
 
-	public MatchingGesture(TemplateGesture gesture, float score) {
+	public MatchingGesture(TemplateGesture gesture, double score) {
 		this.gesture = gesture;
 		this.score = score;
 	}
@@ -14,7 +14,7 @@ public class MatchingGesture {
 		return gesture;
 	}
 
-	public float getScore() {
+	public double getScore() {
 		return score;
 	}
 }
