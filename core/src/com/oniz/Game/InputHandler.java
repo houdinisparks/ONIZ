@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.oniz.UI.MenuButton;
 
-import sun.rmi.runtime.Log;
 
 /**
  * InputHandler class to handle touch events.
@@ -44,9 +43,9 @@ public class InputHandler implements InputProcessor {
                 AssetLoader.getInstance().sprites.get("pauseBtnUp"), AssetLoader.getInstance().sprites.get("pauseBtnDown"));
         pauseHomeButton = new MenuButton(285, 390, 80, 80,
                 AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
-        gameOverHomeButton = new MenuButton(250, 270, 80, 80,
+        gameOverHomeButton = new MenuButton(250, 300, 80, 80,
                 AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
-        playAgainButton = new MenuButton(120, 270, 80, 80,
+        playAgainButton = new MenuButton(120, 300, 80, 80,
                 AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
 
         menuButtons.put("playButton", playButton);
