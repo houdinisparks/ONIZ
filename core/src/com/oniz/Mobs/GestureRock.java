@@ -25,7 +25,8 @@ public class GestureRock {
         V_SHAPE,
         INVERTED_V_SHAPE,
         Z_SHAPE,
-        GAMMA;
+        GAMMA,
+        SIGMA;
 
         private static final GestureType[] GESTURE_TYPES = values();
         private static final int SIZE = GESTURE_TYPES.length;
