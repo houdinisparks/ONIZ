@@ -128,6 +128,8 @@ public final class AssetLoader {
         gestureHints.put(GestureRock.GestureType.Z_SHAPE, sprites.get("Zshape"));
         gestureHints.put(GestureRock.GestureType.INVERTED_Z_SHAPE, sprites.get("invertedZshape"));
         gestureHints.put(GestureRock.GestureType.GAMMA, sprites.get("gamma"));
+        gestureHints.put(GestureRock.GestureType.SIGMA, sprites.get("sigma"));
+
 
         // play, pause, restart buttons (obsolete)
         textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
@@ -148,13 +150,12 @@ public final class AssetLoader {
         textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
 
         // sprites of zombie climbing
-        textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
-        sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 17, 24, 60, 122));
-        sprites.put("zombieClimb2", new TextureRegion(textures.get("zombies"), 89, 24, 60, 122));
-        sprites.put("zombieClimb3", new TextureRegion(textures.get("zombies"), 161, 24, 60, 122));
-        sprites.put("zombieClimb4", new TextureRegion(textures.get("zombies"), 233, 24, 60, 122));
-        sprites.put("zombieClimb5", new TextureRegion(textures.get("zombies"), 305, 24, 60, 122));
-        sprites.put("zombieClimb6", new TextureRegion(textures.get("zombies"), 377, 24, 60, 122));
+        sprites.put("zombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 0, 60, 130));
+        sprites.put("zombieClimb2", new TextureRegion(textures.get("menuTexture"), 1159, 0, 60, 130));
+        sprites.put("zombieClimb3", new TextureRegion(textures.get("menuTexture"), 1231, 0, 60, 130));
+        sprites.put("zombieClimb4", new TextureRegion(textures.get("menuTexture"), 1303, 0, 60, 130));
+        sprites.put("zombieClimb5", new TextureRegion(textures.get("menuTexture"), 1375, 0, 60, 130));
+        sprites.put("zombieClimb6", new TextureRegion(textures.get("menuTexture"), 1447, 0, 60, 130));
 
         // zombie climbing animation
         TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"),
@@ -163,13 +164,12 @@ public final class AssetLoader {
         zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         // sprites of zombie climbing (ENEMY)
-        textures.put("enemyZombies", new Texture(Gdx.files.internal("data/climbAnimationEnemy.png")));
-        sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("enemyZombies"), 17, 24, 60, 122));
-        sprites.put("enemyZombieClimb2", new TextureRegion(textures.get("enemyZombies"), 89, 24, 60, 122));
-        sprites.put("enemyZombieClimb3", new TextureRegion(textures.get("enemyZombies"), 161, 24, 60, 122));
-        sprites.put("enemyZombieClimb4", new TextureRegion(textures.get("enemyZombies"), 233, 24, 60, 122));
-        sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("enemyZombies"), 305, 24, 60, 122));
-        sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("enemyZombies"), 377, 24, 60, 122));
+        sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 130, 60, 130));
+        sprites.put("enemyZombieClimb2", new TextureRegion(textures.get("menuTexture"), 1159, 130, 60, 130));
+        sprites.put("enemyZombieClimb3", new TextureRegion(textures.get("menuTexture"), 1231, 130, 60, 130));
+        sprites.put("enemyZombieClimb4", new TextureRegion(textures.get("menuTexture"), 1303, 130, 60, 130));
+        sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("menuTexture"), 1375, 130, 60, 130));
+        sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("menuTexture"), 1447, 130, 60, 130));
 
         // zombie climbing animation (ENEMY)
         TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"),
