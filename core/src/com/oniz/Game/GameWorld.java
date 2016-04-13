@@ -69,7 +69,7 @@ public class GameWorld {
             ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
-            if (zombie.getY() > 580) {
+            if (zombie.getY() > 580 && !zombie.isExploding()) {
                 if (score > AssetLoader.getHighScore()) {
                     AssetLoader.setHighScore(score);
                 }
