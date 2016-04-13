@@ -23,29 +23,34 @@ import com.oniz.UI.SimpleButton;
 
 public class StartScreen implements Screen {
 
+    public static final int BACKGROUND1 = 1;
+    public static final int BACKGROUND2 = 2;
+    public static final int BACKGROUND3 = 3;
+
     public ZGame zGame;
 
     private Stage stage;
     private Skin skin;
-    private TextureRegion cloudsBackground;
+    private TextureRegion cloudsBackground, backgroundMenu, checkMark;
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
-    private SimpleButton quickGameBtn, loginBtn, logoutBtn, settingsBtn, singlePlayerBtn;
+    private SimpleButton quickGameBtn, loginBtn, logoutBtn, settingsBtn, singlePlayerBtn, backBtn, helpBtn, soundBtn, soundMutedBtn, musicBtn, musicMutedBtn, background1Btn, background2Btn, background3Btn;
+    private boolean backgroundMenuToggle = false;
+    private boolean soundToggle = true;
+    private boolean musicToggle = true;
+    private int backgroundOption = BACKGROUND1;
 
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
 
         loadAssets();
         setup();
-
     }
 
     public void setup() {
         //catch back button
         Gdx.input.setCatchBackKey(true);
-
-        stage = new Stage(new FitViewport(450, 800));
 
         // Viewport - Aspect Radio
         cam = new OrthographicCamera();
@@ -53,6 +58,8 @@ public class StartScreen implements Screen {
 
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
+
+        stage = new Stage(new FitViewport(450, 800), batcher);
 
         // buttons
         quickGameBtn = new SimpleButton(125, 400, 200, 120, AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
@@ -83,8 +90,30 @@ public class StartScreen implements Screen {
         settingsBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //settings action
-                //sendMessage();
+                // disable startScreen buttons
+                quickGameBtn.setVisible(false);
+                loginBtn.setVisible(false);
+                logoutBtn.setVisible(false);
+                settingsBtn.setVisible(false);
+                helpBtn.setVisible(false);
+                singlePlayerBtn.setVisible(false);
+
+                // enable settingScreen buttons
+                backBtn.setVisible(true);
+                if (soundToggle) {
+                    soundBtn.setVisible(true);
+                } else {
+                    soundMutedBtn.setVisible(true);
+                }
+                if (musicToggle) {
+                    musicBtn.setVisible(true);
+                } else {
+                    musicMutedBtn.setVisible(true);
+                }
+                backgroundMenuToggle = true;
+                background1Btn.setVisible(true);
+                background2Btn.setVisible(true);
+                background3Btn.setVisible(true);
             }
         });
 
@@ -97,11 +126,133 @@ public class StartScreen implements Screen {
             }
         });
 
+        backBtn = new SimpleButton(10, 800-90, 80, 80, AssetLoader.getInstance().sprites.get("backBtnUp"), AssetLoader.getInstance().sprites.get("backBtnDown"));
+        backBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // disable settingScreen buttons
+                backBtn.setVisible(false);
+                soundBtn.setVisible(false);
+                soundMutedBtn.setVisible(false);
+                musicBtn.setVisible(false);
+                musicMutedBtn.setVisible(false);
+                backgroundMenuToggle = false;
+                background1Btn.setVisible(false);
+                background2Btn.setVisible(false);
+                background3Btn.setVisible(false);
+
+                // enable startScreen buttons
+                quickGameBtn.setVisible(true);
+                if (zGame.playServices.isSignedIn()) {
+                    logoutBtn.setVisible(true);
+                } else {
+                    loginBtn.setVisible(true);
+                }
+                settingsBtn.setVisible(true);
+                helpBtn.setVisible(true);
+                singlePlayerBtn.setVisible(true);
+            }
+        });
+
+        helpBtn = new SimpleButton(100, 10, 80, 80, AssetLoader.getInstance().sprites.get("helpBtnUp"), AssetLoader.getInstance().sprites.get("helpBtnDown"));
+        helpBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO: help screen
+            }
+        });
+
+        soundBtn = new SimpleButton(135, 10, 80, 80, AssetLoader.getInstance().sprites.get("soundBtnUp"), AssetLoader.getInstance().sprites.get("soundBtnDown"));
+        soundBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                soundToggle = false;
+                soundBtn.setVisible(false);
+                soundMutedBtn.setVisible(true);
+                // TODO: toggle sound
+            }
+        });
+
+        soundMutedBtn = new SimpleButton(135, 10, 80, 80, AssetLoader.getInstance().sprites.get("soundMutedBtnUp"), AssetLoader.getInstance().sprites.get("soundMutedBtnDown"));
+        soundMutedBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                soundToggle = true;
+                soundBtn.setVisible(true);
+                soundMutedBtn.setVisible(false);
+                // TODO: toggle sound
+            }
+        });
+
+        musicBtn = new SimpleButton(235, 10, 80, 80, AssetLoader.getInstance().sprites.get("musicBtnUp"), AssetLoader.getInstance().sprites.get("musicBtnDown"));
+        musicBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                musicToggle = false;
+                musicBtn.setVisible(false);
+                musicMutedBtn.setVisible(true);
+                // TODO: toggle music
+            }
+        });
+
+        musicMutedBtn = new SimpleButton(235, 10, 80, 80, AssetLoader.getInstance().sprites.get("musicMutedBtnUp"), AssetLoader.getInstance().sprites.get("musicMutedBtnDown"));
+        musicMutedBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                musicToggle = true;
+                musicBtn.setVisible(true);
+                musicMutedBtn.setVisible(false);
+                // TODO: toggle music
+            }
+        });
+
+        background1Btn = new SimpleButton(85, 390, 80, 80, AssetLoader.getInstance().sprites.get("background1BtnUp"), AssetLoader.getInstance().sprites.get("background1BtnDown"));
+        background1Btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                backgroundOption = BACKGROUND1;
+            }
+        });
+
+        background2Btn = new SimpleButton(185, 390, 80, 80, AssetLoader.getInstance().sprites.get("background2BtnUp"), AssetLoader.getInstance().sprites.get("background2BtnDown"));
+        background2Btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                backgroundOption = BACKGROUND2;
+            }
+        });
+
+        background3Btn = new SimpleButton(285, 390, 80, 80, AssetLoader.getInstance().sprites.get("background3BtnUp"), AssetLoader.getInstance().sprites.get("background3BtnDown"));
+        background3Btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                backgroundOption = BACKGROUND3;
+            }
+        });
+
         stage.addActor(quickGameBtn);
         stage.addActor(loginBtn);
         stage.addActor(logoutBtn);
         stage.addActor(settingsBtn);
         stage.addActor(singlePlayerBtn);
+        stage.addActor(backBtn);
+        stage.addActor(helpBtn);
+        stage.addActor(soundBtn);
+        stage.addActor(soundMutedBtn);
+        stage.addActor(musicBtn);
+        stage.addActor(musicMutedBtn);
+        stage.addActor(background1Btn);
+        stage.addActor(background2Btn);
+        stage.addActor(background3Btn);
+
+        soundBtn.setVisible(false);
+        soundMutedBtn.setVisible(false);
+        musicBtn.setVisible(false);
+        musicMutedBtn.setVisible(false);
+        backBtn.setVisible(false);
+        background1Btn.setVisible(false);
+        background2Btn.setVisible(false);
+        background3Btn.setVisible(false);
 
         // show "login" button when not signed in; show "logout" button when signed in
         if (zGame.playServices.isSignedIn()) {
@@ -121,6 +272,8 @@ public class StartScreen implements Screen {
         AssetLoader.getInstance();
         skin = AssetLoader.getInstance().skin;
         cloudsBackground =  AssetLoader.getInstance().sprites.get("cloudsBackground");
+        backgroundMenu = AssetLoader.getInstance().sprites.get("backgroundMenu");
+        checkMark = AssetLoader.getInstance().sprites.get("checkMark");
     }
 
     // Google Services Methods
@@ -168,7 +321,23 @@ public class StartScreen implements Screen {
         batcher.draw(cloudsBackground, 0, 0, 450, 800);
 
         batcher.enableBlending();
+        if (backgroundMenuToggle) {
+            batcher.draw(backgroundMenu, 25, 350, 400, 200);
+        }
+        batcher.end();
+
         stage.draw();
+
+        batcher.begin();
+        if (backgroundMenuToggle) {
+            if (backgroundOption == BACKGROUND1) {
+                batcher.draw(checkMark, 75, 440, 40, 40);
+            } else if (backgroundOption == BACKGROUND2) {
+                batcher.draw(checkMark, 175, 440, 40, 40);
+            } else if (backgroundOption == BACKGROUND3) {
+                batcher.draw(checkMark, 275, 440, 40, 40);
+            }
+        }
         batcher.end();
     }
 
@@ -196,5 +365,9 @@ public class StartScreen implements Screen {
     public void dispose() {
         AssetLoader.getInstance().dispose();
         Gdx.app.log("LIFECYCLE", "DISPOSE");
+    }
+
+    public int getBackgroundOption() {
+        return backgroundOption;
     }
 }

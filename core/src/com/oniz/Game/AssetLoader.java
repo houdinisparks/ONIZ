@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.oniz.Mobs.GestureRock;
-
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -95,8 +93,30 @@ public final class AssetLoader {
         sprites.put("menuBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 640, 80, 80));
         sprites.put("restartBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 720, 80, 80));
         sprites.put("restartBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 720, 80, 80));
+        sprites.put("helpBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 560, 80, 80));
+        sprites.put("helpBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 560, 80, 80));
+        sprites.put("musicBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 640, 80, 80));
+        sprites.put("musicBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 640, 80, 80));
+        sprites.put("soundBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 720, 80, 80));
+        sprites.put("soundBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 720, 80, 80));
+        sprites.put("backBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 560, 80, 80));
+        sprites.put("backBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 560, 80, 80));
+        sprites.put("musicMutedBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 640, 80, 80));
+        sprites.put("musicMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 640, 80, 80));
+        sprites.put("soundMutedBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 720, 80, 80));
+        sprites.put("soundMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 720, 80, 80));
+        sprites.put("newMark", new TextureRegion(textures.get("menuTexture"), 200, 320, 80, 40));
+        sprites.put("checkMark", new TextureRegion(textures.get("menuTexture"), 280, 320, 80, 80));
+        sprites.put("background1BtnUp", new TextureRegion(textures.get("menuTexture"), 400, 320, 80, 80));
+        sprites.put("background1BtnDown", new TextureRegion(textures.get("menuTexture"), 400, 400, 80, 80));
+        sprites.put("background2BtnUp", new TextureRegion(textures.get("menuTexture"), 480, 320, 80, 80));
+        sprites.put("background2BtnDown", new TextureRegion(textures.get("menuTexture"), 480, 400, 80, 80));
+        sprites.put("background3BtnUp", new TextureRegion(textures.get("menuTexture"), 560, 320, 80, 80));
+        sprites.put("background3BtnDown", new TextureRegion(textures.get("menuTexture"), 560, 400, 80, 80));
         sprites.put("pauseMenu", new TextureRegion(textures.get("menuTexture"), 0, 800, 400, 200));
+        sprites.put("backgroundMenu", new TextureRegion(textures.get("menuTexture"), 400, 800, 400, 200));
         sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
+        sprites.put("oopsMenu", new TextureRegion(textures.get("menuTexture"), 640, 0, 440, 320));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
@@ -129,25 +149,6 @@ public final class AssetLoader {
         gestureHints.put(GestureRock.GestureType.INVERTED_Z_SHAPE, sprites.get("invertedZshape"));
         gestureHints.put(GestureRock.GestureType.GAMMA, sprites.get("gamma"));
         gestureHints.put(GestureRock.GestureType.SIGMA, sprites.get("sigma"));
-
-
-        // play, pause, restart buttons (obsolete)
-        textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
-        textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
-        textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));
-        textures.put("playDown", new Texture(Gdx.files.internal("shadedDark/shadedDark16.png")));
-        textures.put("restartUp", new Texture(Gdx.files.internal("lineLight/lineLight10.png")));
-        textures.put("restartDown", new Texture(Gdx.files.internal("shadedDark/shadedDark12.png")));
-
-        // temporary buttons: A, B, X, Y
-        textures.put("buttonAUp", new Texture(Gdx.files.internal("lineLight/lineLight34.png")));
-        textures.put("buttonADown", new Texture(Gdx.files.internal("shadedDark/shadedDark36.png")));
-        textures.put("buttonBUp", new Texture(Gdx.files.internal("lineLight/lineLight35.png")));
-        textures.put("buttonBDown", new Texture(Gdx.files.internal("shadedDark/shadedDark37.png")));
-        textures.put("buttonXUp", new Texture(Gdx.files.internal("lineLight/lineLight36.png")));
-        textures.put("buttonXDown", new Texture(Gdx.files.internal("shadedDark/shadedDark38.png")));
-        textures.put("buttonYUp", new Texture(Gdx.files.internal("lineLight/lineLight37.png")));
-        textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
 
         // sprites of zombie climbing
         sprites.put("zombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 0, 60, 130));
@@ -230,9 +231,9 @@ public final class AssetLoader {
 
         // background
         textures.put("backgrounds", new Texture(Gdx.files.internal("data/backgrounds.png")));
-        sprites.put("pizzaBuilding", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
-        sprites.put("tallBuilding", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
-        sprites.put("nightBuilding", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
+        sprites.put("background1", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
+        sprites.put("background2", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
+        sprites.put("background3", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
         sprites.put("cloudsBackground", new TextureRegion(textures.get("backgrounds"), 1350, 0, 450, 800));
         sprites.put("backgroundTint", new TextureRegion(textures.get("backgrounds"), 1800, 0, 450, 800));
 
