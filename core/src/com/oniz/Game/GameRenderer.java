@@ -168,6 +168,8 @@ public class GameRenderer {
             if (!childZombies.get(i).isExploding()) {
                 childZombies.get(i).getGestureRock().draw(batcher);
             }
+            // draw explosion animation
+            childZombies.get(i).drawExplosion(batcher, explosionAnimation, 0);
         }
     }
 
