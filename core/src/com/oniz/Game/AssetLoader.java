@@ -28,6 +28,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
+    public TextureRegion[] backgrounds;
     public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, spinnerAnimation;
     private static Preferences prefs;
     public Skin skin;
@@ -50,6 +51,7 @@ public final class AssetLoader {
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
         gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
+        backgrounds = new TextureRegion[3];
         prefs = Gdx.app.getPreferences("ONIZ");
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
@@ -231,9 +233,9 @@ public final class AssetLoader {
 
         // background
         textures.put("backgrounds", new Texture(Gdx.files.internal("data/backgrounds.png")));
-        sprites.put("background1", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
-        sprites.put("background2", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
-        sprites.put("background3", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
+        backgrounds[0] = new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800);
+        backgrounds[1] = new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800);
+        backgrounds[2] = new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800);
         sprites.put("cloudsBackground", new TextureRegion(textures.get("backgrounds"), 1350, 0, 450, 800));
         sprites.put("backgroundTint", new TextureRegion(textures.get("backgrounds"), 1800, 0, 450, 800));
 

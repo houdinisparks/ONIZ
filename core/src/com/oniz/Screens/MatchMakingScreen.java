@@ -2,7 +2,6 @@ package com.oniz.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,20 +10,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
+import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
 import com.oniz.UI.SimpleButton;
 
-/**
- * Created by robin on 19/3/16.
- */
+
 public class MatchMakingScreen implements Screen{
 
     public static ZGame zgame;
@@ -50,7 +45,7 @@ public class MatchMakingScreen implements Screen{
         this.stage = new Stage(new FitViewport(450, 800));
         this.skin = AssetLoader.getInstance().skin;
 
-        background =  AssetLoader.getInstance().sprites.get("pizzaBuilding");
+        background =  AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
         backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
         spinnerAnimation = AssetLoader.getInstance().spinnerAnimation;
@@ -72,6 +67,10 @@ public class MatchMakingScreen implements Screen{
             }
         });
 
+    }
+
+    public void setBackground(int backgroundOption) {
+        this.background = AssetLoader.getInstance().backgrounds[backgroundOption];
     }
 
     //cancel matchmaking process

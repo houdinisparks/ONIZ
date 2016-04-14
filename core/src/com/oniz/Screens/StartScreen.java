@@ -6,28 +6,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
+import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
-import com.oniz.UI.MenuButton;
 import com.oniz.UI.SimpleButton;
 
 
 public class StartScreen implements Screen {
 
-    public static final int BACKGROUND1 = 1;
-    public static final int BACKGROUND2 = 2;
-    public static final int BACKGROUND3 = 3;
-
-    public ZGame zGame;
+    private ZGame zGame;
 
     private Stage stage;
     private Skin skin;
@@ -39,7 +31,6 @@ public class StartScreen implements Screen {
     private boolean backgroundMenuToggle = false;
     private boolean soundToggle = true;
     private boolean musicToggle = true;
-    private int backgroundOption = BACKGROUND1;
 
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
@@ -210,7 +201,7 @@ public class StartScreen implements Screen {
         background1Btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                backgroundOption = BACKGROUND1;
+                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND1);
             }
         });
 
@@ -218,7 +209,7 @@ public class StartScreen implements Screen {
         background2Btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                backgroundOption = BACKGROUND2;
+                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND2);
             }
         });
 
@@ -226,7 +217,7 @@ public class StartScreen implements Screen {
         background3Btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                backgroundOption = BACKGROUND3;
+                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND3);
             }
         });
 
@@ -330,11 +321,11 @@ public class StartScreen implements Screen {
 
         batcher.begin();
         if (backgroundMenuToggle) {
-            if (backgroundOption == BACKGROUND1) {
+            if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND1) {
                 batcher.draw(checkMark, 75, 440, 40, 40);
-            } else if (backgroundOption == BACKGROUND2) {
+            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND2) {
                 batcher.draw(checkMark, 175, 440, 40, 40);
-            } else if (backgroundOption == BACKGROUND3) {
+            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND3) {
                 batcher.draw(checkMark, 275, 440, 40, 40);
             }
         }
@@ -365,9 +356,5 @@ public class StartScreen implements Screen {
     public void dispose() {
         AssetLoader.getInstance().dispose();
         Gdx.app.log("LIFECYCLE", "DISPOSE");
-    }
-
-    public int getBackgroundOption() {
-        return backgroundOption;
     }
 }
