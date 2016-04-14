@@ -1,11 +1,8 @@
 package com.oniz.Game;
 
-;
-import com.badlogic.gdx.Gdx;
+
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
-import com.oniz.Screens.MainScreen;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -14,6 +11,10 @@ import java.util.Random;
  * GameWorld class hold all the models and game states.
  */
 public class GameWorld {
+    public static final int BACKGROUND1 = 0;
+    public static final int BACKGROUND2 = 1;
+    public static final int BACKGROUND3 = 2;
+
     public static final int GAME_READY = 0;
     public static final int GAME_RUNNING = 1;
     public static final int GAME_PAUSED = 2;
@@ -22,6 +23,7 @@ public class GameWorld {
     static final int[] zombiePaths = {40, 78, 115, 153, 190, 228, 265, 303, 340};
     private int state;
     private int score = 0;
+    private int backgroundOption = BACKGROUND1;
 
     GameRenderer gameRenderer;
     Random random = new Random();
@@ -69,7 +71,7 @@ public class GameWorld {
             ChildZombie zombie = iterator.next();
 
             // if one of the zombies reaches the roof
-            if (zombie.getY() > 580) {
+            if (zombie.getY() > 580 && !zombie.isExploding()) {
                 if (score > AssetLoader.getHighScore()) {
                     AssetLoader.setHighScore(score);
                 }
@@ -163,6 +165,16 @@ public class GameWorld {
 
     public int getScore() {
         return score;
+    }
+
+    public int getBackgroundOption() {
+        return backgroundOption;
+    }
+
+    public void setBackgroundOption(int backgroundOption) {
+        this.backgroundOption = backgroundOption;
+        gameRenderer.setBackground(backgroundOption);
+        zgame.getMatchMakingScreen().setBackground(backgroundOption);
     }
 
     public void realTimeUpdate(String msg) {

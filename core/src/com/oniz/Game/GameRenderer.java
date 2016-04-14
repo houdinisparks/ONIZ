@@ -125,7 +125,7 @@ public class GameRenderer {
     }
 
     private void initAssets() {
-        background = AssetLoader.getInstance().sprites.get("pizzaBuilding");
+        background = AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
         backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
@@ -135,6 +135,10 @@ public class GameRenderer {
         gameOverMenu = AssetLoader.getInstance().sprites.get("gameOverMenu");
         scoreFont = AssetLoader.getInstance().fonts.get("scoreText");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
+    }
+
+    public void setBackground(int backgroundOption) {
+        this.background = AssetLoader.getInstance().backgrounds[backgroundOption];
     }
 
     private void drawPauseMenu() {
@@ -168,6 +172,8 @@ public class GameRenderer {
             if (!childZombies.get(i).isExploding()) {
                 childZombies.get(i).getGestureRock().draw(batcher);
             }
+            // draw explosion animation
+            childZombies.get(i).drawExplosion(batcher, explosionAnimation, 0);
         }
     }
 

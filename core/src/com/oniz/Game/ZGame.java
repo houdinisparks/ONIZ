@@ -16,7 +16,8 @@ public class ZGame extends Game {
 
     public PlayServices playServices;
 
-    public Screen startScreen, matchMakingScreen, gameScreen;
+    private Screen startScreen, gameScreen;
+    private MatchMakingScreen matchMakingScreen;
 
     private GameWorld gameWorld;
 
@@ -82,11 +83,13 @@ public class ZGame extends Game {
         return this.gameWorld;
     }
 
+    public MatchMakingScreen getMatchMakingScreen() {
+        return matchMakingScreen;
+    }
+
     public boolean isGameWorldReady() {
         return gameWorld != null;
     }
-
-
 
     public void setMultiplayerMode(boolean value) {
         this.multiplayerMode = value;
@@ -95,7 +98,6 @@ public class ZGame extends Game {
     public boolean isMultiplayerMode() {
         return this.multiplayerMode;
     }
-
 
     @Override
     public void resize(int width, int height) {

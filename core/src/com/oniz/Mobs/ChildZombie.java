@@ -14,7 +14,7 @@ public class ChildZombie {
     private Vector2 velocity;
 
     private final float width = 60;
-    private final float height = 122;
+    private final float height = 130;
     private boolean isAlive;
     private boolean isExploding;
     private boolean isEnemy;
@@ -25,7 +25,7 @@ public class ChildZombie {
     public ChildZombie(float x, float y, boolean isEnemy) {
         Random r = new Random();
         position = new Vector2(x, y);
-        velocity = new Vector2(0, r.nextInt(30)+30);
+        velocity = new Vector2(0, r.nextInt(30)+40);
         isAlive = true;
         isExploding = false;
         this.isEnemy = isEnemy;
@@ -59,10 +59,6 @@ public class ChildZombie {
 
     public float getY() {
         return position.y;
-    }
-
-    public void increaseSpeed() {
-        velocity.y += 20;
     }
 
     public float getWidth() {

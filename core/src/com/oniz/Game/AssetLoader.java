@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.oniz.Mobs.GestureRock;
-
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -30,6 +28,7 @@ public final class AssetLoader {
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
+    public TextureRegion[] backgrounds;
     public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, spinnerAnimation;
     private static Preferences prefs;
     public Skin skin;
@@ -52,6 +51,7 @@ public final class AssetLoader {
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
         gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
+        backgrounds = new TextureRegion[3];
         prefs = Gdx.app.getPreferences("ONIZ");
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
@@ -95,8 +95,30 @@ public final class AssetLoader {
         sprites.put("menuBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 640, 80, 80));
         sprites.put("restartBtnUp", new TextureRegion(textures.get("menuTexture"), 160, 720, 80, 80));
         sprites.put("restartBtnDown", new TextureRegion(textures.get("menuTexture"), 240, 720, 80, 80));
+        sprites.put("helpBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 560, 80, 80));
+        sprites.put("helpBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 560, 80, 80));
+        sprites.put("musicBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 640, 80, 80));
+        sprites.put("musicBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 640, 80, 80));
+        sprites.put("soundBtnUp", new TextureRegion(textures.get("menuTexture"), 320, 720, 80, 80));
+        sprites.put("soundBtnDown", new TextureRegion(textures.get("menuTexture"), 400, 720, 80, 80));
+        sprites.put("backBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 560, 80, 80));
+        sprites.put("backBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 560, 80, 80));
+        sprites.put("musicMutedBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 640, 80, 80));
+        sprites.put("musicMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 640, 80, 80));
+        sprites.put("soundMutedBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 720, 80, 80));
+        sprites.put("soundMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 720, 80, 80));
+        sprites.put("newMark", new TextureRegion(textures.get("menuTexture"), 200, 320, 80, 40));
+        sprites.put("checkMark", new TextureRegion(textures.get("menuTexture"), 280, 320, 80, 80));
+        sprites.put("background1BtnUp", new TextureRegion(textures.get("menuTexture"), 400, 320, 80, 80));
+        sprites.put("background1BtnDown", new TextureRegion(textures.get("menuTexture"), 400, 400, 80, 80));
+        sprites.put("background2BtnUp", new TextureRegion(textures.get("menuTexture"), 480, 320, 80, 80));
+        sprites.put("background2BtnDown", new TextureRegion(textures.get("menuTexture"), 480, 400, 80, 80));
+        sprites.put("background3BtnUp", new TextureRegion(textures.get("menuTexture"), 560, 320, 80, 80));
+        sprites.put("background3BtnDown", new TextureRegion(textures.get("menuTexture"), 560, 400, 80, 80));
         sprites.put("pauseMenu", new TextureRegion(textures.get("menuTexture"), 0, 800, 400, 200));
+        sprites.put("backgroundMenu", new TextureRegion(textures.get("menuTexture"), 400, 800, 400, 200));
         sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
+        sprites.put("oopsMenu", new TextureRegion(textures.get("menuTexture"), 640, 0, 440, 320));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
@@ -128,33 +150,15 @@ public final class AssetLoader {
         gestureHints.put(GestureRock.GestureType.Z_SHAPE, sprites.get("Zshape"));
         gestureHints.put(GestureRock.GestureType.INVERTED_Z_SHAPE, sprites.get("invertedZshape"));
         gestureHints.put(GestureRock.GestureType.GAMMA, sprites.get("gamma"));
-
-        // play, pause, restart buttons (obsolete)
-        textures.put("pauseUp", new Texture(Gdx.files.internal("lineLight/lineLight12.png")));
-        textures.put("pauseDown", new Texture(Gdx.files.internal("shadedDark/shadedDark14.png")));
-        textures.put("playUp", new Texture(Gdx.files.internal("lineLight/lineLight14.png")));
-        textures.put("playDown", new Texture(Gdx.files.internal("shadedDark/shadedDark16.png")));
-        textures.put("restartUp", new Texture(Gdx.files.internal("lineLight/lineLight10.png")));
-        textures.put("restartDown", new Texture(Gdx.files.internal("shadedDark/shadedDark12.png")));
-
-        // temporary buttons: A, B, X, Y
-        textures.put("buttonAUp", new Texture(Gdx.files.internal("lineLight/lineLight34.png")));
-        textures.put("buttonADown", new Texture(Gdx.files.internal("shadedDark/shadedDark36.png")));
-        textures.put("buttonBUp", new Texture(Gdx.files.internal("lineLight/lineLight35.png")));
-        textures.put("buttonBDown", new Texture(Gdx.files.internal("shadedDark/shadedDark37.png")));
-        textures.put("buttonXUp", new Texture(Gdx.files.internal("lineLight/lineLight36.png")));
-        textures.put("buttonXDown", new Texture(Gdx.files.internal("shadedDark/shadedDark38.png")));
-        textures.put("buttonYUp", new Texture(Gdx.files.internal("lineLight/lineLight37.png")));
-        textures.put("buttonYDown", new Texture(Gdx.files.internal("shadedDark/shadedDark39.png")));
+        gestureHints.put(GestureRock.GestureType.SIGMA, sprites.get("sigma"));
 
         // sprites of zombie climbing
-        textures.put("zombies", new Texture(Gdx.files.internal("data/climbAnimation.png")));
-        sprites.put("zombieClimb1", new TextureRegion(textures.get("zombies"), 17, 24, 60, 122));
-        sprites.put("zombieClimb2", new TextureRegion(textures.get("zombies"), 89, 24, 60, 122));
-        sprites.put("zombieClimb3", new TextureRegion(textures.get("zombies"), 161, 24, 60, 122));
-        sprites.put("zombieClimb4", new TextureRegion(textures.get("zombies"), 233, 24, 60, 122));
-        sprites.put("zombieClimb5", new TextureRegion(textures.get("zombies"), 305, 24, 60, 122));
-        sprites.put("zombieClimb6", new TextureRegion(textures.get("zombies"), 377, 24, 60, 122));
+        sprites.put("zombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 0, 60, 130));
+        sprites.put("zombieClimb2", new TextureRegion(textures.get("menuTexture"), 1159, 0, 60, 130));
+        sprites.put("zombieClimb3", new TextureRegion(textures.get("menuTexture"), 1231, 0, 60, 130));
+        sprites.put("zombieClimb4", new TextureRegion(textures.get("menuTexture"), 1303, 0, 60, 130));
+        sprites.put("zombieClimb5", new TextureRegion(textures.get("menuTexture"), 1375, 0, 60, 130));
+        sprites.put("zombieClimb6", new TextureRegion(textures.get("menuTexture"), 1447, 0, 60, 130));
 
         // zombie climbing animation
         TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"),
@@ -163,13 +167,12 @@ public final class AssetLoader {
         zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         // sprites of zombie climbing (ENEMY)
-        textures.put("enemyZombies", new Texture(Gdx.files.internal("data/climbAnimationEnemy.png")));
-        sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("enemyZombies"), 17, 24, 60, 122));
-        sprites.put("enemyZombieClimb2", new TextureRegion(textures.get("enemyZombies"), 89, 24, 60, 122));
-        sprites.put("enemyZombieClimb3", new TextureRegion(textures.get("enemyZombies"), 161, 24, 60, 122));
-        sprites.put("enemyZombieClimb4", new TextureRegion(textures.get("enemyZombies"), 233, 24, 60, 122));
-        sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("enemyZombies"), 305, 24, 60, 122));
-        sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("enemyZombies"), 377, 24, 60, 122));
+        sprites.put("enemyZombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 130, 60, 130));
+        sprites.put("enemyZombieClimb2", new TextureRegion(textures.get("menuTexture"), 1159, 130, 60, 130));
+        sprites.put("enemyZombieClimb3", new TextureRegion(textures.get("menuTexture"), 1231, 130, 60, 130));
+        sprites.put("enemyZombieClimb4", new TextureRegion(textures.get("menuTexture"), 1303, 130, 60, 130));
+        sprites.put("enemyZombieClimb5", new TextureRegion(textures.get("menuTexture"), 1375, 130, 60, 130));
+        sprites.put("enemyZombieClimb6", new TextureRegion(textures.get("menuTexture"), 1447, 130, 60, 130));
 
         // zombie climbing animation (ENEMY)
         TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"),
@@ -230,9 +233,9 @@ public final class AssetLoader {
 
         // background
         textures.put("backgrounds", new Texture(Gdx.files.internal("data/backgrounds.png")));
-        sprites.put("pizzaBuilding", new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800));
-        sprites.put("tallBuilding", new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800));
-        sprites.put("nightBuilding", new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800));
+        backgrounds[0] = new TextureRegion(textures.get("backgrounds"), 0, 0, 450, 800);
+        backgrounds[1] = new TextureRegion(textures.get("backgrounds"), 450, 0, 450, 800);
+        backgrounds[2] = new TextureRegion(textures.get("backgrounds"), 900, 0, 450, 800);
         sprites.put("cloudsBackground", new TextureRegion(textures.get("backgrounds"), 1350, 0, 450, 800));
         sprites.put("backgroundTint", new TextureRegion(textures.get("backgrounds"), 1800, 0, 450, 800));
 

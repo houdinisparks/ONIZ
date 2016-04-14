@@ -354,6 +354,10 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         } else if (name.contains(AlphaType)) {
             return GestureRock.GestureType.ALPHA;
+
+        } else if (name.contains(SigmaType)) {
+            return GestureRock.GestureType.SIGMA;
+
         } else {
             return null;
         }
