@@ -59,7 +59,7 @@ public class MatchMakingScreen implements Screen{
         batcher = new SpriteBatch();
         batcher.setProjectionMatrix(cam.combined);
 
-        cancelBtn = new SimpleButton(125, 250, 200, 80, AssetLoader.getInstance().sprites.get("logoutBtnUp"), AssetLoader.getInstance().sprites.get("logoutBtnDown"));
+        cancelBtn = new SimpleButton(125, 250, 200, 80, AssetLoader.getInstance().sprites.get("cancelBtnUp"), AssetLoader.getInstance().sprites.get("cancelBtnDown"));
         cancelBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -83,6 +83,8 @@ public final class AssetLoader {
         sprites.put("loginBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 320, 200, 80));
         sprites.put("logoutBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 80));
         sprites.put("logoutBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 480, 200, 80));
+        sprites.put("cancelBtnUp", new TextureRegion(textures.get("menuTexture"), 200, 400, 200, 80));
+        sprites.put("cancelBtnDown", new TextureRegion(textures.get("menuTexture"), 200, 480, 200, 80));
         sprites.put("settingsBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 560, 80, 80));
         sprites.put("settingsBtnDown", new TextureRegion(textures.get("menuTexture"), 80, 560, 80, 80));
         sprites.put("singlePlayerBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 640, 80, 80));
