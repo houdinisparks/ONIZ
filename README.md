@@ -1,5 +1,10 @@
 # ONIZ - Oh No Its Zombies - LibGDX Multiplayer Game
 
+
+### Android Studio Tips
+
+- CMD+P or CTRL+P on a method to view "parameter info" or "method arguments". Whatever you prefer to call it.
+
 ### GIT WORK FLOW
 
 #### Setup
