@@ -83,7 +83,7 @@ public class InputHandler implements InputProcessor {
             restartButton.isTouchDown(screenX, screenY);
             pauseHomeButton.isTouchDown(screenX, screenY);
 
-        } else if (gameWorld.isGameOver()) {
+        } else if (gameWorld.isGameOver() || gameWorld.isGameWinner()) {
             playAgainButton.isTouchDown(screenX, screenY);
             gameOverHomeButton.isTouchDown(screenX, screenY);
         }
@@ -126,7 +126,7 @@ public class InputHandler implements InputProcessor {
                 gameWorld.goHome();
                 return true;
             }
-        } else if (gameWorld.isGameOver()) {
+        } else if (gameWorld.isGameOver() || gameWorld.isGameWinner()) {
             if (playAgainButton.isTouchUp(screenX, screenY)) {
                 gameWorld.restartGame();
                 return true;
