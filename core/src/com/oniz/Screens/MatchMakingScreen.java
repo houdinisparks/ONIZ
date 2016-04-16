@@ -20,13 +20,11 @@ import com.oniz.Game.ZGame;
 import com.oniz.UI.SimpleButton;
 
 
-public class MatchMakingScreen implements Screen{
+public class MatchMakingScreen implements Screen {
 
     public static ZGame zgame;
 
     private Stage stage;
-    private Skin skin;
-    private Table table;
 
     private SimpleButton cancelBtn;
 
@@ -43,9 +41,8 @@ public class MatchMakingScreen implements Screen{
     public MatchMakingScreen(ZGame zgame) {
         this.zgame = zgame;
         this.stage = new Stage(new FitViewport(450, 800));
-        this.skin = AssetLoader.getInstance().skin;
 
-        background =  AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
+        background = AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
         backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
         spinnerAnimation = AssetLoader.getInstance().spinnerAnimation;
@@ -63,9 +60,11 @@ public class MatchMakingScreen implements Screen{
         cancelBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                 cancelMatchmaking();
+                cancelMatchmaking();
             }
         });
+        cancelBtn.setVisible(false);
+        stage.addActor(cancelBtn);
 
     }
 
@@ -84,6 +83,7 @@ public class MatchMakingScreen implements Screen{
         Gdx.input.setInputProcessor(stage);
         //need to reset this when we switch back to this screen
         isCancellable = false;
+        cancelBtn.setVisible(false);
     }
 
     @Override
@@ -109,10 +109,10 @@ public class MatchMakingScreen implements Screen{
 
 
         //show cancel when room is created
-        if(!isCancellable) {
-            if(zgame.playServices.canLeaveRoom()) {
-                stage.addActor(cancelBtn);
+        if (!isCancellable) {
+            if (zgame.playServices.canLeaveRoom()) {
                 isCancellable = true;
+                cancelBtn.setVisible(true);
             }
         }
 

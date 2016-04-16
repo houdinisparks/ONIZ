@@ -3,6 +3,7 @@ package com.oniz.Game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.oniz.Network.LoginListener;
 import com.oniz.Network.PlayServices;
 import com.oniz.Screens.GameScreen;
 import com.oniz.Screens.MainScreen;
@@ -16,7 +17,7 @@ public class ZGame extends Game {
 
     public PlayServices playServices;
 
-    private Screen startScreen, gameScreen;
+    private Screen startScreen, gameScreen = null;
     private MatchMakingScreen matchMakingScreen;
 
     private GameWorld gameWorld;
@@ -47,12 +48,13 @@ public class ZGame extends Game {
     public void create() {
         Gdx.app.log("ONIZ", "created");
         assets = AssetLoader.getInstance();
-        gameScreen = new GameScreen(this);
         startScreen = new StartScreen(this);
+        this.playServices.addLoginListener((LoginListener) startScreen);
         matchMakingScreen = new MatchMakingScreen(this);
 
         //splash seems to only activate if its passed as a new object
-        setScreen(startScreen);
+//        setScreen(startScreen);
+        setScreen(new SplashScreen(this));
     }
 
     public void switchScreen(ScreenState screen) {
@@ -64,8 +66,13 @@ public class ZGame extends Game {
                 setScreen(matchMakingScreen);
                 break;
             case MAIN:
-                setScreen(gameScreen);
-                gameWorld.restartGame();
+                if(gameScreen == null) {
+                    gameScreen = new GameScreen(this);
+                    setScreen(gameScreen);
+                } else {
+                    setScreen(gameScreen);
+                    gameWorld.restartGame();
+                }
                 break;
             case GAMEOVER:
                 setScreen(startScreen);

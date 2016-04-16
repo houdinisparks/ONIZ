@@ -1,5 +1,6 @@
 package com.oniz.Network;
 
+import com.badlogic.gdx.Screen;
 import com.oniz.Game.ZGame;
 
 /**
@@ -10,6 +11,8 @@ public interface PlayServices {
     public void signIn();
 
     public void signOut();
+
+    public boolean isConnecting();
 
     public void startQuickGame();
 
@@ -32,4 +35,6 @@ public interface PlayServices {
     public boolean isSignedIn();
 
     public boolean canLeaveRoom();
+
+    public void addLoginListener(LoginListener loginListener);
 }

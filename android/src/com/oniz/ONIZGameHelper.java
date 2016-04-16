@@ -89,7 +89,7 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
         }
 
         // prevent screen from sleeping during handshake
-        this.activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        keepScreenOn();
 
         // go to game screen? nah. we will check if there are enuh players first
     }
@@ -228,7 +228,12 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void onPeersConnected(Room room, List<String> list) {
         Gdx.app.log(TAG, "Peers connected. Can we start?");
         if (shouldStartGame(room)) {
-            zGame.switchScreen(ZGame.ScreenState.MAIN);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    zGame.switchScreen(ZGame.ScreenState.MAIN);
+                }
+            });
         }
     }
 

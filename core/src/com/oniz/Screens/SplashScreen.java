@@ -8,12 +8,16 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.ZGame;
+import com.oniz.Gestures.ProtractorGestureRecognizer;
 import com.oniz.TweenAccessors.SpriteAccessor;
+
+import java.util.Hashtable;
 
 
 public class SplashScreen implements Screen {
@@ -42,11 +46,36 @@ public class SplashScreen implements Screen {
                 - (sprite.getHeight() / 2));
         setupTween();
         batcher = new SpriteBatch();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // do something important here, asynchronously to the rendering thread
+                AssetLoader.getInstance().loadGestures();
+                // post a Runnable to the rendering thread that processes the result
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                        tearDownTween();
+                    }
+                });
+                Gdx.app.log("GESTURES LOADING", "SHOULD BE DONE NOW!");
+
+            }
+        }).start();
     }
 
     private void setupTween() {
         Tween.registerAccessor(Sprite.class, new SpriteAccessor());
         manager = new TweenManager();
+
+
+        Tween.to(sprite, SpriteAccessor.ALPHA, 3f).target(1)
+                .ease(TweenEquations.easeInExpo)
+                .start(manager);
+    }
+
+    private void tearDownTween() {
 
         TweenCallback cb = new TweenCallback() {
             @Override
@@ -55,10 +84,11 @@ public class SplashScreen implements Screen {
             }
         };
 
-        Tween.to(sprite, SpriteAccessor.ALPHA, .8f).target(1)
-                .ease(TweenEquations.easeInOutQuad).repeatYoyo(1, .4f)
+        Tween.to(sprite, SpriteAccessor.ALPHA, 2f).target(0.1f)
+                .ease(TweenEquations.easeOutExpo)
                 .setCallback(cb).setCallbackTriggers(TweenCallback.COMPLETE)
                 .start(manager);
+
     }
 
     @Override

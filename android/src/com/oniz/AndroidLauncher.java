@@ -16,6 +16,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.example.games.basegameutils.GameHelper;
 
 import com.oniz.Game.ZGame;
+import com.oniz.Network.LoginListener;
 import com.oniz.Network.PlayServices;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
     private ONIZGameHelper gameHelper;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    private List<LoginListener> loginListeners = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +41,13 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
                 @Override
                 public void onSignInFailed() {
                     Gdx.app.log("LOGIN FAILED", "Sign in FAILED!");
+                    updateLoginListeners("failed");
                 }
 
                 @Override
                 public void onSignInSucceeded() {
                     Gdx.app.log("LOGIN SUCCESS", "Sign in success!");
+                    updateLoginListeners("success");
                 }
 
             };
@@ -53,7 +58,20 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
             initialize(new ZGame(this), config);
         }
+    }
 
+
+
+    // observer pattern to notify start screen of login
+    @Override
+    public void addLoginListener(LoginListener listener) {
+        loginListeners.add(listener);
+    }
+
+    public void updateLoginListeners(String status) {
+        for (LoginListener ll : loginListeners) {
+            ll.loginStatus(status);
+        }
     }
 
     private boolean checkAndRequestPermissions() {
@@ -222,6 +240,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         } else {
 //            signIn();
         }
+    }
+
+
+    @Override
+    public boolean isConnecting() {
+        return gameHelper.getApiClient().isConnecting();
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.oniz.Game.GameWorld;
 import com.oniz.Game.InputHandler;
 import com.oniz.Game.ZGame;
 import com.oniz.Gestures.GestureRecognizerInputProcessor;
+
 /**
  * GameScreen class which instantiates and coordinates GameWorld and GameRenderer.
  */
@@ -33,10 +34,10 @@ public class GameScreen implements Screen {
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new InputHandler(gameWorld, screenWidth / gameWidth, screenHeight / gameHeight));
-        inputMultiplexer.addProcessor(new GestureRecognizerInputProcessor(gameWorld,screenWidth / gameWidth, screenHeight / gameHeight));
+        inputMultiplexer.addProcessor(new GestureRecognizerInputProcessor(gameWorld, screenWidth / gameWidth, screenHeight / gameHeight));
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        gameRenderer = new GameRenderer(gameWorld , inputMultiplexer);
+        gameRenderer = new GameRenderer(gameWorld, inputMultiplexer);
         gameWorld.setRenderer(gameRenderer);
         this.setGameWorld();
     }

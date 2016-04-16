@@ -3,12 +3,15 @@ package com.oniz.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.oniz.Gestures.ProtractorGestureRecognizer;
 import com.oniz.Mobs.GestureRock;
+
 import java.util.Hashtable;
 
 /**
@@ -33,6 +36,11 @@ public final class AssetLoader {
     private static Preferences prefs;
     public Skin skin;
 
+    /*gestures*/
+    public Hashtable<String, FileHandle> gesturesList;
+    public ProtractorGestureRecognizer protractorGestureRecognizer;
+
+
     public static AssetLoader getInstance() {
         if (instance == null) {
             synchronized (AssetLoader.class) {
@@ -51,14 +59,85 @@ public final class AssetLoader {
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
         gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
+        gesturesList = new Hashtable<String, FileHandle>();
         backgrounds = new TextureRegion[3];
         prefs = Gdx.app.getPreferences("ONIZ");
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         load();
     }
 
-    public void load() {
+    public void loadGestures() {
+        protractorGestureRecognizer = new ProtractorGestureRecognizer();
 
+        Hashtable<String, FileHandle> gesturesList = AssetLoader.getInstance().gesturesList;
+
+        for (String key :
+                gesturesList.keySet()) {
+            protractorGestureRecognizer.addGestureFromFile(gesturesList.get(key));
+        }
+    }
+
+    private void loadGestureJSON() {
+        FileHandle zShapeFileHandle;
+        FileHandle invZShapeFileHandle;
+        FileHandle horizontalFileHandle;
+        FileHandle verticalFileHandle;
+        FileHandle vShapeFileHandle;
+        FileHandle invVShapeFileHandle;
+        FileHandle alphaFileHandle;
+        FileHandle gammaFileHandle;
+        FileHandle sigmaFileHandle;
+
+        zShapeFileHandle = Gdx.files.internal("gestures/zshape/");
+        invZShapeFileHandle = Gdx.files.internal("gestures/invertedzshape/");
+        horizontalFileHandle = Gdx.files.internal("gestures/horizontalline/");
+        verticalFileHandle = Gdx.files.internal("gestures/verticalline/");
+        vShapeFileHandle = Gdx.files.internal("gestures/vshape/");
+        invVShapeFileHandle = Gdx.files.internal("gestures/invertedvshape/");
+        alphaFileHandle = Gdx.files.internal("gestures/alpha/");
+        gammaFileHandle = Gdx.files.internal("gestures/gamma/");
+        sigmaFileHandle = Gdx.files.internal("gestures/sigma/");
+
+        if (sigmaFileHandle.exists()) {
+            gesturesList.put("sigma", sigmaFileHandle);
+        }
+
+        if (zShapeFileHandle.exists()) {
+            gesturesList.put("zshape", zShapeFileHandle);
+        }
+
+        if (invZShapeFileHandle.exists()) {
+            gesturesList.put("zinv", invZShapeFileHandle);
+        }
+
+        if (horizontalFileHandle.exists()) {
+            gesturesList.put("horizontal", horizontalFileHandle);
+        }
+
+        if (verticalFileHandle.exists()) {
+            gesturesList.put("vertical", verticalFileHandle);
+        }
+
+        if (vShapeFileHandle.exists()) {
+            gesturesList.put("vshape", vShapeFileHandle);
+        }
+
+        if (invVShapeFileHandle.exists()) {
+            gesturesList.put("vinv", invVShapeFileHandle);
+        }
+
+        if (alphaFileHandle.exists()) {
+            gesturesList.put("alpha", alphaFileHandle);
+        }
+
+        if (gammaFileHandle.exists()) {
+            gesturesList.put("gamma", gammaFileHandle);
+        }
+
+    }
+
+    public void load() {
+        loadGestureJSON();
         // store high score
         if (!prefs.contains("highScore")) {
             prefs.putInteger("highScore", 0);
@@ -164,7 +243,7 @@ public final class AssetLoader {
 
         // zombie climbing animation
         TextureRegion[] zombieClimbing = {sprites.get("zombieClimb1"), sprites.get("zombieClimb2"), sprites.get("zombieClimb3"),
-                                          sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
+                sprites.get("zombieClimb4"), sprites.get("zombieClimb5"), sprites.get("zombieClimb6")};
         zombieClimbingAnimation = new Animation(0.2f, zombieClimbing);
         zombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
@@ -178,7 +257,7 @@ public final class AssetLoader {
 
         // zombie climbing animation (ENEMY)
         TextureRegion[] enemyZombieClimbing = {sprites.get("enemyZombieClimb1"), sprites.get("enemyZombieClimb2"), sprites.get("enemyZombieClimb3"),
-                                               sprites.get("enemyZombieClimb4"), sprites.get("enemyZombieClimb5"), sprites.get("enemyZombieClimb6")};
+                sprites.get("enemyZombieClimb4"), sprites.get("enemyZombieClimb5"), sprites.get("enemyZombieClimb6")};
         enemyZombieClimbingAnimation = new Animation(0.2f, enemyZombieClimbing);
         enemyZombieClimbingAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
@@ -201,8 +280,8 @@ public final class AssetLoader {
 
         // explosion animation
         TextureRegion[] explosion = {sprites.get("explosion1"), sprites.get("explosion2"), sprites.get("explosion3"), sprites.get("explosion4"), sprites.get("explosion5"),
-                                     sprites.get("explosion6"), sprites.get("explosion7"), sprites.get("explosion8"), sprites.get("explosion9"), sprites.get("explosion10"),
-                                     sprites.get("explosion11"), sprites.get("explosion12"), sprites.get("explosion13"), sprites.get("explosion14")};
+                sprites.get("explosion6"), sprites.get("explosion7"), sprites.get("explosion8"), sprites.get("explosion9"), sprites.get("explosion10"),
+                sprites.get("explosion11"), sprites.get("explosion12"), sprites.get("explosion13"), sprites.get("explosion14")};
         explosionAnimation = new Animation(0.15f, explosion);
         explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
@@ -228,8 +307,8 @@ public final class AssetLoader {
 
         // spinner animation
         TextureRegion[] spinner = {sprites.get("spinner1"), sprites.get("spinner2"), sprites.get("spinner3"), sprites.get("spinner4"), sprites.get("spinner5"), sprites.get("spinner6"),
-                                   sprites.get("spinner7"), sprites.get("spinner8"), sprites.get("spinner9"), sprites.get("spinner10"), sprites.get("spinner11"), sprites.get("spinner12"),
-                                   sprites.get("spinner13"), sprites.get("spinner14"), sprites.get("spinner15"), sprites.get("spinner16"), sprites.get("spinner17")};
+                sprites.get("spinner7"), sprites.get("spinner8"), sprites.get("spinner9"), sprites.get("spinner10"), sprites.get("spinner11"), sprites.get("spinner12"),
+                sprites.get("spinner13"), sprites.get("spinner14"), sprites.get("spinner15"), sprites.get("spinner16"), sprites.get("spinner17")};
         spinnerAnimation = new Animation(0.05f, spinner);
         spinnerAnimation.setPlayMode(Animation.PlayMode.LOOP);
 

@@ -133,3 +133,6 @@ idea {
         }
     }
 }
+dependencies {
+    compile 'org.lwjgl.lwjgl:lwjgl:2.9.2'
+}

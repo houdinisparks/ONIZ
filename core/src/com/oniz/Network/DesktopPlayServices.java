@@ -8,9 +8,19 @@ import com.oniz.Game.ZGame;
  */
 public class DesktopPlayServices implements PlayServices {
     ZGame zgame;
+
     @Override
     public void signIn() {
         Gdx.app.log("DesktopPlayServices", "Sign in");
+    }
+
+    @Override
+    public boolean isConnecting() {
+        Gdx.app.log("DesktopPlayServices", "isConnecting?");
+        return false;
+    }
+
+    public void addLoginListener(LoginListener loginListener) {
     }
 
     @Override
