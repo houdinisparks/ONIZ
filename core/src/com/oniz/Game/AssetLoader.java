@@ -87,6 +87,9 @@ public final class AssetLoader {
         FileHandle alphaFileHandle;
         FileHandle gammaFileHandle;
         FileHandle sigmaFileHandle;
+        FileHandle mShapeFileHandle;
+        FileHandle revCShapeFileHandle;
+        FileHandle triangleFileHandle;
 
         zShapeFileHandle = Gdx.files.internal("gestures/zshape/");
         invZShapeFileHandle = Gdx.files.internal("gestures/invertedzshape/");
@@ -97,6 +100,9 @@ public final class AssetLoader {
         alphaFileHandle = Gdx.files.internal("gestures/alpha/");
         gammaFileHandle = Gdx.files.internal("gestures/gamma/");
         sigmaFileHandle = Gdx.files.internal("gestures/sigma/");
+        mShapeFileHandle = Gdx.files.internal("gestures/mshape/");
+        revCShapeFileHandle = Gdx.files.internal("gestures/revcshape/");
+        triangleFileHandle = Gdx.files.internal("gestures/triangle/");
 
         if (sigmaFileHandle.exists()) {
             gesturesList.put("sigma", sigmaFileHandle);
@@ -132,6 +138,18 @@ public final class AssetLoader {
 
         if (gammaFileHandle.exists()) {
             gesturesList.put("gamma", gammaFileHandle);
+        }
+
+        if(mShapeFileHandle.exists()) {
+            gesturesList.put("mshape", mShapeFileHandle);
+        }
+
+        if(revCShapeFileHandle.exists()) {
+            gesturesList.put("revcshape", revCShapeFileHandle);
+        }
+
+        if(triangleFileHandle.exists()) {
+            gesturesList.put("triangle", triangleFileHandle);
         }
 
     }
@@ -232,6 +250,9 @@ public final class AssetLoader {
         gestureHints.put(GestureRock.GestureType.INVERTED_Z_SHAPE, sprites.get("invertedZshape"));
         gestureHints.put(GestureRock.GestureType.GAMMA, sprites.get("gamma"));
         gestureHints.put(GestureRock.GestureType.SIGMA, sprites.get("sigma"));
+        gestureHints.put(GestureRock.GestureType.M_SHAPE, sprites.get("Mshape"));
+        gestureHints.put(GestureRock.GestureType.REV_C_SHAPE, sprites.get("invertedCshape"));
+        gestureHints.put(GestureRock.GestureType.TRIANGLE, sprites.get("triangle"));
 
         // sprites of zombie climbing
         sprites.put("zombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 0, 60, 130));

@@ -69,6 +69,9 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private static final String AlphaType = "alpha";
     private static final String GammaType = "gamma";
     private static final String SigmaType = "sigma";
+    private static final String mShapeType = "mshape";
+    private static final String RevCShapeType = "revcshape";
+    private static final String TriangleShape = "triangle";
 
 //    private static int SigmaFileCount = 1;
 //    private static int ZShapeFileCount = 1;
@@ -376,6 +379,15 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
         } else if (name.contains(SigmaType)) {
             return GestureRock.GestureType.SIGMA;
+
+        } else if (name.contains(mShapeType)) {
+            return GestureRock.GestureType.M_SHAPE;
+
+        } else if (name.contains(RevCShapeType)) {
+            return GestureRock.GestureType.REV_C_SHAPE;
+
+        } else if (name.contains(TriangleShape)) {
+            return GestureRock.GestureType.TRIANGLE;
 
         } else {
             return null;
