@@ -240,6 +240,13 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        if(!gameWorld.isRunning()) {
+            originalPath.clear();
+            inputPoints.clear();
+            simplified.clear();
+            return false;
+        }
+
 //        Gdx.app.log(TAG, "touchDown x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
@@ -262,6 +269,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
+        if(!gameWorld.isRunning())
+            return false;
 //        Gdx.app.log(TAG, "touchDragged x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
@@ -297,7 +306,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
 //        Gdx.app.log(TAG, "touchUp x: " + x + " y: " + y);
-
+        if(!gameWorld.isRunning())
+            return false;
         /*-------Gesture Detection-----------*/
 
 

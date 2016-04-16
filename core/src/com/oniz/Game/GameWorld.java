@@ -20,6 +20,7 @@ public class GameWorld {
     public static final int GAME_PAUSED = 2;
     public static final int GAME_LEVEL_END = 3;
     public static final int GAME_OVER = 4;
+    public static final int GAME_WINNER = 5;
     static final int[] zombiePaths = {40, 78, 115, 153, 190, 228, 265, 303, 340};
     private int state;
     private int score = 0;
@@ -59,6 +60,8 @@ public class GameWorld {
             case GAME_OVER:
                 updateGameOver();
                 break;
+            case GAME_WINNER:
+                break;
         }
     }
 
@@ -91,13 +94,16 @@ public class GameWorld {
                 if (zgame.isMultiplayerMode()) {
                     zgame.playServices.broadcastMessage("SPAWN:ZOMBIE");
                 }
-
-
             }
         }
         // spawn zombies at random time intervals
         if (random.nextInt(100) == 77) {
             spawnZombie(false);
+        }
+
+        //send message before going into game_over state
+        if(zgame.isMultiplayerMode() && (this.state == GAME_OVER)) {
+            zgame.playServices.broadcastMessage("DEFEATED:PLAYERID");
         }
     }
 
@@ -133,6 +139,7 @@ public class GameWorld {
 
     public void restartGame() {
         // reset to initial state
+        zgame.setOpponentDefeated(false);
         childZombies.clear();
         score = 0;
         state = GAME_RUNNING;
@@ -163,6 +170,8 @@ public class GameWorld {
         return state == GAME_RUNNING;
     }
 
+    public boolean isGameWinner() { return state == GAME_WINNER; }
+
     public int getScore() {
         return score;
     }
@@ -183,6 +192,9 @@ public class GameWorld {
         //for starters it should spawn an additional zombie
         if (msg.startsWith("SPAWN")) {
             spawnZombie(true);
+        } else if (msg.startsWith("DEFEATED") && !this.isGameOver()) {
+            zgame.setOpponentDefeated(true);
+            this.setState(GAME_WINNER);
         }
 //        Gdx.app.log("REALTIMEUPDATE", msg);
     }

@@ -199,7 +199,8 @@ public class GameRenderer {
         // Convert integer into String
         String score = Integer.toString(gameWorld.getScore());
         // Draw score
-        scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
+        if(gameWorld.zgame.isMultiplayerMode())
+            scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
 
 
         // when game is ready, draw the play button
@@ -226,7 +227,9 @@ public class GameRenderer {
                 // draw explosion animation
                 childZombies.get(i).drawExplosion(batcher, explosionAnimation, deltaTime);
             }
-            menuButtons.get("pauseButton").draw(batcher);
+
+            if(!gameWorld.zgame.isMultiplayerMode())
+                menuButtons.get("pauseButton").draw(batcher);
 
             // refresh freezeFrameTime with the current running time
             freezeFrameTime = runTime;
@@ -239,15 +242,30 @@ public class GameRenderer {
             drawPauseMenu();
 
         // when game is over, freeze the animating zombies, and draw the PLAY AGAIN button
+        // draw different text for multiplayer modes
         } else if (gameWorld.isGameOver()) {
+            if(gameWorld.zgame.isMultiplayerMode()) {
+                drawZombiesFreezeFrame();
+                // draw background tint
+                batcher.draw(backgroundTint, 0, 0, 450, 800);
+                drawGameOverMenu();
+                menuFont.draw(batcher, "You lost! ):", 150, 450);
+            } else {
+                drawZombiesFreezeFrame();
+                // draw background tint
+                batcher.draw(backgroundTint, 0, 0, 450, 800);
+                drawGameOverMenu();
+                menuFont.draw(batcher, "Current score : ", 90, 465);
+                menuFont.draw(batcher, score, 310, 465);
+                menuFont.draw(batcher, "High score : ", 132, 420);
+                menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 310, 420);
+            }
+        } else if (gameWorld.isGameWinner()) {
             drawZombiesFreezeFrame();
             // draw background tint
             batcher.draw(backgroundTint, 0, 0, 450, 800);
             drawGameOverMenu();
-            menuFont.draw(batcher, "Current score : ", 90, 465);
-            menuFont.draw(batcher, score, 310, 465);
-            menuFont.draw(batcher, "High score : ", 132, 420);
-            menuFont.draw(batcher, Integer.toString(AssetLoader.getHighScore()), 310, 420);
+            menuFont.draw(batcher, "You won! :D", 150, 450);
         }
 
         batcher.end();

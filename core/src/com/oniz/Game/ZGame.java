@@ -23,6 +23,8 @@ public class ZGame extends Game {
 
     private boolean multiplayerMode = false;
 
+    private boolean opponentDefeated = false;
+
     public ZGame(PlayServices playServices) {
         super();
         this.playServices = playServices;
@@ -97,6 +99,14 @@ public class ZGame extends Game {
 
     public boolean isMultiplayerMode() {
         return this.multiplayerMode;
+    }
+
+    public void setOpponentDefeated(boolean value) {
+        this.opponentDefeated = value;
+    }
+
+    public boolean isOpponentDefeated() {
+        return this.opponentDefeated;
     }
 
     @Override
