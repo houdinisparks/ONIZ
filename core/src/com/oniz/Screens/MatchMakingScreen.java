@@ -76,7 +76,6 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
     //cancel matchmaking process
     private void cancelMatchmaking() {
         zgame.playServices.leaveGame();
-        zgame.switchScreen(ZGame.ScreenState.START);
     }
 
     @Override
