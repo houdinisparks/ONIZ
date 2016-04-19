@@ -1,8 +1,10 @@
 package com.oniz.Mobs;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.oniz.Sound.SoundManager;
 
 import java.util.Random;
 
@@ -21,6 +23,10 @@ public class ChildZombie {
 
     private float explosionRunTime = 0;
 
+    //for soundFXs
+    private SoundManager soundManager;
+    private boolean explosionSFXPlayed;
+
 
     public ChildZombie(float x, float y, boolean isEnemy) {
         Random r = new Random();
@@ -30,6 +36,8 @@ public class ChildZombie {
         isExploding = false;
         this.isEnemy = isEnemy;
         gestureRock = new GestureRock(new Vector2(x+10, y+120));
+        soundManager = SoundManager.getInstance();
+        explosionSFXPlayed = false;
     }
 
     public void update(float delta) {
@@ -43,7 +51,13 @@ public class ChildZombie {
 
 
     public void drawExplosion(SpriteBatch batcher, Animation explosionAnimation, float deltaTime) {
+
         if (isExploding()) {
+            Gdx.app.log("Explosion: ", "played once");
+            if (!explosionSFXPlayed) {
+                soundManager.playExplosion();
+                explosionSFXPlayed = true;
+            }
             explosionRunTime += deltaTime;
             batcher.draw(explosionAnimation.getKeyFrame(explosionRunTime), position.x - 30, position.y, 130, 130);
 

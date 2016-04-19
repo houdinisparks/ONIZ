@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
 import com.oniz.Network.PlayEventListener;
+import com.oniz.Sound.SoundManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import java.util.Random;
 
 /**
  * GameWorld class hold all the models and game states.
+ * It updates everything.
  */
 public class GameWorld implements PlayEventListener{
     public static final int BACKGROUND1 = 0;
@@ -38,8 +40,16 @@ public class GameWorld implements PlayEventListener{
     private boolean isMultiPlayerQuitted = false;
 
 
+    //soundFXs
+    private SoundManager soundManager;
+    boolean cueProBGMLayer;
+    boolean bgmAlreadyPlaying;
+
+
     public GameWorld() {
         this.state = GAME_RUNNING;
+        soundManager = SoundManager.getInstance();
+        bgmAlreadyPlaying = false;
     }
 
     public void setRenderer(GameRenderer gameRenderer) {
@@ -55,28 +65,63 @@ public class GameWorld implements PlayEventListener{
                 break;
             case GAME_RUNNING:
                 updateRunning(deltaTime);
+                updateBattleMusic(deltaTime);
                 break;
             case GAME_PAUSED:
                 updatePaused();
+                pauseBattleMusic();
                 break;
 //            case GAME_LEVEL_END:
 //                updateLevelEnd();
 //                break;
             case GAME_OVER:
                 updateGameOver();
+                stopBattleMusic();
                 break;
             case GAME_WINNER:
+                stopBattleMusic();
                 break;
             case GAME_DISCONNECTED:
+                stopBattleMusic();
                 break;
         }
     }
 
+
     private void updateReady() {
+
+    }
+
+    private void pauseBattleMusic() {
+        if (bgmAlreadyPlaying) {
+            soundManager.pauseBattleMusic();
+            bgmAlreadyPlaying = false;
+        }
+    }
+
+    private void stopBattleMusic() {
+        if (bgmAlreadyPlaying) {
+            soundManager.stopBattleMusic();
+            bgmAlreadyPlaying = false;
+        }
+    }
+
+    private void updateBattleMusic(float delta) {
+        //soundManager.checkMusicPosition();
+        if (!bgmAlreadyPlaying) {
+            soundManager.playBattleMusic();
+            bgmAlreadyPlaying = true;
+        }
+        if (bgmAlreadyPlaying && cueProBGMLayer) {
+            soundManager.fadeInProLayerBattleMusic(delta, 0.3f);
+        }
+
+
     }
 
     private void updateRunning(float deltaTime) {
         // update zombie position
+        cueProBGMLayer = false;
         for (Iterator<ChildZombie> iterator = childZombies.iterator(); iterator.hasNext(); ) {
             ChildZombie zombie = iterator.next();
 
@@ -86,6 +131,12 @@ public class GameWorld implements PlayEventListener{
                     AssetLoader.setHighScore(score);
                 }
                 this.state = GAME_OVER;
+            }
+
+            //check if the zombie has reach a certiain limit (plays intenst music)
+
+            if (zombie.getY() > 200 && !cueProBGMLayer) {
+                cueProBGMLayer = true;
             }
 
             // update living zombies and remove dead zombies
@@ -132,12 +183,18 @@ public class GameWorld implements PlayEventListener{
     }
 
     public void weakenZombie(GestureRock.GestureType gestureType) {
+        boolean SFXPlayed = false;
         for (ChildZombie zombie : childZombies) {
             if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
-//                Gdx.app.log("Zombie status", "weakened");
+//
+                if (!SFXPlayed) {
+                    soundManager.playRockCrack();
+                    SFXPlayed = true;
+                }
                 zombie.getGestureRock().decrementStage();
             }
         }
+
     }
 
     public ArrayList<ChildZombie> getChildZombies() {
@@ -155,6 +212,7 @@ public class GameWorld implements PlayEventListener{
     }
 
     public void goHome() {
+        stopBattleMusic();
         this.zgame.switchScreen(ZGame.ScreenState.START);
         this.isMultiPlayerQuitted = false;
         zgame.playServices.leaveGame();
@@ -230,6 +288,7 @@ public class GameWorld implements PlayEventListener{
         //more important than leftRoom()
         //goto pause state then do stuff
         zgame.setMultiplayerMode(false);
+        stopBattleMusic();
         //show splash?
         this.setState(GAME_DISCONNECTED);
     }

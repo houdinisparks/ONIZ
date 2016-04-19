@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 
+
+
 public class SimpleButton extends ImageButton {
     public SimpleButton(float x, float y, float width, float height, TextureRegion buttonUp, TextureRegion buttonDown) {
         super(new TextureRegionDrawable(buttonUp), new TextureRegionDrawable(buttonDown));

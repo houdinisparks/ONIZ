@@ -1,10 +1,17 @@
 package com.oniz.Gestures;
 
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.EnumMap;
+import java.util.Hashtable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.FutureTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +23,7 @@ import com.oniz.Gestures.DrawPathGraphics.FixedList;
 import com.oniz.Gestures.DrawPathGraphics.SwipeResolver;
 import com.oniz.Gestures.DrawPathGraphics.simplify.ResolverRadialChaikin;
 import com.oniz.Mobs.GestureRock;
+import com.oniz.Sound.SoundManager;
 
 public class GestureRecognizerInputProcessor extends InputAdapter {
 
@@ -56,6 +64,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private SwipeResolver simplifier = new ResolverRadialChaikin();
     private Array<Vector2> simplified;
     private GameWorld gameWorld;
+
+    //soundFXs
 
     /*
     For management of adding JSON files
@@ -215,6 +225,16 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 //        Gdx.app.log("Gesture:" +VerticalLine, VerticalLineFileCount + "");
 //        Gdx.app.log("Gesture:" +HorizontalLine, HorizontalLineFileCount + "");
 
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + ZShapeType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + InvertedZShapeType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + HorizontalLine)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + VerticalLine)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + VShapeType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + InvertedVShapeType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + AlphaType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + GammaType)).start();
+//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + SigmaType)).start();
+
         originalPath = new ArrayList<Vector2>();
 
 		/*-----------Gesture Path Display------------*/
@@ -222,6 +242,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         this.inputPoints = new FixedList<Vector2>(maxInputPoints, Vector2.class);
         simplified = new Array<Vector2>(true, maxInputPoints, Vector.class);
         resolve();
+
+        /*-----------Sounds-----------*/
     }
 
     /**
@@ -334,6 +356,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
             } else {
                 Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
                         + Double.toString(match.getScore()));
+
                 gameWorld.weakenZombie(convertToGestureType(match.getGesture().getName()));
             }
 
@@ -414,6 +437,37 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
      */
     private int scaleY(int screenY) {
         return (int) (screenY / scaleFactorY);
+    }
+
+
+}
+
+class FileHandleThread extends Thread {
+
+    private ProtractorGestureRecognizer protractorGestureRecognizer;
+    private FileHandle fileHandle;
+    private int fileCount;
+
+    public FileHandleThread(ProtractorGestureRecognizer protractorGestureRecognizer, FileHandle fileHandle) {
+        this.protractorGestureRecognizer = protractorGestureRecognizer;
+        this.fileHandle = fileHandle;
+        this.fileCount = 1;
+    }
+
+    public void run() {
+
+        if (fileHandle.isDirectory()) {
+            FileHandle[] fileHandles = fileHandle.list(".json");
+            for (FileHandle jsonFile : fileHandles) {
+                fileCount += 1;
+                protractorGestureRecognizer.addGestureFromFile(jsonFile);
+            }
+        } else {
+            Gdx.app.error("Adding Gesture Error!: ", "File Handle not directory!");
+        }
+
+        Gdx.app.log("Gesture:" + fileHandle.name(), fileCount + "");
+
     }
 
 

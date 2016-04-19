@@ -4,6 +4,8 @@ import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
+import com.oniz.Sound.SoundManager;
 import com.oniz.UI.MenuButton;
 
 
@@ -18,6 +20,7 @@ public class InputHandler implements InputProcessor {
 
     private float scaleFactorX;
     private float scaleFactorY;
+
 
     /**
      * Constructor which initialize all the menu buttons and store them in a hash table.
@@ -64,6 +67,7 @@ public class InputHandler implements InputProcessor {
         menuButtons.put("quitButton", quitButton);
         menuButtons.put("xButton", xButton);
         menuButtons.put("tickButton", tickButton);
+
     }
 
     /**
@@ -128,6 +132,7 @@ public class InputHandler implements InputProcessor {
         if (gameWorld.isReady()) {
             if (playButton.isTouchUp(screenX, screenY)) {
                 gameWorld.setState(GameWorld.GAME_RUNNING);
+
                 return true;
             }
         } else if (gameWorld.isRunning()) {

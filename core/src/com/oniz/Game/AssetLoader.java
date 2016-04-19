@@ -2,6 +2,7 @@ package com.oniz.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,23 +12,36 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.oniz.Gestures.ProtractorGestureRecognizer;
 import com.oniz.Mobs.GestureRock;
+import com.oniz.Sound.SoundManager.BGM;
+import com.oniz.Sound.SoundManager.SoundFX;
 
+import java.util.EnumMap;
 import java.util.Hashtable;
 
 /**
  * Singleton holding all assets.
  */
 public final class AssetLoader {
+
+    /*
+    ENUMS
+     */
+
+    //Read only, no need thread safety and synchronisation.
+
+
     /*
     volatile keyword helps as concurrency control tool in a multithreaded environment
     and provides the latest update in a most accurate manner.
     However please note that double check locking might not work before Java 5.
      */
+
     private static volatile AssetLoader instance = null;
 
     public Hashtable<String, Texture> textures;
     public Hashtable<String, TextureRegion> sprites;
-    public Hashtable<String, Sound> sounds;
+    public EnumMap<SoundFX, Sound> soundFXs;
+    public EnumMap<BGM, Music> soundBGM;
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
@@ -55,7 +69,8 @@ public final class AssetLoader {
     public AssetLoader() {
         textures = new Hashtable<String, Texture>();
         sprites = new Hashtable<String, TextureRegion>();
-        sounds = new Hashtable<String, Sound>();
+        soundFXs = new EnumMap<SoundFX, Sound>(SoundFX.class);
+        soundBGM = new EnumMap<BGM, Music>(BGM.class);
         fonts = new Hashtable<String, BitmapFont>();
         gestureHints = new Hashtable<GestureRock.GestureType, TextureRegion>();
         gestureStages = new Hashtable<GestureRock.Stage, TextureRegion>();
@@ -140,15 +155,15 @@ public final class AssetLoader {
             gesturesList.put("gamma", gammaFileHandle);
         }
 
-        if(mShapeFileHandle.exists()) {
+        if (mShapeFileHandle.exists()) {
             gesturesList.put("mshape", mShapeFileHandle);
         }
 
-        if(revCShapeFileHandle.exists()) {
+        if (revCShapeFileHandle.exists()) {
             gesturesList.put("revcshape", revCShapeFileHandle);
         }
 
-        if(triangleFileHandle.exists()) {
+        if (triangleFileHandle.exists()) {
             gesturesList.put("triangle", triangleFileHandle);
         }
 
@@ -364,6 +379,22 @@ public final class AssetLoader {
         sprites.put("pauseUp", new TextureRegion(textures.get("menuTexture"), 12, 814, 72, 62));
         sprites.put("pauseDown", new TextureRegion(textures.get("menuTexture"), 12, 894, 72, 62));
         */
+
+        //soundFXs
+        soundFXs.put(SoundFX.EXPLODE1, Gdx.audio.newSound(Gdx.files.internal("sounds/explode1.ogg")));
+        soundFXs.put(SoundFX.EXPLODE2, Gdx.audio.newSound(Gdx.files.internal("sounds/explode2.ogg")));
+        soundFXs.put(SoundFX.EXPLODE3, Gdx.audio.newSound(Gdx.files.internal("sounds/explode3.ogg")));
+        soundFXs.put(SoundFX.EXPLODE4, Gdx.audio.newSound(Gdx.files.internal("sounds/explode4.ogg")));
+        soundFXs.put(SoundFX.ROCKCRACK1, Gdx.audio.newSound(Gdx.files.internal("sounds/rockcrack1.ogg")));
+        soundFXs.put(SoundFX.ROCKCRACK2, Gdx.audio.newSound(Gdx.files.internal("sounds/rockcrack2.ogg")));
+        soundFXs.put(SoundFX.ROCKCRACK3, Gdx.audio.newSound(Gdx.files.internal("sounds/rockcrack3.ogg")));
+        soundFXs.put(SoundFX.ROCKCRACK4, Gdx.audio.newSound(Gdx.files.internal("sounds/rockcrack4.ogg")));
+        soundFXs.put(SoundFX.UIBUTTONCLICKDOWN, Gdx.audio.newSound(Gdx.files.internal("sounds/UIButtonClickDown.ogg")));
+        soundFXs.put(SoundFX.UIBUTTONUP, Gdx.audio.newSound(Gdx.files.internal("sounds/UIButtonClickUp.ogg")));
+
+        //BGMs
+        soundBGM.put(BGM.BATTLEMUSICNORMALLAYER, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicnormallayer.ogg")));
+        soundBGM.put(BGM.BATTLEMUSICINTENSELAYER, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicintenselayer.ogg")));
     }
 
     // Receives an integer and maps it to the String highScore in prefs
@@ -388,9 +419,9 @@ public final class AssetLoader {
             fonts.remove(o);
             temp.dispose();
         }
-        for (Object o : sounds.values().toArray()) {
+        for (Object o : soundFXs.values().toArray()) {
             Sound temp = (Sound) o;
-            sounds.remove(o);
+            soundFXs.remove(o);
             temp.dispose();
         }
     }

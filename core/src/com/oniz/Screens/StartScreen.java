@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
 import com.oniz.Network.LoginListener;
+import com.oniz.Sound.SoundManager;
+import com.oniz.UI.AdvancedClickListener;
 import com.oniz.UI.SimpleButton;
 
 
@@ -33,8 +34,12 @@ public class StartScreen implements LoginListener, Screen {
     private boolean soundToggle = true;
     private boolean musicToggle = true;
 
+    private SoundManager soundManager;
+
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
+
+        soundManager = SoundManager.getInstance();
 
         loadAssets();
         setup();
@@ -45,7 +50,6 @@ public class StartScreen implements LoginListener, Screen {
         Gdx.input.setCatchBackKey(true);
 
         //login listener
-
         // Viewport - Aspect Radio
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 450, 800); //false for y upwards
@@ -57,7 +61,7 @@ public class StartScreen implements LoginListener, Screen {
 
         // buttons
         quickGameBtn = new SimpleButton(125, 400, 200, 120, AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
-        quickGameBtn.addListener(new ClickListener() {
+        quickGameBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 quickGame();
@@ -65,7 +69,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         loginBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
-        loginBtn.addListener(new ClickListener() {
+        loginBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 signIn();
@@ -73,7 +77,9 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         settingsBtn = new SimpleButton(10, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
-        settingsBtn.addListener(new ClickListener() {
+        settingsBtn.addListener(new AdvancedClickListener() {
+
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // disable startScreen buttons
@@ -103,7 +109,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         singlePlayerBtn = new SimpleButton(450 - 90, 10, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
-        singlePlayerBtn.addListener(new ClickListener() {
+        singlePlayerBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 zGame.setMultiplayerMode(false);
@@ -112,7 +118,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         backBtn = new SimpleButton(10, 800 - 90, 80, 80, AssetLoader.getInstance().sprites.get("backBtnUp"), AssetLoader.getInstance().sprites.get("backBtnDown"));
-        backBtn.addListener(new ClickListener() {
+        backBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // disable settingScreen buttons
@@ -140,7 +146,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         helpBtn = new SimpleButton(100, 10, 80, 80, AssetLoader.getInstance().sprites.get("helpBtnUp"), AssetLoader.getInstance().sprites.get("helpBtnDown"));
-        helpBtn.addListener(new ClickListener() {
+        helpBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: help screen
@@ -148,7 +154,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         soundBtn = new SimpleButton(135, 10, 80, 80, AssetLoader.getInstance().sprites.get("soundBtnUp"), AssetLoader.getInstance().sprites.get("soundBtnDown"));
-        soundBtn.addListener(new ClickListener() {
+        soundBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 soundToggle = false;
@@ -159,7 +165,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         soundMutedBtn = new SimpleButton(135, 10, 80, 80, AssetLoader.getInstance().sprites.get("soundMutedBtnUp"), AssetLoader.getInstance().sprites.get("soundMutedBtnDown"));
-        soundMutedBtn.addListener(new ClickListener() {
+        soundMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 soundToggle = true;
@@ -170,7 +176,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         musicBtn = new SimpleButton(235, 10, 80, 80, AssetLoader.getInstance().sprites.get("musicBtnUp"), AssetLoader.getInstance().sprites.get("musicBtnDown"));
-        musicBtn.addListener(new ClickListener() {
+        musicBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 musicToggle = false;
@@ -181,7 +187,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         musicMutedBtn = new SimpleButton(235, 10, 80, 80, AssetLoader.getInstance().sprites.get("musicMutedBtnUp"), AssetLoader.getInstance().sprites.get("musicMutedBtnDown"));
-        musicMutedBtn.addListener(new ClickListener() {
+        musicMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 musicToggle = true;
@@ -192,7 +198,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         background1Btn = new SimpleButton(85, 390, 80, 80, AssetLoader.getInstance().sprites.get("background1BtnUp"), AssetLoader.getInstance().sprites.get("background1BtnDown"));
-        background1Btn.addListener(new ClickListener() {
+        background1Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND1);
@@ -200,7 +206,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         background2Btn = new SimpleButton(185, 390, 80, 80, AssetLoader.getInstance().sprites.get("background2BtnUp"), AssetLoader.getInstance().sprites.get("background2BtnDown"));
-        background2Btn.addListener(new ClickListener() {
+        background2Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND2);
@@ -208,7 +214,7 @@ public class StartScreen implements LoginListener, Screen {
         });
 
         background3Btn = new SimpleButton(285, 390, 80, 80, AssetLoader.getInstance().sprites.get("background3BtnUp"), AssetLoader.getInstance().sprites.get("background3BtnDown"));
-        background3Btn.addListener(new ClickListener() {
+        background3Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND3);

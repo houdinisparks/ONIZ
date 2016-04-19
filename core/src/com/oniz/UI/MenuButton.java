@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.oniz.Sound.SoundManager;
 
 public class MenuButton extends Button{
 
@@ -14,6 +15,10 @@ public class MenuButton extends Button{
 
     private Rectangle bounds;
     private boolean isPressed = false;
+
+    //soundFXs
+    private SoundManager soundManager;
+
 
 
     public MenuButton(float x, float y, float width, float height,
@@ -26,6 +31,8 @@ public class MenuButton extends Button{
         this.buttonDown = buttonDown;
 
         bounds = new Rectangle(x, y, width, height);
+
+        soundManager = SoundManager.getInstance();
     }
 
     public boolean isClicked(int screenX, int screenY) {
@@ -43,6 +50,7 @@ public class MenuButton extends Button{
     public boolean isTouchDown(int screenX, int screenY) {
         if (bounds.contains(screenX, screenY)) {
             isPressed = true;
+            soundManager.playUIButtonClickDown();
             return true;
         }
         return false;
@@ -53,6 +61,7 @@ public class MenuButton extends Button{
         // It only counts as a touchUp if the button is in a pressed state.
         if (bounds.contains(screenX, screenY) && isPressed) {
             isPressed = false;
+            soundManager.playUIButtonUp();
             return true;
         }
 
