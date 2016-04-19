@@ -2,6 +2,7 @@ package com.oniz.Game;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
 import com.oniz.Network.PlayEventListener;
@@ -45,6 +46,8 @@ public class GameWorld implements PlayEventListener {
     private SoundManager soundManager;
     boolean cueProBGMLayer;
     boolean bgmAlreadyPlaying;
+    private long startRecordTime;
+    boolean alreadyRecordingTime;
 
 
     public GameWorld() {
@@ -109,6 +112,7 @@ public class GameWorld implements PlayEventListener {
 
     private void updateBattleMusic(float delta) {
         //soundManager.checkMusicPosition();
+
         if (!bgmAlreadyPlaying) {
             soundManager.playBattleMusic();
             bgmAlreadyPlaying = true;
@@ -117,6 +121,16 @@ public class GameWorld implements PlayEventListener {
             soundManager.fadeInProLayerBattleMusic(delta, 0.3f);
         }
 
+        if (bgmAlreadyPlaying && !cueProBGMLayer) {
+            if (alreadyRecordingTime) {
+                startRecordTime = TimeUtils.millis();
+
+            } else {
+                if (TimeUtils.timeSinceMillis(startRecordTime) >= 3000) {
+                    soundManager.fadeOutProLayerBattleMusic(delta, 0.3f);
+                }
+            }
+        }
 
     }
 
@@ -136,7 +150,7 @@ public class GameWorld implements PlayEventListener {
 
             //check if the zombie has reach a certiain limit (plays intenst music)
 
-            if (zombie.getY() > 200 && !cueProBGMLayer) {
+            if (zombie.getY() > 300 && !cueProBGMLayer) {
                 cueProBGMLayer = true;
             }
 
@@ -187,7 +201,6 @@ public class GameWorld implements PlayEventListener {
         boolean SFXPlayed = false;
         for (ChildZombie zombie : childZombies) {
             if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
-//
                 if (!SFXPlayed) {
                     soundManager.playRockCrack();
                     SFXPlayed = true;
@@ -204,11 +217,11 @@ public class GameWorld implements PlayEventListener {
 
     public void restartGame() {
         // reset to initial state
-
         if (zgame.isMultiplayerMode()) {
             zgame.playServices.broadcastMessage("RESTART:PLAYERID");
         }
 
+        soundManager.stopBattleMusic();
         zgame.setOpponentDefeated(false);
         childZombies.clear();
         score = 0;

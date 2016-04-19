@@ -37,6 +37,9 @@ public class SoundManager {
     private static Music normallayerBGM;
 
     private boolean bgmIsPlaying;
+    private boolean bgmIsStopped;
+    private String TAG = "SoundManager";
+
 
     /*
     ENUMS
@@ -71,7 +74,9 @@ public class SoundManager {
 
     public enum BGM {
         BATTLEMUSICNORMALLAYER,
-        BATTLEMUSICINTENSELAYER;
+        BATTLEMUSICINTENSELAYER,
+        BATTLEMUSICNORMALLAYERLOOP,
+        BATTLEMUSICINTENSELAYERLOOP;
 
     }
     /*
@@ -85,7 +90,26 @@ public class SoundManager {
         soundBGMS = AssetLoader.getInstance().soundBGM;
 
         intenselayerBGM = soundBGMS.get(BGM.BATTLEMUSICINTENSELAYER);
+        intenselayerBGM.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                Gdx.app.log(TAG,"onCompletion intenselayer");
+                intenselayerBGM = soundBGMS.get(BGM.BATTLEMUSICINTENSELAYERLOOP);
+                intenselayerBGM.setLooping(true);
+                intenselayerBGM.play();
+
+            }
+        });
         normallayerBGM = soundBGMS.get(BGM.BATTLEMUSICNORMALLAYER);
+        normallayerBGM.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                Gdx.app.log(TAG,"onCompletion normal layer");
+                normallayerBGM = soundBGMS.get(BGM.BATTLEMUSICNORMALLAYERLOOP);
+                normallayerBGM.setLooping(true);
+                normallayerBGM.play();
+            }
+        });
 
         computeRockCrash = new Callable<Sound>() {
             @Override
@@ -106,6 +130,7 @@ public class SoundManager {
          explosion = poolOfThreads.submit(computeExplosion);
 
         bgmIsPlaying = false;
+        bgmIsStopped = true;
 
     }
 
@@ -154,12 +179,17 @@ public class SoundManager {
     public synchronized void playBattleMusic() {
         //this method must be atomic.
         //set a high prority thread to start the music at the same time
-        if (!bgmIsPlaying) {
+        if (!bgmIsPlaying || bgmIsStopped) {
             bgmIsPlaying = true;
+            bgmIsStopped = false;
             intenselayerBGM.setVolume(0);
             normallayerBGM.play();
             intenselayerBGM.play();
             //intenselayerBGM.setPosition(normallayerBGM.getPosition());
+
+        }
+        else{
+            Gdx.app.log(TAG, "BGM already [playing!");
 
         }
 
@@ -170,14 +200,20 @@ public class SoundManager {
             intenselayerBGM.pause();
             normallayerBGM.pause();
             bgmIsPlaying = false;
+        }else{
+            Gdx.app.log(TAG,"BGM already paused!!");
         }
     }
 
     public synchronized void stopBattleMusic() {
-        if(bgmIsPlaying){
+        if(!bgmIsStopped) {
             normallayerBGM.stop();
             intenselayerBGM.stop();
             bgmIsPlaying = false;
+            bgmIsStopped = true;
+        }
+        else{
+            Gdx.app.log(TAG,"BGM already stopped!");
         }
 
     }
@@ -200,11 +236,13 @@ public class SoundManager {
 
         if (intenselayerBGM.isPlaying() || intenselayerBGM.isLooping()) {
             float volume = intenselayerBGM.getVolume();
-            if (volume <= 1.0){
+            if (volume > 0.0){
                 volume -= delta * fadeTime;
-                intenselayerBGM.setVolume(volume);
+                intenselayerBGM.setVolume(volume < 0 ? 0 : volume);
             }
         }
+        Gdx.app.log("Fading out: " , intenselayerBGM.getVolume() + "");
+
     }
 
     public void checkMusicPosition() {

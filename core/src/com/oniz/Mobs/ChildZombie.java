@@ -53,7 +53,6 @@ public class ChildZombie {
     public void drawExplosion(SpriteBatch batcher, Animation explosionAnimation, float deltaTime) {
 
         if (isExploding()) {
-            Gdx.app.log("Explosion: ", "played once");
             if (!explosionSFXPlayed) {
                 soundManager.playExplosion();
                 explosionSFXPlayed = true;
