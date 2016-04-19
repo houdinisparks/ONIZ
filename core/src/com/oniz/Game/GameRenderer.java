@@ -43,7 +43,7 @@ public class GameRenderer {
     private TextureRegion background, backgroundTint;
     private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
     private TextureRegion zombie;
-    private TextureRegion pauseMenu, gameOverMenu;
+    private TextureRegion pauseMenu, gameOverMenu, quitMenu;
     private BitmapFont scoreFont, menuFont;
 
     // Buttons
@@ -133,6 +133,7 @@ public class GameRenderer {
         zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
         pauseMenu = AssetLoader.getInstance().sprites.get("pauseMenu");
         gameOverMenu = AssetLoader.getInstance().sprites.get("gameOverMenu");
+        quitMenu = AssetLoader.getInstance().sprites.get("quitMenu");
         scoreFont = AssetLoader.getInstance().fonts.get("scoreText");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
     }
@@ -152,6 +153,12 @@ public class GameRenderer {
         batcher.draw(gameOverMenu, 25, 280, 400, 290);
         menuButtons.get("playAgainButton").draw(batcher);
         menuButtons.get("gameOverHomeButton").draw(batcher);
+    }
+
+    private void drawQuitMenu() {
+        batcher.draw(quitMenu, 25, 340, 400, 200);
+        menuButtons.get("tickButton").draw(batcher);
+        menuButtons.get("xButton").draw(batcher);
     }
 
     /**
@@ -228,9 +235,13 @@ public class GameRenderer {
             }
 
             if(gameWorld.zgame.isMultiplayerMode()) {
-                //this should be the x button
-            }
-            else {
+                if (gameWorld.isMultiPlayerQuitted()) {
+                    batcher.draw(backgroundTint, 0, 0, 450, 800);
+                    drawQuitMenu();
+                } else {
+                    menuButtons.get("quitButton").draw(batcher);
+                }
+            } else {
                 menuButtons.get("pauseButton").draw(batcher);
             }
 

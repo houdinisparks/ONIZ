@@ -31,9 +31,10 @@ public class GameWorld implements PlayEventListener{
     GameRenderer gameRenderer;
     Random random = new Random();
     ArrayList<ChildZombie> childZombies = new ArrayList<ChildZombie>();
-
-
     ZGame zgame;
+
+    private boolean isMultiPlayerQuitted = false;
+
 
     public GameWorld() {
         this.state = GAME_RUNNING;
@@ -145,11 +146,13 @@ public class GameWorld implements PlayEventListener{
         childZombies.clear();
         score = 0;
         state = GAME_RUNNING;
+        this.isMultiPlayerQuitted = false;
         gameRenderer.prepareTransition(0, 0, 0, 1f);
     }
 
     public void goHome() {
         this.zgame.switchScreen(ZGame.ScreenState.START);
+        this.isMultiPlayerQuitted = false;
     }
 
     public void setGame(ZGame zgame) {
@@ -173,6 +176,14 @@ public class GameWorld implements PlayEventListener{
     }
 
     public boolean isGameWinner() { return state == GAME_WINNER; }
+
+    public boolean isMultiPlayerQuitted() {
+        return isMultiPlayerQuitted;
+    }
+
+    public void setIsMultiPlayerQuitted(boolean isMultiPlayerQuitted) {
+        this.isMultiPlayerQuitted = isMultiPlayerQuitted;
+    }
 
     public int getScore() {
         return score;
