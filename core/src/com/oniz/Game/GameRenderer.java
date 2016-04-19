@@ -41,7 +41,7 @@ public class GameRenderer {
 
     // Game Assets
     private TextureRegion background, backgroundTint;
-    private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
+    private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, missAnimation;
     private TextureRegion zombie;
 
     private TextureRegion pauseMenu, gameOverMenu, oopsMenu, quitMenu;
@@ -57,6 +57,7 @@ public class GameRenderer {
 
     // temporary
     private volatile float freezeFrameTime = 0;
+    private float missAnimationRunTime = 0;
 
     /*
     GESTURE-ONLY RELATED ASSETS
@@ -132,6 +133,7 @@ public class GameRenderer {
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
         explosionAnimation = AssetLoader.getInstance().explosionAnimation;
+        missAnimation = AssetLoader.getInstance().missAnimation;
         zombie = AssetLoader.getInstance().sprites.get("zombieClimb3");
         pauseMenu = AssetLoader.getInstance().sprites.get("pauseMenu");
         gameOverMenu = AssetLoader.getInstance().sprites.get("gameOverMenu");
@@ -168,6 +170,17 @@ public class GameRenderer {
         batcher.draw(quitMenu, 25, 340, 400, 200);
         menuButtons.get("tickButton").draw(batcher);
         menuButtons.get("xButton").draw(batcher);
+    }
+
+    private void drawMissAnimation(float deltaTime) {
+        if (gameWorld.isMissed.get()) {
+            missAnimationRunTime += deltaTime;
+            batcher.draw(missAnimation.getKeyFrame(missAnimationRunTime), 15, 300, 420, 180);
+            if (missAnimation.isAnimationFinished(missAnimationRunTime)) {
+                gameWorld.isMissed.set(false);
+                missAnimationRunTime = 0;
+            }
+        }
     }
 
     /**
@@ -212,10 +225,13 @@ public class GameRenderer {
 
         batcher.enableBlending();
 
+        // miss animation
+        drawMissAnimation(deltaTime);
+
         // Convert integer into String
         String score = Integer.toString(gameWorld.getScore());
         // Draw score
-        scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
+        scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 780);
 
 
         // when game is ready, draw the play button

@@ -353,6 +353,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
             if (match.getScore() < 3) {
                 Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
+                gameWorld.isMissed.set(true);
             } else {
                 Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
                         + Double.toString(match.getScore()));

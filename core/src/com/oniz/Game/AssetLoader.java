@@ -18,6 +18,8 @@ import com.oniz.Sound.SoundManager.SoundFX;
 import java.util.EnumMap;
 import java.util.Hashtable;
 
+import javax.xml.soap.Text;
+
 /**
  * Singleton holding all assets.
  */
@@ -46,7 +48,7 @@ public final class AssetLoader {
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
     public TextureRegion[] backgrounds;
-    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, spinnerAnimation;
+    public Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation, spinnerAnimation, missAnimation;
     private static Preferences prefs;
     public Skin skin;
 
@@ -238,7 +240,7 @@ public final class AssetLoader {
         sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
         sprites.put("oopsMenu", new TextureRegion(textures.get("menuTexture"), 640, 0, 440, 320));
         sprites.put("quitMenu", new TextureRegion(textures.get("menuTexture"), 640, 320, 400, 200));
-        sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 1040, 280, 520, 320));
+        sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 1040, 280, 480, 320));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
@@ -274,6 +276,17 @@ public final class AssetLoader {
         gestureHints.put(GestureRock.GestureType.M_SHAPE, sprites.get("Mshape"));
         gestureHints.put(GestureRock.GestureType.REV_C_SHAPE, sprites.get("invertedCshape"));
         gestureHints.put(GestureRock.GestureType.TRIANGLE, sprites.get("triangle"));
+
+        // sprites of 'MISS'
+        sprites.put("miss1", new TextureRegion(textures.get("menuTexture"), 1520, 0, 280, 120));
+        sprites.put("miss2", new TextureRegion(textures.get("menuTexture"), 1520, 120, 280, 120));
+        sprites.put("miss3", new TextureRegion(textures.get("menuTexture"), 1520, 240, 280, 120));
+        sprites.put("miss4", new TextureRegion(textures.get("menuTexture"), 1520, 360, 280, 120));
+
+        // 'MISS' animation
+        TextureRegion[] miss = {sprites.get("miss2"), sprites.get("miss1"), sprites.get("miss2"), sprites.get("miss3"), sprites.get("miss4")};
+        missAnimation = new Animation(0.1f, miss);
+        missAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
         // sprites of zombie climbing
         sprites.put("zombieClimb1", new TextureRegion(textures.get("menuTexture"), 1087, 0, 60, 130));

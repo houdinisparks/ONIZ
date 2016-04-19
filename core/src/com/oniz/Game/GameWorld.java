@@ -10,6 +10,7 @@ import com.oniz.Sound.SoundManager;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * GameWorld class hold all the models and game states.
@@ -38,7 +39,7 @@ public class GameWorld implements PlayEventListener{
     ZGame zgame;
 
     private boolean isMultiPlayerQuitted = false;
-
+    public AtomicBoolean isMissed = new AtomicBoolean(false);
 
     //soundFXs
     private SoundManager soundManager;
