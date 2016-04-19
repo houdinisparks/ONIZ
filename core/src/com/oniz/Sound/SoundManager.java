@@ -189,7 +189,7 @@ public class SoundManager {
 
         }
         else{
-            Gdx.app.log(TAG,"BGM already [playing!");
+            Gdx.app.log(TAG, "BGM already [playing!");
 
         }
 
@@ -236,11 +236,13 @@ public class SoundManager {
 
         if (intenselayerBGM.isPlaying() || intenselayerBGM.isLooping()) {
             float volume = intenselayerBGM.getVolume();
-            if (volume <= 1.0){
+            if (volume > 0.0){
                 volume -= delta * fadeTime;
-                intenselayerBGM.setVolume(volume);
+                intenselayerBGM.setVolume(volume < 0 ? 0 : volume);
             }
         }
+        Gdx.app.log("Fading out: " , intenselayerBGM.getVolume() + "");
+
     }
 
     public void checkMusicPosition() {

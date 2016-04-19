@@ -2,6 +2,7 @@ package com.oniz.Game;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
 import com.oniz.Network.PlayEventListener;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * GameWorld class hold all the models and game states.
  * It updates everything.
  */
-public class GameWorld implements PlayEventListener{
+public class GameWorld implements PlayEventListener {
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
     public static final int BACKGROUND3 = 2;
@@ -45,6 +46,8 @@ public class GameWorld implements PlayEventListener{
     private SoundManager soundManager;
     boolean cueProBGMLayer;
     boolean bgmAlreadyPlaying;
+    private long startRecordTime;
+    boolean alreadyRecordingTime;
 
 
     public GameWorld() {
@@ -109,6 +112,7 @@ public class GameWorld implements PlayEventListener{
 
     private void updateBattleMusic(float delta) {
         //soundManager.checkMusicPosition();
+
         if (!bgmAlreadyPlaying) {
             soundManager.playBattleMusic();
             bgmAlreadyPlaying = true;
@@ -117,6 +121,16 @@ public class GameWorld implements PlayEventListener{
             soundManager.fadeInProLayerBattleMusic(delta, 0.3f);
         }
 
+        if (bgmAlreadyPlaying && !cueProBGMLayer) {
+            if (alreadyRecordingTime) {
+                startRecordTime = TimeUtils.millis();
+
+            } else {
+                if (TimeUtils.timeSinceMillis(startRecordTime) >= 3000) {
+                    soundManager.fadeOutProLayerBattleMusic(delta, 0.3f);
+                }
+            }
+        }
 
     }
 
@@ -161,7 +175,7 @@ public class GameWorld implements PlayEventListener{
         }
 
         //send message before going into game_over state
-        if(zgame.isMultiplayerMode() && (this.state == GAME_OVER)) {
+        if (zgame.isMultiplayerMode() && (this.state == GAME_OVER)) {
             zgame.playServices.broadcastMessage("DEFEATED:PLAYERID");
         }
     }
@@ -240,9 +254,13 @@ public class GameWorld implements PlayEventListener{
         return state == GAME_RUNNING;
     }
 
-    public boolean isGameWinner() { return state == GAME_WINNER; }
+    public boolean isGameWinner() {
+        return state == GAME_WINNER;
+    }
 
-    public boolean isGameDisconnected() { return state == GAME_DISCONNECTED; }
+    public boolean isGameDisconnected() {
+        return state == GAME_DISCONNECTED;
+    }
 
     public boolean isMultiPlayerQuitted() {
         return isMultiPlayerQuitted;
