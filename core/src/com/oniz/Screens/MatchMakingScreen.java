@@ -10,17 +10,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
+import com.oniz.Network.PlayEventListener;
 import com.oniz.UI.SimpleButton;
 
 
-public class MatchMakingScreen implements Screen {
+public class MatchMakingScreen implements Screen, PlayEventListener {
 
     public static ZGame zgame;
 
@@ -75,7 +74,6 @@ public class MatchMakingScreen implements Screen {
     //cancel matchmaking process
     private void cancelMatchmaking() {
         zgame.playServices.leaveGame();
-        zgame.switchScreen(ZGame.ScreenState.START);
     }
 
     @Override
@@ -120,6 +118,12 @@ public class MatchMakingScreen implements Screen {
     }
 
     @Override
+    public void leftRoom() {
+        Gdx.app.log("Left room", "Match making screen left room");
+        zgame.switchScreen(ZGame.ScreenState.START);
+    }
+
+    @Override
     public void resize(int width, int height) {
 
     }
@@ -141,6 +145,6 @@ public class MatchMakingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        Gdx.app.log("DIPOSE", "MatchMakingScreenDisposed!");
     }
 }

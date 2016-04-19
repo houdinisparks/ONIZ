@@ -21,10 +21,13 @@ import com.google.android.gms.games.multiplayer.realtime.RoomUpdateListener;
 import com.google.example.games.basegameutils.BaseGameUtils;
 import com.google.example.games.basegameutils.GameHelper;
 import com.oniz.Game.ZGame;
+import com.oniz.Network.LoginListener;
+import com.oniz.Network.PlayEventListener;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,6 +40,9 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     Activity activity;
 
     ZGame zGame;
+
+    //List of objects that subscribe to events
+    private List<PlayEventListener> playEventListeners = Collections.synchronizedList(new ArrayList<PlayEventListener>());
 
     // Request codes for the UIs that we show with startActivityForResult:
     final static int RC_SELECT_PLAYERS = 10000;
@@ -64,6 +70,14 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
         Gdx.app.log(TAG, request + "");
+    }
+
+    public void addPlayEventListener(PlayEventListener listener) {
+        playEventListeners.add(listener);
+    }
+
+    public void removePlayEventListener(PlayEventListener listener) {
+        playEventListeners.remove(listener);
     }
 
     public void setGame(ZGame zGame) {
@@ -104,14 +118,14 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
             } else {
                 Gdx.app.log(TAG, "There wasn't a room in the first place.");
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
         }
         return false;
     }
 
     public boolean canLeaveRoom() {
-        if(mRoomId != null) return true;
+        if (mRoomId != null) return true;
         return false;
     }
 
@@ -256,12 +270,12 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void onRoomCreated(int statusCode, Room room) {
         if (statusCode != GamesStatusCodes.STATUS_OK) {
             Gdx.app.log(TAG, "Room creation failed");
-            Gdx.app.log(TAG, "STATUS:"+statusCode+"  "+"room:"+room.getRoomId());
+            Gdx.app.log(TAG, "STATUS:" + statusCode + "  " + "room:" + room.getRoomId());
             // let screen go to sleep
             stopKeepingScreenOn();
             // show error message, return to main screen.
         } else {
-            Gdx.app.log(TAG, "STATUS:"+statusCode+"  "+"room:"+room.getRoomId());
+            Gdx.app.log(TAG, "STATUS:" + statusCode + "  " + "room:" + room.getRoomId());
             mRoomId = room.getRoomId();
         }
     }
@@ -279,7 +293,13 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     @Override
     public void onLeftRoom(int i, String s) {
         mRoomId = null;
-        Gdx.app.log(TAG, "Left room."+i+":"+s);
+        Gdx.app.log(TAG, "Left room." + i + ":" + s);
+
+        synchronized (playEventListeners) {
+            for (PlayEventListener listener : playEventListeners) {
+                listener.leftRoom();
+            }
+        }
     }
 
     @Override
