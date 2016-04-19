@@ -25,12 +25,13 @@ public class StartScreen implements LoginListener, Screen {
 
     private Stage stage;
     private Skin skin;
-    private TextureRegion cloudsBackground, backgroundMenu, checkMark;
+    private TextureRegion cloudsBackground, backgroundMenu, checkMark, helpMenu;
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
-    private SimpleButton quickGameBtn, loginBtn, settingsBtn, singlePlayerBtn, backBtn, helpBtn, soundBtn, soundMutedBtn, musicBtn, musicMutedBtn, background1Btn, background2Btn, background3Btn;
+    private SimpleButton quickGameBtn, loginBtn, settingsBtn, singlePlayerBtn, backBtn, helpBtn, watchDemoBtn, soundBtn, soundMutedBtn, musicBtn, musicMutedBtn, background1Btn, background2Btn, background3Btn;
     private boolean backgroundMenuToggle = false;
+    private boolean helpMenuToggle = false;
     private boolean soundToggle = true;
     private boolean musicToggle = true;
 
@@ -78,8 +79,6 @@ public class StartScreen implements LoginListener, Screen {
 
         settingsBtn = new SimpleButton(10, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
         settingsBtn.addListener(new AdvancedClickListener() {
-
-
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // disable startScreen buttons
@@ -128,9 +127,11 @@ public class StartScreen implements LoginListener, Screen {
                 musicBtn.setVisible(false);
                 musicMutedBtn.setVisible(false);
                 backgroundMenuToggle = false;
+                helpMenuToggle = false;
                 background1Btn.setVisible(false);
                 background2Btn.setVisible(false);
                 background3Btn.setVisible(false);
+                watchDemoBtn.setVisible(false);
 
                 // enable startScreen buttons
                 quickGameBtn.setVisible(true);
@@ -149,7 +150,25 @@ public class StartScreen implements LoginListener, Screen {
         helpBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: help screen
+                // disable startScreen buttons
+                quickGameBtn.setVisible(false);
+                loginBtn.setVisible(false);
+                settingsBtn.setVisible(false);
+                helpBtn.setVisible(false);
+                singlePlayerBtn.setVisible(false);
+
+                // enable settingScreen buttons
+                backBtn.setVisible(true);
+                watchDemoBtn.setVisible(true);
+                helpMenuToggle = true;
+            }
+        });
+
+        watchDemoBtn = new SimpleButton(105, 50, 240, 80, AssetLoader.getInstance().sprites.get("watchDemoBtnUp"), AssetLoader.getInstance().sprites.get("watchDemoBtnDown"));
+        watchDemoBtn.addListener(new AdvancedClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO: play video
             }
         });
 
@@ -234,6 +253,7 @@ public class StartScreen implements LoginListener, Screen {
         stage.addActor(background1Btn);
         stage.addActor(background2Btn);
         stage.addActor(background3Btn);
+        stage.addActor(watchDemoBtn);
 
         soundBtn.setVisible(false);
         soundMutedBtn.setVisible(false);
@@ -243,6 +263,7 @@ public class StartScreen implements LoginListener, Screen {
         background1Btn.setVisible(false);
         background2Btn.setVisible(false);
         background3Btn.setVisible(false);
+        watchDemoBtn.setVisible(false);
 
         // show "login" button when not signed in
         if (zGame.playServices.isSignedIn()) {
@@ -261,6 +282,7 @@ public class StartScreen implements LoginListener, Screen {
         skin = AssetLoader.getInstance().skin;
         cloudsBackground = AssetLoader.getInstance().sprites.get("cloudsBackground");
         backgroundMenu = AssetLoader.getInstance().sprites.get("backgroundMenu");
+        helpMenu = AssetLoader.getInstance().sprites.get("helpMenu");
         checkMark = AssetLoader.getInstance().sprites.get("checkMark");
     }
 
@@ -308,6 +330,9 @@ public class StartScreen implements LoginListener, Screen {
         batcher.enableBlending();
         if (backgroundMenuToggle) {
             batcher.draw(backgroundMenu, 25, 350, 400, 200);
+        }
+        if (helpMenuToggle) {
+            batcher.draw(helpMenu, 5, 20, 440, 720);
         }
         batcher.end();
 
