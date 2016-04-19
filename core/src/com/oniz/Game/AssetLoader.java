@@ -164,7 +164,7 @@ public final class AssetLoader {
         // splash screen logo
         textures.put("logoTexture", new Texture(Gdx.files.internal("data/logo.png")));
         textures.get("logoTexture").setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 114));
+        sprites.put("logo", new TextureRegion(textures.get("logoTexture"), 0, 0, 512, 350));
 
         // fonts
         fonts.put("scoreText", new BitmapFont(Gdx.files.internal("data/carterOne.fnt"), true));
@@ -206,6 +206,10 @@ public final class AssetLoader {
         sprites.put("musicMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 640, 80, 80));
         sprites.put("soundMutedBtnUp", new TextureRegion(textures.get("menuTexture"), 480, 720, 80, 80));
         sprites.put("soundMutedBtnDown", new TextureRegion(textures.get("menuTexture"), 560, 720, 80, 80));
+        sprites.put("xBtnUp", new TextureRegion(textures.get("menuTexture"), 640, 560, 80, 80));
+        sprites.put("xBtnDown", new TextureRegion(textures.get("menuTexture"), 720, 560, 80, 80));
+        sprites.put("tickBtnUp", new TextureRegion(textures.get("menuTexture"), 640, 640, 80, 80));
+        sprites.put("tickBtnDown", new TextureRegion(textures.get("menuTexture"), 720, 640, 80, 80));
         sprites.put("newMark", new TextureRegion(textures.get("menuTexture"), 200, 320, 80, 40));
         sprites.put("checkMark", new TextureRegion(textures.get("menuTexture"), 280, 320, 80, 80));
         sprites.put("background1BtnUp", new TextureRegion(textures.get("menuTexture"), 400, 320, 80, 80));
@@ -218,6 +222,8 @@ public final class AssetLoader {
         sprites.put("backgroundMenu", new TextureRegion(textures.get("menuTexture"), 400, 800, 400, 200));
         sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
         sprites.put("oopsMenu", new TextureRegion(textures.get("menuTexture"), 640, 0, 440, 320));
+        sprites.put("quitMenu", new TextureRegion(textures.get("menuTexture"), 640, 320, 400, 200));
+        sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 1040, 280, 520, 320));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
