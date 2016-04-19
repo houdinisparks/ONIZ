@@ -17,10 +17,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
+import com.oniz.Network.PlayEventListener;
 import com.oniz.UI.SimpleButton;
 
 
-public class MatchMakingScreen implements Screen {
+public class MatchMakingScreen implements Screen, PlayEventListener {
 
     public static ZGame zgame;
 
