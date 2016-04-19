@@ -408,6 +408,8 @@ public final class AssetLoader {
         //BGMs
         soundBGM.put(BGM.BATTLEMUSICNORMALLAYER, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicnormallayer.ogg")));
         soundBGM.put(BGM.BATTLEMUSICINTENSELAYER, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicintenselayer.ogg")));
+        soundBGM.put(BGM.BATTLEMUSICNORMALLAYERLOOP, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicnormallayerloop.ogg")));
+        soundBGM.put(BGM.BATTLEMUSICINTENSELAYERLOOP, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicintenselayerloop.ogg")));
     }
 
     // Receives an integer and maps it to the String highScore in prefs

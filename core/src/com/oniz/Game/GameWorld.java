@@ -136,7 +136,7 @@ public class GameWorld implements PlayEventListener{
 
             //check if the zombie has reach a certiain limit (plays intenst music)
 
-            if (zombie.getY() > 200 && !cueProBGMLayer) {
+            if (zombie.getY() > 300 && !cueProBGMLayer) {
                 cueProBGMLayer = true;
             }
 
@@ -204,6 +204,7 @@ public class GameWorld implements PlayEventListener{
 
     public void restartGame() {
         // reset to initial state
+        soundManager.stopBattleMusic();
         zgame.setOpponentDefeated(false);
         childZombies.clear();
         score = 0;
