@@ -195,10 +195,10 @@ public final class AssetLoader {
         sprites.put("mainPlayBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 120, 200, 120));
         sprites.put("loginBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 240, 200, 80));
         sprites.put("loginBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 320, 200, 80));
-        sprites.put("logoutBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 80));
-        sprites.put("logoutBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 480, 200, 80));
+        sprites.put("watchDemoBtnUp", new TextureRegion(textures.get("menuTexture"), 240, 480, 240, 80));
+        sprites.put("watchDemoBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 480, 240, 80));
         sprites.put("cancelBtnUp", new TextureRegion(textures.get("menuTexture"), 200, 400, 200, 80));
-        sprites.put("cancelBtnDown", new TextureRegion(textures.get("menuTexture"), 200, 480, 200, 80));
+        sprites.put("cancelBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 400, 200, 80));
         sprites.put("settingsBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 560, 80, 80));
         sprites.put("settingsBtnDown", new TextureRegion(textures.get("menuTexture"), 80, 560, 80, 80));
         sprites.put("singlePlayerBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 640, 80, 80));
@@ -240,7 +240,8 @@ public final class AssetLoader {
         sprites.put("gameOverMenu", new TextureRegion(textures.get("menuTexture"), 200, 0, 440, 320));
         sprites.put("oopsMenu", new TextureRegion(textures.get("menuTexture"), 640, 0, 440, 320));
         sprites.put("quitMenu", new TextureRegion(textures.get("menuTexture"), 640, 320, 400, 200));
-        sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 1040, 280, 480, 320));
+        sprites.put("helpMenu", new TextureRegion(textures.get("menuTexture"), 1080, 280, 440, 720));
+        sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 2000-480, 1000-300, 480, 320));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));
@@ -256,9 +257,9 @@ public final class AssetLoader {
         sprites.put("horizontalLine", new TextureRegion(textures.get("menuTexture"), 1900, 400, 100, 100));
         sprites.put("verticalLine", new TextureRegion(textures.get("menuTexture"), 1900, 500, 100, 100));
         sprites.put("Vshape", new TextureRegion(textures.get("menuTexture"), 1900, 600, 100, 100));
-        sprites.put("invertedVshape", new TextureRegion(textures.get("menuTexture"), 1900, 700, 100, 100));
-        sprites.put("alpha", new TextureRegion(textures.get("menuTexture"), 1900, 800, 100, 100));
-        sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 1900, 900, 100, 100));
+        sprites.put("invertedVshape", new TextureRegion(textures.get("menuTexture"), 1700, 500, 100, 100));
+        sprites.put("alpha", new TextureRegion(textures.get("menuTexture"), 1700, 600, 100, 100));
+        sprites.put("gamma", new TextureRegion(textures.get("menuTexture"), 1800, 600, 100, 100));
         sprites.put("Zshape", new TextureRegion(textures.get("menuTexture"), 1800, 0, 100, 100));
         sprites.put("invertedZshape", new TextureRegion(textures.get("menuTexture"), 1800, 100, 100, 100));
         sprites.put("Mshape", new TextureRegion(textures.get("menuTexture"), 1800, 200, 100, 100));
