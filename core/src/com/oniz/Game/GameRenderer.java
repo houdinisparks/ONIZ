@@ -199,8 +199,7 @@ public class GameRenderer {
         // Convert integer into String
         String score = Integer.toString(gameWorld.getScore());
         // Draw score
-        if(gameWorld.zgame.isMultiplayerMode())
-            scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
+        scoreFont.draw(batcher, score, (450 / 2) - (18 * score.length()), 750);
 
 
         // when game is ready, draw the play button
