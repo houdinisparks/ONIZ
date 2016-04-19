@@ -53,7 +53,7 @@ public class ProtractorGestureRecognizer {
     /*
     ------------------METHODS (GESTURE MANAGEMENT)--------
      */
-    public void addGesture(TemplateGesture tg) {
+    public synchronized void addGesture(TemplateGesture tg) {
         registeredGestures.add(tg);
     }
 

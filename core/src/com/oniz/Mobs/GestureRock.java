@@ -3,6 +3,8 @@ package com.oniz.Mobs;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.oniz.Game.AssetLoader;
+import com.oniz.Sound.SoundManager;
+
 import java.util.Random;
 
 public class GestureRock {
@@ -14,6 +16,7 @@ public class GestureRock {
     private Stage stage;
 
     private final Vector2 fallVelocity = new Vector2(0, -50);
+
 
     /**
      * Pre-defined gesture types
@@ -64,6 +67,7 @@ public class GestureRock {
         this.position = position;
         gestureType = GestureType.generateRandomGestureType();
         stage = Stage.generateRandomStage();
+
     }
 
     public void updatePosition(Vector2 velocity, float delta) {
@@ -78,6 +82,7 @@ public class GestureRock {
      * Weaken the zombie by one stage and assign a new gestureType.
      */
     public void decrementStage() {
+
         if (stage == Stage.RED) {
             stage = Stage.YELLOW;
             gestureType = GestureType.generateRandomGestureType();
@@ -87,6 +92,7 @@ public class GestureRock {
         } else if (stage == Stage.GREEN) {
             stage = Stage.BROWN;
         }
+
     }
 
     /**

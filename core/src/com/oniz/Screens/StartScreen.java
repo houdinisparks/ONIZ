@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oniz.Game.AssetLoader;
 import com.oniz.Game.GameWorld;
 import com.oniz.Game.ZGame;
+import com.oniz.Sound.SoundManager;
 import com.oniz.UI.SimpleButton;
 
 
@@ -32,8 +33,12 @@ public class StartScreen implements Screen {
     private boolean soundToggle = true;
     private boolean musicToggle = true;
 
+    private SoundManager soundManager;
+
     public StartScreen(final ZGame zGame) {
         this.zGame = zGame;
+
+        soundManager = SoundManager.getInstance();
 
         loadAssets();
         setup();

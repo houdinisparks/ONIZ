@@ -24,7 +24,7 @@ public class TemplateGesture{
 		this.name = name;
 		this.points = points;
 		this.protractorVector = ProtractorGestureRecognizer.Vectorize(this.points);
-		this.bitmapVector = BitmapGestureRecogniser.spatialSampling(this.points, PATCH_SAMPLE_SIZE, false);
+		//this.bitmapVector = BitmapGestureRecogniser.spatialSampling(this.points, PATCH_SAMPLE_SIZE, false);
 	}
 
 
