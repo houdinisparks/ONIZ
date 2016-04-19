@@ -43,7 +43,7 @@ public class GameRenderer {
     private TextureRegion background, backgroundTint;
     private Animation zombieClimbingAnimation, enemyZombieClimbingAnimation, explosionAnimation;
     private TextureRegion zombie;
-    private TextureRegion pauseMenu, gameOverMenu;
+    private TextureRegion pauseMenu, gameOverMenu, oopsMenu;
     private BitmapFont scoreFont, menuFont;
 
     // Buttons
@@ -135,6 +135,7 @@ public class GameRenderer {
         gameOverMenu = AssetLoader.getInstance().sprites.get("gameOverMenu");
         scoreFont = AssetLoader.getInstance().fonts.get("scoreText");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
+        oopsMenu = AssetLoader.getInstance().sprites.get("oopsMenu");
     }
 
     public void setBackground(int backgroundOption) {
@@ -152,6 +153,10 @@ public class GameRenderer {
         batcher.draw(gameOverMenu, 25, 280, 400, 290);
         menuButtons.get("playAgainButton").draw(batcher);
         menuButtons.get("gameOverHomeButton").draw(batcher);
+    }
+
+    private void drawOopsMenu() {
+        batcher.draw(oopsMenu, 25, 280, 400, 290);
     }
 
     /**
@@ -269,6 +274,12 @@ public class GameRenderer {
             batcher.draw(backgroundTint, 0, 0, 450, 800);
             drawGameOverMenu();
             menuFont.draw(batcher, "You won! :D", 150, 450);
+        } else if (gameWorld.isGameDisconnected()) {
+            drawZombiesFreezeFrame();
+            // draw background tint
+            batcher.draw(backgroundTint, 0, 0, 450, 800);
+            //draw oops
+            drawOopsMenu();
         }
 
         batcher.end();

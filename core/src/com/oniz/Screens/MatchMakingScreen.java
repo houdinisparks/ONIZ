@@ -126,7 +126,7 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
     }
 
     @Override
-    public void peerDisconnected() {
+    public void disconnected() {
         //dont care
     }
 

@@ -23,6 +23,7 @@ public class GameWorld implements PlayEventListener{
     public static final int GAME_LEVEL_END = 3;
     public static final int GAME_OVER = 4;
     public static final int GAME_WINNER = 5;
+    public static final int GAME_DISCONNECTED = 6;
     static final int[] zombiePaths = {40, 78, 115, 153, 190, 228, 265, 303, 340};
     private int state;
     private int score = 0;
@@ -63,6 +64,8 @@ public class GameWorld implements PlayEventListener{
                 updateGameOver();
                 break;
             case GAME_WINNER:
+                break;
+            case GAME_DISCONNECTED:
                 break;
         }
     }
@@ -174,6 +177,8 @@ public class GameWorld implements PlayEventListener{
 
     public boolean isGameWinner() { return state == GAME_WINNER; }
 
+    public boolean isGameDisconnected() { return state == GAME_DISCONNECTED; }
+
     public int getScore() {
         return score;
     }
@@ -207,9 +212,12 @@ public class GameWorld implements PlayEventListener{
     }
 
     @Override
-    public void peerDisconnected() {
+    public void disconnected() {
         //more important than leftRoom()
         //goto pause state then do stuff
+        zgame.setMultiplayerMode(false);
+        //show splash?
+        this.setState(GAME_DISCONNECTED);
     }
 }
 

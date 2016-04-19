@@ -5,5 +5,5 @@ package com.oniz.Network;
  */
 public interface PlayEventListener {
     void leftRoom();
-    void peerDisconnected();
+    void disconnected();
 }

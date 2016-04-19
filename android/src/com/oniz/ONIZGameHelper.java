@@ -236,6 +236,7 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     @Override
     public void onDisconnectedFromRoom(Room room) {
         Gdx.app.log(TAG, "You dced from room");
+
     }
 
     @Override
@@ -254,6 +255,11 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     @Override
     public void onPeersDisconnected(Room room, List<String> list) {
         Gdx.app.log(TAG, "Peers disconnected");
+        synchronized (playEventListeners) {
+            for (PlayEventListener listener : playEventListeners) {
+                listener.disconnected();
+            }
+        }
     }
 
     @Override
