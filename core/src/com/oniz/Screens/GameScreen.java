@@ -67,8 +67,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        gameWorld.setState(GameWorld.GAME_READY);
+        gameWorld.goHome();
         Gdx.app.log("LIFECYCLE GAME SCREEN", "PAUSE");
         //quit how?
+
 
     }
 

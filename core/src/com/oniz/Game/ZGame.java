@@ -125,6 +125,10 @@ public class ZGame extends Game {
 
     @Override
     public void pause() {
+        if(gameWorld != null) {
+            gameWorld.setState(GameWorld.GAME_READY);
+            gameWorld.goHome();
+        }
         Gdx.app.log("LIFECYCLE0", "PAUSE");
     }
 
