@@ -9,6 +9,7 @@ import com.oniz.Network.PlayEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * GameWorld class hold all the models and game states.
@@ -36,7 +37,7 @@ public class GameWorld implements PlayEventListener{
     ZGame zgame;
 
     private boolean isMultiPlayerQuitted = false;
-
+    public AtomicBoolean isMissed = new AtomicBoolean(false);
 
     public GameWorld() {
         this.state = GAME_RUNNING;
