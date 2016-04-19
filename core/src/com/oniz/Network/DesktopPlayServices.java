@@ -20,7 +20,18 @@ public class DesktopPlayServices implements PlayServices {
         return false;
     }
 
+    @Override
     public void addLoginListener(LoginListener loginListener) {
+    }
+
+    @Override
+    public void addPlayEventListener(PlayEventListener playEventListener) {
+
+    }
+
+    @Override
+    public void removePlayEventListener(PlayEventListener playEventListener) {
+
     }
 
     @Override

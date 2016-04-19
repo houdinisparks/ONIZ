@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.oniz.Network.LoginListener;
+import com.oniz.Network.PlayEventListener;
 import com.oniz.Network.PlayServices;
 import com.oniz.Screens.GameScreen;
 import com.oniz.Screens.MainScreen;
@@ -51,6 +52,7 @@ public class ZGame extends Game {
         startScreen = new StartScreen(this);
         this.playServices.addLoginListener((LoginListener) startScreen);
         matchMakingScreen = new MatchMakingScreen(this);
+        this.playServices.addPlayEventListener((PlayEventListener) matchMakingScreen);
 
         //splash seems to only activate if its passed as a new object
 //        setScreen(startScreen);
@@ -136,7 +138,6 @@ public class ZGame extends Game {
         Gdx.app.log("LIFECYCLE0", "DISPOSE");
         assets.dispose();
         super.dispose();
-//        assets.dispose();
     }
 
 }

@@ -17,6 +17,7 @@ import com.google.example.games.basegameutils.GameHelper;
 
 import com.oniz.Game.ZGame;
 import com.oniz.Network.LoginListener;
+import com.oniz.Network.PlayEventListener;
 import com.oniz.Network.PlayServices;
 
 import java.util.ArrayList;
@@ -61,6 +62,25 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     }
 
 
+    @Override
+    public void addPlayEventListener(final PlayEventListener playEventListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameHelper.addPlayEventListener(playEventListener);
+            }
+        });
+    }
+
+    @Override
+    public void removePlayEventListener(final PlayEventListener playEventListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameHelper.removePlayEventListener(playEventListener);
+            }
+        });
+    }
 
     // observer pattern to notify start screen of login
     @Override

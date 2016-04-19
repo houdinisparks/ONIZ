@@ -37,4 +37,8 @@ public interface PlayServices {
     public boolean canLeaveRoom();
 
     public void addLoginListener(LoginListener loginListener);
+
+    public void addPlayEventListener(PlayEventListener playEventListener);
+
+    public void removePlayEventListener(PlayEventListener playEventListener);
 }
