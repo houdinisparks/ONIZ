@@ -14,7 +14,7 @@ public class InputHandler implements InputProcessor {
     private GameWorld gameWorld;
 
     private Hashtable<String, MenuButton> menuButtons;
-    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, playAgainButton;
+    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, playAgainButton, quitButton, xButton, tickButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -47,6 +47,12 @@ public class InputHandler implements InputProcessor {
                 AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
         playAgainButton = new MenuButton(120, 300, 80, 80,
                 AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
+        quitButton = new MenuButton(450-80, 800-80, 80, 80,
+                AssetLoader.getInstance().sprites.get("xBtnUp"), AssetLoader.getInstance().sprites.get("xBtnDown"));
+        xButton = new MenuButton(235, 320, 80, 80,
+                AssetLoader.getInstance().sprites.get("xBtnUp"), AssetLoader.getInstance().sprites.get("xBtnDown"));
+        tickButton = new MenuButton(135, 320, 80, 80,
+                AssetLoader.getInstance().sprites.get("tickBtnUp"), AssetLoader.getInstance().sprites.get("tickBtnDown"));
 
         menuButtons.put("playButton", playButton);
         menuButtons.put("resumeButton", resumeButton);
@@ -55,6 +61,9 @@ public class InputHandler implements InputProcessor {
         menuButtons.put("pauseHomeButton", pauseHomeButton);
         menuButtons.put("gameOverHomeButton", gameOverHomeButton);
         menuButtons.put("playAgainButton", playAgainButton);
+        menuButtons.put("quitButton", quitButton);
+        menuButtons.put("xButton", xButton);
+        menuButtons.put("tickButton", tickButton);
     }
 
     /**
@@ -76,7 +85,16 @@ public class InputHandler implements InputProcessor {
             playButton.isTouchDown(screenX, screenY);
 
         } else if (gameWorld.isRunning()) {
-            pauseButton.isTouchDown(screenX, screenY);
+            if (gameWorld.zgame.isMultiplayerMode()) {
+                if (gameWorld.isMultiPlayerQuitted()) {
+                    tickButton.isTouchDown(screenX, screenY);
+                    xButton.isTouchDown(screenX, screenY);
+                } else {
+                    quitButton.isTouchDown(screenX, screenY);
+                }
+            } else {
+                pauseButton.isTouchDown(screenX, screenY);
+            }
 
         } else if (gameWorld.isPaused()) {
             resumeButton.isTouchDown(screenX, screenY);
@@ -111,10 +129,24 @@ public class InputHandler implements InputProcessor {
                 return true;
             }
         } else if (gameWorld.isRunning()) {
-            //need to check if it is multiplayer
-            if (pauseButton.isTouchUp(screenX, screenY)) {
-                gameWorld.setState(GameWorld.GAME_PAUSED);
-                return true;
+            if (gameWorld.zgame.isMultiplayerMode()) {
+                if (gameWorld.isMultiPlayerQuitted()) {
+                    if (tickButton.isTouchUp(screenX, screenY)) {
+                        gameWorld.goHome();
+                    }
+                    if (xButton.isTouchUp(screenX, screenY)) {
+                        gameWorld.setIsMultiPlayerQuitted(false);
+                    }
+                } else {
+                    if (quitButton.isTouchUp(screenX, screenY)) {
+                        gameWorld.setIsMultiPlayerQuitted(true);
+                    }
+                }
+            } else {
+                if (pauseButton.isTouchUp(screenX, screenY)) {
+                    gameWorld.setState(GameWorld.GAME_PAUSED);
+                    return true;
+                }
             }
         } else if (gameWorld.isPaused()) {
             if (resumeButton.isTouchUp(screenX, screenY)) {
