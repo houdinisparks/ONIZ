@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
         gameRenderer = new GameRenderer(gameWorld, inputMultiplexer);
         gameWorld.setRenderer(gameRenderer);
         this.setGameWorld();
+        zgame.playServices.addPlayEventListener(gameWorld);
     }
 
 
@@ -67,6 +68,8 @@ public class GameScreen implements Screen {
     @Override
     public void pause() {
         Gdx.app.log("LIFECYCLE GAME SCREEN", "PAUSE");
+        //quit how?
+
     }
 
     @Override
@@ -81,6 +84,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        zgame.playServices.removePlayEventListener(gameWorld);
         AssetLoader.getInstance().dispose();
         Gdx.app.log("LIFECYCLE GAME SCREEN", "DISPOSE");
     }

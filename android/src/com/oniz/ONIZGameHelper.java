@@ -256,8 +256,13 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void onPeersDisconnected(Room room, List<String> list) {
         Gdx.app.log(TAG, "Peers disconnected");
         synchronized (playEventListeners) {
-            for (PlayEventListener listener : playEventListeners) {
-                listener.disconnected();
+            for (final PlayEventListener listener : playEventListeners) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.disconnected();
+                    }
+                });
             }
         }
     }
@@ -276,10 +281,13 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void onRoomCreated(int statusCode, Room room) {
         if (statusCode != GamesStatusCodes.STATUS_OK) {
             Gdx.app.log(TAG, "Room creation failed");
-            Gdx.app.log(TAG, "STATUS:" + statusCode + "  " + "room:" + room.getRoomId());
+            if(room != null) {
+                Gdx.app.log(TAG, "STATUS:" + statusCode + "  " + "room:" + room.getRoomId());
+            }
             // let screen go to sleep
             stopKeepingScreenOn();
             // show error message, return to main screen.
+            zGame.switchScreen(ZGame.ScreenState.START);
         } else {
             Gdx.app.log(TAG, "STATUS:" + statusCode + "  " + "room:" + room.getRoomId());
             mRoomId = room.getRoomId();

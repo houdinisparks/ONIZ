@@ -270,10 +270,14 @@ public class StartScreen implements LoginListener, Screen {
 
     private void quickGame() {
         Gdx.app.log("isSignedIn?", zGame.playServices.isSignedIn() + "");
-        if (zGame.playServices.isSignedIn()) {
+        if (zGame.playServices.isSignedIn() && !zGame.playServices.isConnecting()) {
             zGame.setMultiplayerMode(true);
             zGame.switchScreen(ZGame.ScreenState.MATCHMAKING);
             zGame.playServices.startQuickGame();
+        } else {
+            //oops! plz sign in!
+            loginBtn.setVisible(true);
+
         }
     }
 

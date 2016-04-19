@@ -1,6 +1,7 @@
 package com.oniz.Game;
 
 
+import com.badlogic.gdx.Gdx;
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
 import com.oniz.Network.PlayEventListener;
@@ -156,6 +157,7 @@ public class GameWorld implements PlayEventListener{
     public void goHome() {
         this.zgame.switchScreen(ZGame.ScreenState.START);
         this.isMultiPlayerQuitted = false;
+        zgame.playServices.leaveGame();
     }
 
     public void setGame(ZGame zgame) {
@@ -224,6 +226,7 @@ public class GameWorld implements PlayEventListener{
 
     @Override
     public void disconnected() {
+        Gdx.app.log("DCED", "disconnected event");
         //more important than leftRoom()
         //goto pause state then do stuff
         zgame.setMultiplayerMode(false);

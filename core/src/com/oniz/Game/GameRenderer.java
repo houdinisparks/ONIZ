@@ -160,6 +160,8 @@ public class GameRenderer {
 
     private void drawOopsMenu() {
         batcher.draw(oopsMenu, 25, 280, 400, 290);
+        menuFont.draw(batcher, "Oh dear, somebody \ndisconnected.", 75, 470);
+        menuButtons.get("gameOverHomeButton").draw(batcher);
     }
 
     private void drawQuitMenu() {
