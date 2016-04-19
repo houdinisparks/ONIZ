@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * GameWorld class hold all the models and game states.
  * It updates everything.
  */
-public class GameWorld implements PlayEventListener{
+public class GameWorld implements PlayEventListener {
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
     public static final int BACKGROUND3 = 2;
@@ -161,7 +161,7 @@ public class GameWorld implements PlayEventListener{
         }
 
         //send message before going into game_over state
-        if(zgame.isMultiplayerMode() && (this.state == GAME_OVER)) {
+        if (zgame.isMultiplayerMode() && (this.state == GAME_OVER)) {
             zgame.playServices.broadcastMessage("DEFEATED:PLAYERID");
         }
     }
@@ -204,6 +204,11 @@ public class GameWorld implements PlayEventListener{
 
     public void restartGame() {
         // reset to initial state
+
+        if (zgame.isMultiplayerMode()) {
+            zgame.playServices.broadcastMessage("RESTART:PLAYERID");
+        }
+
         zgame.setOpponentDefeated(false);
         childZombies.clear();
         score = 0;
@@ -239,9 +244,13 @@ public class GameWorld implements PlayEventListener{
         return state == GAME_RUNNING;
     }
 
-    public boolean isGameWinner() { return state == GAME_WINNER; }
+    public boolean isGameWinner() {
+        return state == GAME_WINNER;
+    }
 
-    public boolean isGameDisconnected() { return state == GAME_DISCONNECTED; }
+    public boolean isGameDisconnected() {
+        return state == GAME_DISCONNECTED;
+    }
 
     public boolean isMultiPlayerQuitted() {
         return isMultiPlayerQuitted;
@@ -274,6 +283,8 @@ public class GameWorld implements PlayEventListener{
         } else if (msg.startsWith("DEFEATED") && !this.isGameOver()) {
             zgame.setOpponentDefeated(true);
             this.setState(GAME_WINNER);
+        } else if (msg.startsWith("RESTART") && (this.state != GAME_RUNNING)) {
+            this.restartGame();
         }
 //        Gdx.app.log("REALTIMEUPDATE", msg);
     }
