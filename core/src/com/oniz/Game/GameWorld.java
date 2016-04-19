@@ -3,6 +3,8 @@ package com.oniz.Game;
 
 import com.oniz.Mobs.ChildZombie;
 import com.oniz.Mobs.GestureRock;
+import com.oniz.Network.PlayEventListener;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -10,7 +12,7 @@ import java.util.Random;
 /**
  * GameWorld class hold all the models and game states.
  */
-public class GameWorld {
+public class GameWorld implements PlayEventListener{
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
     public static final int BACKGROUND3 = 2;
@@ -197,6 +199,17 @@ public class GameWorld {
             this.setState(GAME_WINNER);
         }
 //        Gdx.app.log("REALTIMEUPDATE", msg);
+    }
+
+    @Override
+    public void leftRoom() {
+        //doesnt care
+    }
+
+    @Override
+    public void peerDisconnected() {
+        //more important than leftRoom()
+        //goto pause state then do stuff
     }
 }
 

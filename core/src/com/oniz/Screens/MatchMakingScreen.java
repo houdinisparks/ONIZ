@@ -120,6 +120,17 @@ public class MatchMakingScreen implements Screen {
     }
 
     @Override
+    public void leftRoom() {
+        Gdx.app.log("Left room", "Match making screen left room");
+        zgame.switchScreen(ZGame.ScreenState.START);
+    }
+
+    @Override
+    public void peerDisconnected() {
+        //dont care
+    }
+
+    @Override
     public void resize(int width, int height) {
 
     }

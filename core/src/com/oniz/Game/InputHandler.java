@@ -111,6 +111,7 @@ public class InputHandler implements InputProcessor {
                 return true;
             }
         } else if (gameWorld.isRunning()) {
+            //need to check if it is multiplayer
             if (pauseButton.isTouchUp(screenX, screenY)) {
                 gameWorld.setState(GameWorld.GAME_PAUSED);
                 return true;

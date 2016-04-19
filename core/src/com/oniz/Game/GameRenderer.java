@@ -228,8 +228,12 @@ public class GameRenderer {
                 childZombies.get(i).drawExplosion(batcher, explosionAnimation, deltaTime);
             }
 
-            if(!gameWorld.zgame.isMultiplayerMode())
+            if(gameWorld.zgame.isMultiplayerMode()) {
+                //this should be the x button
+            }
+            else {
                 menuButtons.get("pauseButton").draw(batcher);
+            }
 
             // refresh freezeFrameTime with the current running time
             freezeFrameTime = runTime;
