@@ -199,8 +199,8 @@ public final class AssetLoader {
 
         // menu icons V2
         textures.put("menuTexture", new Texture(Gdx.files.internal("data/menuIcons.png")));
-        sprites.put("mainPlayBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 0, 200, 120));
-        sprites.put("mainPlayBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 120, 200, 120));
+        sprites.put("mainPlayBtnUp", new TextureRegion(textures.get("menuTexture"), 800, 520, 280, 160));
+        sprites.put("mainPlayBtnDown", new TextureRegion(textures.get("menuTexture"), 800, 680, 280, 160));
         sprites.put("loginBtnUp", new TextureRegion(textures.get("menuTexture"), 0, 240, 200, 80));
         sprites.put("loginBtnDown", new TextureRegion(textures.get("menuTexture"), 0, 320, 200, 80));
         sprites.put("watchDemoBtnUp", new TextureRegion(textures.get("menuTexture"), 240, 480, 240, 80));
@@ -250,6 +250,7 @@ public final class AssetLoader {
         sprites.put("quitMenu", new TextureRegion(textures.get("menuTexture"), 640, 320, 400, 200));
         sprites.put("helpMenu", new TextureRegion(textures.get("menuTexture"), 1080, 280, 440, 720));
         sprites.put("gameTitle", new TextureRegion(textures.get("menuTexture"), 2000-480, 1000-300, 480, 320));
+        sprites.put("zombieHead", new TextureRegion(textures.get("menuTexture"), 1520, 480, 160, 160));
 
         // gesture stages
         sprites.put("brownRock", new TextureRegion(textures.get("menuTexture"), 1900, 0, 100, 100));

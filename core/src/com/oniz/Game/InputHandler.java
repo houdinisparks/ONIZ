@@ -16,7 +16,7 @@ public class InputHandler implements InputProcessor {
     private GameWorld gameWorld;
 
     private Hashtable<String, MenuButton> menuButtons;
-    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, playAgainButton, quitButton, xButton, tickButton;
+    private MenuButton playButton, resumeButton, restartButton, pauseButton, pauseHomeButton, gameOverHomeButton, oopsHomeButton, playAgainButton, quitButton, xButton, tickButton;
 
     private float scaleFactorX;
     private float scaleFactorY;
@@ -48,6 +48,8 @@ public class InputHandler implements InputProcessor {
                 AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
         gameOverHomeButton = new MenuButton(250, 300, 80, 80,
                 AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
+        oopsHomeButton = new MenuButton(185, 300, 80, 80,
+                AssetLoader.getInstance().sprites.get("menuBtnUp"), AssetLoader.getInstance().sprites.get("menuBtnDown"));
         playAgainButton = new MenuButton(120, 300, 80, 80,
                 AssetLoader.getInstance().sprites.get("restartBtnUp"), AssetLoader.getInstance().sprites.get("restartBtnDown"));
         quitButton = new MenuButton(450-80, 800-80, 80, 80,
@@ -63,6 +65,7 @@ public class InputHandler implements InputProcessor {
         menuButtons.put("pauseButton", pauseButton);
         menuButtons.put("pauseHomeButton", pauseHomeButton);
         menuButtons.put("gameOverHomeButton", gameOverHomeButton);
+        menuButtons.put("oopsHomeButton", oopsHomeButton);
         menuButtons.put("playAgainButton", playAgainButton);
         menuButtons.put("quitButton", quitButton);
         menuButtons.put("xButton", xButton);
@@ -109,7 +112,7 @@ public class InputHandler implements InputProcessor {
             playAgainButton.isTouchDown(screenX, screenY);
             gameOverHomeButton.isTouchDown(screenX, screenY);
         } else if (gameWorld.isGameDisconnected()) {
-            gameOverHomeButton.isTouchDown(screenX, screenY);
+            oopsHomeButton.isTouchDown(screenX, screenY);
         }
         return false;
     }
@@ -175,7 +178,7 @@ public class InputHandler implements InputProcessor {
                 return true;
             }
         } else if (gameWorld.isGameDisconnected()) {
-            if(gameOverHomeButton.isTouchUp(screenX, screenY)) {
+            if(oopsHomeButton.isTouchUp(screenX, screenY)) {
                 gameWorld.goHome();
                 return true;
             }
