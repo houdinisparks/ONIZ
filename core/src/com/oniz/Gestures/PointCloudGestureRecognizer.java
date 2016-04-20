@@ -35,7 +35,7 @@ public class PointCloudGestureRecognizer {
 
     private static ExecutorService poolOfThreads;
 
-    private static volatile float NUMBER
+    //private static volatile float NUMBER
 
 
     /*@
