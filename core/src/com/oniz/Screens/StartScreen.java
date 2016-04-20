@@ -25,11 +25,12 @@ public class StartScreen implements LoginListener, Screen {
 
     private Stage stage;
     private Skin skin;
-    private TextureRegion cloudsBackground, backgroundMenu, checkMark, helpMenu;
+    private TextureRegion cloudsBackground, backgroundMenu, checkMark, helpMenu, gameTitle;
     private SpriteBatch batcher;
     private OrthographicCamera cam;
 
     private SimpleButton quickGameBtn, loginBtn, settingsBtn, singlePlayerBtn, backBtn, helpBtn, watchDemoBtn, soundBtn, soundMutedBtn, musicBtn, musicMutedBtn, background1Btn, background2Btn, background3Btn;
+    private boolean gameTitleToggle = true;
     private boolean backgroundMenuToggle = false;
     private boolean helpMenuToggle = false;
     private boolean soundToggle = true;
@@ -61,7 +62,7 @@ public class StartScreen implements LoginListener, Screen {
         stage = new Stage(new FitViewport(450, 800), batcher);
 
         // buttons
-        quickGameBtn = new SimpleButton(125, 400, 200, 120, AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
+        quickGameBtn = new SimpleButton(85, 380, 280, 160, AssetLoader.getInstance().sprites.get("mainPlayBtnUp"), AssetLoader.getInstance().sprites.get("mainPlayBtnDown"));
         quickGameBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,7 +70,7 @@ public class StartScreen implements LoginListener, Screen {
             }
         });
 
-        loginBtn = new SimpleButton(125, 280, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
+        loginBtn = new SimpleButton(125, 260, 200, 80, AssetLoader.getInstance().sprites.get("loginBtnUp"), AssetLoader.getInstance().sprites.get("loginBtnDown"));
         loginBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -77,7 +78,7 @@ public class StartScreen implements LoginListener, Screen {
             }
         });
 
-        settingsBtn = new SimpleButton(10, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
+        settingsBtn = new SimpleButton(60, 10, 80, 80, AssetLoader.getInstance().sprites.get("settingsBtnUp"), AssetLoader.getInstance().sprites.get("settingsBtnDown"));
         settingsBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -87,6 +88,7 @@ public class StartScreen implements LoginListener, Screen {
                 settingsBtn.setVisible(false);
                 helpBtn.setVisible(false);
                 singlePlayerBtn.setVisible(false);
+                gameTitleToggle = false;
 
                 // enable settingScreen buttons
                 backBtn.setVisible(true);
@@ -107,7 +109,7 @@ public class StartScreen implements LoginListener, Screen {
             }
         });
 
-        singlePlayerBtn = new SimpleButton(450 - 90, 10, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
+        singlePlayerBtn = new SimpleButton(310, 10, 80, 80, AssetLoader.getInstance().sprites.get("singlePlayerBtnUp"), AssetLoader.getInstance().sprites.get("singlePlayerBtnDown"));
         singlePlayerBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -143,10 +145,11 @@ public class StartScreen implements LoginListener, Screen {
                 settingsBtn.setVisible(true);
                 helpBtn.setVisible(true);
                 singlePlayerBtn.setVisible(true);
+                gameTitleToggle = true;
             }
         });
 
-        helpBtn = new SimpleButton(100, 10, 80, 80, AssetLoader.getInstance().sprites.get("helpBtnUp"), AssetLoader.getInstance().sprites.get("helpBtnDown"));
+        helpBtn = new SimpleButton(185, 10, 80, 80, AssetLoader.getInstance().sprites.get("helpBtnUp"), AssetLoader.getInstance().sprites.get("helpBtnDown"));
         helpBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -156,6 +159,7 @@ public class StartScreen implements LoginListener, Screen {
                 settingsBtn.setVisible(false);
                 helpBtn.setVisible(false);
                 singlePlayerBtn.setVisible(false);
+                gameTitleToggle = false;
 
                 // enable settingScreen buttons
                 backBtn.setVisible(true);
@@ -221,7 +225,7 @@ public class StartScreen implements LoginListener, Screen {
         background1Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND1);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND1);
             }
         });
 
@@ -229,7 +233,7 @@ public class StartScreen implements LoginListener, Screen {
         background2Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND2);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND2);
             }
         });
 
@@ -237,7 +241,7 @@ public class StartScreen implements LoginListener, Screen {
         background3Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND3);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND3);
             }
         });
 
@@ -285,6 +289,7 @@ public class StartScreen implements LoginListener, Screen {
         backgroundMenu = AssetLoader.getInstance().sprites.get("backgroundMenu");
         helpMenu = AssetLoader.getInstance().sprites.get("helpMenu");
         checkMark = AssetLoader.getInstance().sprites.get("checkMark");
+        gameTitle = AssetLoader.getInstance().sprites.get("zombieHead");
     }
 
     // Google Services Methods
@@ -329,6 +334,9 @@ public class StartScreen implements LoginListener, Screen {
         batcher.draw(cloudsBackground, 0, 0, 450, 800);
 
         batcher.enableBlending();
+        if (gameTitleToggle) {
+            batcher.draw(gameTitle, 145, 500, 160, 160);
+        }
         if (backgroundMenuToggle) {
             batcher.draw(backgroundMenu, 25, 350, 400, 200);
         }
@@ -341,11 +349,11 @@ public class StartScreen implements LoginListener, Screen {
 
         batcher.begin();
         if (backgroundMenuToggle) {
-            if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND1) {
+            if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND1) {
                 batcher.draw(checkMark, 75, 440, 40, 40);
-            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND2) {
+            } else if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND2) {
                 batcher.draw(checkMark, 175, 440, 40, 40);
-            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND3) {
+            } else if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND3) {
                 batcher.draw(checkMark, 275, 440, 40, 40);
             }
         }

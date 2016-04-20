@@ -29,7 +29,7 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
 
     private SimpleButton cancelBtn;
 
-    private float runTime;
+    private float runTime = 0;
     private TextureRegion background, backgroundTint;
     private BitmapFont menuFont;
     private Animation spinnerAnimation;
@@ -43,7 +43,7 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
         this.zgame = zgame;
         this.stage = new Stage(new FitViewport(450, 800));
 
-        background = AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
+        background = AssetLoader.getInstance().backgrounds[AssetLoader.getBackgroundOption()];
         backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         menuFont = AssetLoader.getInstance().fonts.get("menuText");
         spinnerAnimation = AssetLoader.getInstance().spinnerAnimation;
@@ -69,10 +69,6 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
 
     }
 
-    public void setBackground(int backgroundOption) {
-        this.background = AssetLoader.getInstance().backgrounds[backgroundOption];
-    }
-
     //cancel matchmaking process
     private void cancelMatchmaking() {
         zgame.playServices.leaveGame();
@@ -88,6 +84,9 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
 
     @Override
     public void render(float delta) {
+        if (runTime == 0) {
+            background = AssetLoader.getInstance().backgrounds[AssetLoader.getBackgroundOption()];
+        }
         runTime += delta;
         Gdx.graphics.getGL20().glClearColor(0, 0, 0, 1);
         Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -122,6 +121,7 @@ public class MatchMakingScreen implements Screen, PlayEventListener {
     @Override
     public void leftRoom() {
         Gdx.app.log("Left room", "Match making screen left room");
+        runTime = 0;
         zgame.switchScreen(ZGame.ScreenState.START);
     }
 
