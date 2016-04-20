@@ -169,6 +169,7 @@ public class StartScreen implements LoginListener, Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: play video
+                zGame.videoInterface.startVideoActivity();
             }
         });
 

@@ -11,6 +11,7 @@ import com.oniz.Screens.MainScreen;
 import com.oniz.Screens.MatchMakingScreen;
 import com.oniz.Screens.StartScreen;
 import com.oniz.Screens.SplashScreen;
+import com.oniz.Video.VideoInterface;
 
 
 public class ZGame extends Game {
@@ -27,10 +28,13 @@ public class ZGame extends Game {
 
     private boolean opponentDefeated = false;
 
-    public ZGame(PlayServices playServices) {
+    public VideoInterface videoInterface;
+
+    public ZGame(PlayServices playServices, VideoInterface videoInterface) {
         super();
         this.playServices = playServices;
         this.playServices.setGame(this);
+        this.videoInterface = videoInterface;
     }
 
     public enum State
