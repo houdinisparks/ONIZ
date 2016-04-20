@@ -1,6 +1,5 @@
 package com.oniz.Gestures;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
@@ -8,12 +7,12 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yanyee on 4/19/2016.
@@ -32,15 +31,23 @@ public class PointCloudGestureRecognizer {
 
     private static Semaphore runningThreads;
 
+    private static final int NUMBER_OF_THREADS = 6;
+
+    private static ExecutorService poolOfThreads;
+
+    private static volatile float NUMBER
+
+
     /*@
     PREPROCESSING
      */
 
     public PointCloudGestureRecognizer() {
         this.templates = new ArrayList<TemplateGesture>();
-        this.workerThreads = new WorkerRunnable[2];
+        this.workerThreads = new WorkerRunnable[NUMBER_OF_THREADS];
         this.listOfMatches = new ConcurrentHashMap<TemplateGesture, Float>();
-        this.runningThreads = new Semaphore(2);
+        this.runningThreads = new Semaphore(NUMBER_OF_THREADS);
+        this.poolOfThreads = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     }
 
     public synchronized void addGesture(TemplateGesture templateGesture) {
@@ -263,57 +270,7 @@ public class PointCloudGestureRecognizer {
 
     }
 
-
-    public MatchingGesture recognize(ArrayList<Vector2> testPoints) {
-
-        //should we averages the result?
-
-        float[] normalisedTestPoints = normalize(testPoints);
-        float bestScore = Float.MAX_VALUE;
-        TemplateGesture bestMatch = null;
-
-//        parallelize the search?
-        for (TemplateGesture templates : this.templates) {
-            float distance = greedycloudmatch(normalisedTestPoints, templates.getPointcloudVector());
-            if (distance < bestScore) {
-                bestScore = distance;
-                bestMatch = templates;
-            }
-        }
-
-//        listOfMatches.clear();
-//
-//        for (WorkerRunnable workerRunnable : workerThreads) {
-//            workerRunnable.setTestingVector(normalisedTestPoints.clone());
-//            try {
-//                //runningThreads.acquire();
-//                new Thread(workerRunnable).start();
-//            } catch (Exception e) {
-//                Gdx.app.log("runnable: " , "nterrupted");
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        while (!runningThreads.tryAcquire(2)) {
-//        }
-//        runningThreads.release(2);
-//        Gdx.app.log(TAG, "Execution Done! Concurrent Hash Map Elements: " + listOfMatches.toString());
-//
-//        for (Map.Entry<TemplateGesture, Float> match : listOfMatches.entrySet()) {
-//            if (match.getValue() < bestScore) {
-//                bestMatch = match.getKey();
-//                bestScore = match.getValue();
-//            }
-//        }
-
-
-        bestScore = (float) Math.max((bestScore - 2.0f) / -2.0f, 0.0);
-
-        return new MatchingGesture(bestMatch, bestScore);
-    }
-
-
-        //utility functions
+    //utility functions
 
 
     protected static float squaredDistance(float ax, float ay, float bx, float by) {
@@ -339,14 +296,75 @@ public class PointCloudGestureRecognizer {
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
+
+
+    public MatchingGesture recognize(ArrayList<Vector2> testPoints) {
+
+        //should we averages the result?
+
+        float[] normalisedTestPoints = normalize(testPoints);
+        float bestScore = Float.MAX_VALUE;
+        TemplateGesture bestMatch = null;
+
+//        parallelize the search?
+//        for (TemplateGesture templates : this.templates) {
+//            float distance = greedycloudmatch(normalisedTestPoints, templates.getPointcloudVector());
+//            if (distance < bestScore) {
+//                bestScore = distance;
+//                bestMatch = templates;
+//            }
+//        }
+
+        listOfMatches.clear();
+
+        for (WorkerRunnable workerRunnable : workerThreads) {
+            workerRunnable.setTestingVector(normalisedTestPoints.clone());
+            try {
+                runningThreads.acquire();
+                poolOfThreads.execute(workerRunnable);
+            } catch (Exception e) {
+                Gdx.app.log("runnable: " , "interrupted");
+                e.printStackTrace();
+            }
+        }
+
+//        for (WorkerRunnable workerRunnable : workerThreads) {
+//            while (!workerRunnable.isItDone()) {
+//
+//            }
+//        }
+
+
+        try {
+            runningThreads.acquire(NUMBER_OF_THREADS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Gdx.app.log(TAG, "Execution Done! Concurrent Hash Map Elements: " + listOfMatches.toString());
+
+        for (Map.Entry<TemplateGesture, Float> match : listOfMatches.entrySet()) {
+            if (match.getValue() < bestScore) {
+                bestMatch = match.getKey();
+                bestScore = match.getValue();
+            }
+        }
+        runningThreads.release(NUMBER_OF_THREADS);
+
+
+        bestScore = (float) Math.max((bestScore - 2.0f) / -2.0f, 0.0);
+
+        return new MatchingGesture(bestMatch, bestScore);
+    }
+
+
+
     public void setRunnablesWithLoadedGestures() {
 
-        ArrayList<TemplateGesture> subList1 = new ArrayList<TemplateGesture>(this.templates.subList(0, templates.size() / 2));
-        ArrayList<TemplateGesture> subList2 = new ArrayList<TemplateGesture>(this.templates.subList(templates.size() / 2, templates.size()));
-        workerThreads[0] = new WorkerRunnable(listOfMatches, subList1, runningThreads);
-        workerThreads[1] = new WorkerRunnable(listOfMatches, subList2, runningThreads);
-
-
+        for (int i = 0; i < NUMBER_OF_THREADS; i++) {
+            workerThreads[i] = new WorkerRunnable(listOfMatches, templates, i * templates.size() / NUMBER_OF_THREADS
+                    , ((i + 1) * templates.size() / NUMBER_OF_THREADS) , runningThreads);
+        }
     }
 
 }
@@ -356,6 +374,8 @@ class WorkerRunnable implements Runnable {
     private ArrayList<TemplateGesture> templateGestures;
     private float[] testingVector;
     private ConcurrentHashMap<TemplateGesture, Float> concurrentHashMapHashMap;
+    private int startIndex;
+    private int endIndex;
     private Semaphore semaphore;
 
     private boolean isItDone;
@@ -363,15 +383,25 @@ class WorkerRunnable implements Runnable {
     private static Object lock = new Object();
 
     public WorkerRunnable(ConcurrentHashMap<TemplateGesture, Float> concurrentHashMapHashMap,
-                          ArrayList<TemplateGesture> templateGestures, Semaphore semaphore) {
+                          ArrayList<TemplateGesture> templateGestures,
+                          int startIndex, int endIndex, Semaphore semaphore) {
+
         this.concurrentHashMapHashMap = concurrentHashMapHashMap;
         this.templateGestures = templateGestures;
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
         this.semaphore = semaphore;
         isItDone = false;
+        Gdx.app.log("Multithreading: " , "startIndex: " + startIndex + " endIndex: " + endIndex +
+        "size of list: " + templateGestures.size());
     }
 
     public void setTestingVector(float[] testingVector) {
-        this.testingVector = testingVector;
+        this.testingVector = new float[testingVector.length];
+        Gdx.app.log("Memory locations: ", "this.testingVecot: " + this.testingVector +
+                "testingVector: " + testingVector);
+
+        System.arraycopy(testingVector, 0, this.testingVector, 0, testingVector.length);
     }
 
     public void setTemplateGestures(ArrayList<TemplateGesture> templateGestures) {
@@ -390,7 +420,8 @@ class WorkerRunnable implements Runnable {
         float score = Float.MAX_VALUE;
         TemplateGesture match = null;
 
-        for (TemplateGesture templates : this.templateGestures) {
+        for (int i = startIndex; i < endIndex ; i++) {
+            TemplateGesture templates = templateGestures.get(i);
             float distance = PointCloudGestureRecognizer.greedycloudmatch(this.testingVector, templates.getPointcloudVector());
             if (distance < score) {
                 score = distance;
@@ -399,11 +430,11 @@ class WorkerRunnable implements Runnable {
         }
         Gdx.app.log("Semaphore: ", "put in hashmap");
 
-        synchronized (lock) {
+
             concurrentHashMapHashMap.put(match, score);
             Gdx.app.log("Semaphore: ", "lock released");
             semaphore.release();
-        }
+
         isItDone = true;
     }
 
