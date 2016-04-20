@@ -221,7 +221,7 @@ public class StartScreen implements LoginListener, Screen {
         background1Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND1);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND1);
             }
         });
 
@@ -229,7 +229,7 @@ public class StartScreen implements LoginListener, Screen {
         background2Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND2);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND2);
             }
         });
 
@@ -237,7 +237,7 @@ public class StartScreen implements LoginListener, Screen {
         background3Btn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                zGame.getGameWorld().setBackgroundOption(GameWorld.BACKGROUND3);
+                AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND3);
             }
         });
 
@@ -341,11 +341,11 @@ public class StartScreen implements LoginListener, Screen {
 
         batcher.begin();
         if (backgroundMenuToggle) {
-            if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND1) {
+            if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND1) {
                 batcher.draw(checkMark, 75, 440, 40, 40);
-            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND2) {
+            } else if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND2) {
                 batcher.draw(checkMark, 175, 440, 40, 40);
-            } else if (zGame.getGameWorld().getBackgroundOption() == GameWorld.BACKGROUND3) {
+            } else if (AssetLoader.getBackgroundOption() == AssetLoader.BACKGROUND3) {
                 batcher.draw(checkMark, 275, 440, 40, 40);
             }
         }

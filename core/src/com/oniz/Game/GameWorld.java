@@ -18,9 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * It updates everything.
  */
 public class GameWorld implements PlayEventListener {
-    public static final int BACKGROUND1 = 0;
-    public static final int BACKGROUND2 = 1;
-    public static final int BACKGROUND3 = 2;
 
     public static final int GAME_READY = 0;
     public static final int GAME_RUNNING = 1;
@@ -32,7 +29,6 @@ public class GameWorld implements PlayEventListener {
     static final int[] zombiePaths = {40, 78, 115, 153, 190, 228, 265, 303, 340};
     private int state;
     private int score = 0;
-    private int backgroundOption = BACKGROUND1;
 
     GameRenderer gameRenderer;
     Random random = new Random();
@@ -226,6 +222,7 @@ public class GameWorld implements PlayEventListener {
         childZombies.clear();
         score = 0;
         state = GAME_RUNNING;
+        gameRenderer.setBackground(AssetLoader.getBackgroundOption());
         this.isMultiPlayerQuitted = false;
         gameRenderer.prepareTransition(0, 0, 0, 1f);
     }
@@ -275,16 +272,6 @@ public class GameWorld implements PlayEventListener {
 
     public int getScore() {
         return score;
-    }
-
-    public int getBackgroundOption() {
-        return backgroundOption;
-    }
-
-    public void setBackgroundOption(int backgroundOption) {
-        this.backgroundOption = backgroundOption;
-        gameRenderer.setBackground(backgroundOption);
-        zgame.getMatchMakingScreen().setBackground(backgroundOption);
     }
 
     public void realTimeUpdate(String msg) {
