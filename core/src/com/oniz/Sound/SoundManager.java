@@ -53,7 +53,8 @@ public class SoundManager {
         ROCKCRACK3,
         ROCKCRACK4,
         UIBUTTONUP,
-        UIBUTTONCLICKDOWN;
+        UIBUTTONCLICKDOWN,
+        GAMEOVER1;
 
         private static final SoundFX[] EXPLODE_FXES = Arrays.copyOfRange(values(), 0, 4);
         private static final SoundFX[] ROCKCRASHES_FXES = Arrays.copyOfRange(values(), 4, 8);
@@ -175,6 +176,11 @@ public class SoundManager {
         soundFXs.get(SoundFX.UIBUTTONCLICKDOWN).play(AssetLoader.soundVolume);
     }
 
+    public void playGameOver() {
+        soundFXs.get(SoundFX.GAMEOVER1).play();
+    }
+
+
     public synchronized void playBattleMusic() {
         //this method must be atomic.
         //set a high prority thread to start the music at the same time
@@ -247,6 +253,7 @@ public class SoundManager {
     public void checkMusicPosition() {
 
     }
+
 
     public float getProLayerVolume() {
         return intenselayerBGM.getVolume();

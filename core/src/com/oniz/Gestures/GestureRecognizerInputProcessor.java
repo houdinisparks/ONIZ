@@ -1,17 +1,11 @@
 package com.oniz.Gestures;
 
-import java.io.FileFilter;
+
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.EnumMap;
-import java.util.Hashtable;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -23,7 +17,6 @@ import com.oniz.Gestures.DrawPathGraphics.FixedList;
 import com.oniz.Gestures.DrawPathGraphics.SwipeResolver;
 import com.oniz.Gestures.DrawPathGraphics.simplify.ResolverRadialChaikin;
 import com.oniz.Mobs.GestureRock;
-import com.oniz.Sound.SoundManager;
 
 public class GestureRecognizerInputProcessor extends InputAdapter {
 
@@ -35,6 +28,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private static final int GAME_HEIGHT = 800;
 
     private ProtractorGestureRecognizer protractorGestureRecognizer;
+
+    private PointCloudGestureRecognizer pointCloudGestureRecognizer;
 
     // private BitmapGestureRecogniser protractorGestureRecognizer;
 
@@ -102,138 +97,16 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         this.scaleFactorY = scaleFactorY;
 
 		/*-----------Gesture Detection------------*/
-//        protractorGestureRecognizer = new ProtractorGestureRecognizer();
-        protractorGestureRecognizer = AssetLoader.getInstance().protractorGestureRecognizer;
+        //protractorGestureRecognizer = AssetLoader.getInstance().protractorGestureRecognizer;
+        pointCloudGestureRecognizer = AssetLoader.getInstance().pointCloudGestureRecognizer;
+
 //        Hashtable<String, FileHandle> gesturesList = AssetLoader.getInstance().gesturesList;
 //
 //        for (String key :
 //                gesturesList.keySet()) {
 //            protractorGestureRecognizer.addGestureFromFile(gesturesList.get(key));
 //        }
-        //protractorGestureRecognizer = new BitmapGestureRecogniser();
 
-        //Add all Json files as Gestures automatically
-//        FileHandle zShapeFileHandle;
-//        FileHandle invZShapeFileHandle;
-//        FileHandle horizontalFileHandle;
-//        FileHandle verticalFileHandle;
-//        FileHandle vShapeFileHandle;
-//        FileHandle invVShapeFileHandle;
-//        FileHandle alphaFileHandle;
-//        FileHandle gammaFileHandle;
-//        FileHandle sigmaFileHandle;
-
-//        boolean noMoreFilesToAdd = false;
-//
-//        while (!noMoreFilesToAdd) {
-//
-//            noMoreFilesToAdd = true;
-//
-//            zShapeFileHandle = Gdx.files.internal("gestures/zshape/" + ZShapeType + ZShapeFileCount + ".json");
-//            invZShapeFileHandle = Gdx.files.internal("gestures/invertedzshape/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
-//            horizontalFileHandle = Gdx.files.internal("gestures/horizontalline/" + HorizontalLine + HorizontalLineFileCount + ".json");
-//            verticalFileHandle = Gdx.files.internal("gestures/verticalline/" + VerticalLine + VerticalLineFileCount + ".json");
-//            vShapeFileHandle = Gdx.files.internal("gestures/vshape/" + VShapeType + VShapeTypeFileCount + ".json");
-//            invVShapeFileHandle = Gdx.files.internal("gestures/invertedvshape/" + InvertedVShapeType + InvertedVShapeFileCount + ".json");
-//            alphaFileHandle = Gdx.files.internal("gestures/alpha/" + AlphaType + AlphaFileCount + ".json");
-//            gammaFileHandle = Gdx.files.internal("gestures/gamma/" + GammaType + GammaFileCount + ".json");
-//            sigmaFileHandle = Gdx.files.internal("gestures/sigma/" + SigmaType + SigmaFileCount + ".json");
-//
-//            if (sigmaFileHandle.exists()) {
-//                SigmaFileCount += 1;
-//                protractorGestureRecognizer.addGestureFromFile(sigmaFileHandle);
-//                noMoreFilesToAdd = false;
-//
-//            }
-//
-//            if (zShapeFileHandle.exists()) {
-//                ZShapeFileCount += 1;
-//                protractorGestureRecognizer.addGestureFromFile(zShapeFileHandle);
-//                noMoreFilesToAdd = false;
-//
-//            }
-//
-//            if (invZShapeFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(invZShapeFileHandle);
-//                InvertedZShapeFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (horizontalFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(horizontalFileHandle);
-//                HorizontalLineFileCount += 1;
-//                noMoreFilesToAdd = false;
-//
-//            }
-//
-//            if (verticalFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(verticalFileHandle);
-//                VerticalLineFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (vShapeFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(vShapeFileHandle);
-//                VShapeTypeFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (invVShapeFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(invVShapeFileHandle);
-//                InvertedVShapeFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (alphaFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(alphaFileHandle);
-//                AlphaFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (gammaFileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(gammaFileHandle);
-//                GammaFileCount += 1;
-//                noMoreFilesToAdd = false;
-//            }
-//
-//            if (noMoreFilesToAdd) {
-//                break;
-//            }
-//
-//        }
-
-
-        //--For
-
-//        //--For Inverted Z Shape Files//
-//        while (true) {
-//            fileHandle = Gdx.files.internal("gestures/" + InvertedZShapeType + InvertedZShapeFileCount + ".json");
-//            if (fileHandle.exists()) {
-//                protractorGestureRecognizer.addGestureFromFile(fileHandle);
-//                InvertedZShapeFileCount += 1;
-//            } else {
-//                break;
-//            }
-//        }
-
-//        Gdx.app.log("Gesture:" + ZShapeType, ZShapeFileCount + "");
-//        Gdx.app.log("Gesture:" +InvertedZShapeType, InvertedZShapeFileCount + "");
-//        Gdx.app.log("Gesture:" +VShapeType, VShapeTypeFileCount + "");
-//        Gdx.app.log("Gesture:" +InvertedVShapeType, InvertedVShapeFileCount + "");
-//        Gdx.app.log("Gesture:" +GammaType, GammaFileCount + "");
-//        Gdx.app.log("Gesture:" +AlphaType, AlphaFileCount + "");
-//        Gdx.app.log("Gesture:" +VerticalLine, VerticalLineFileCount + "");
-//        Gdx.app.log("Gesture:" +HorizontalLine, HorizontalLineFileCount + "");
-
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + ZShapeType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + InvertedZShapeType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + HorizontalLine)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + VerticalLine)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + VShapeType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + InvertedVShapeType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + AlphaType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + GammaType)).start();
-//        new FileHandleThread(protractorGestureRecognizer, Gdx.files.internal("gestures/" + SigmaType)).start();
 
         originalPath = new ArrayList<Vector2>();
 
@@ -284,6 +157,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 //        Gdx.app.log(TAG, "touchDown x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
+        Gdx.app.log("Points Added: ", " x: " + x+ " y:" + y );
 
 		/*-------Gesture Path Display---------*/
         if (pointer != inputPointer)
@@ -308,6 +182,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 //        Gdx.app.log(TAG, "touchDragged x: " + x + " y: " + y);
         /*-------Gesture Detection-----------*/
         originalPath.add(new Vector2(x, y));
+        Gdx.app.log("Points Added: ", " x: " + x+" y:" + y);
+
 
         /*-------Gesture Path Display---------*/
 
@@ -340,6 +216,8 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
 //        Gdx.app.log(TAG, "touchUp x: " + x + " y: " + y);
+        final int xfinal = x;
+        final int yfinal = y;
         if (!gameWorld.isRunning())
             return false;
         /*-------Gesture Detection-----------*/
@@ -348,22 +226,32 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         Gdx.app.log("Gesture Point Count", "Count is: " + originalPath.size());
 
         if (originalPath.size() >= 8) {
-            originalPath.add(new Vector2(x, y));
-            MatchingGesture match = protractorGestureRecognizer.Recognize(originalPath);
 
-            if (match.getScore() < 3) {
-                Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
-                gameWorld.isMissed.set(true);
-            } else {
-                Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
-                        + Double.toString(match.getScore()));
+//            Gdx.app.postRunnable(new Runnable() {
+//                @Override
+//                public void run() {
 
-                gameWorld.weakenZombie(convertToGestureType(match.getGesture().getName()));
-            }
+                    originalPath.add(new Vector2(xfinal, yfinal));
+
+                    MatchingGesture match = pointCloudGestureRecognizer.recognize(originalPath);
+
+                    GestureRock.GestureType gestureType = convertToGestureType(match.getGesture().getName());
+
+                    if (match.getScore() < 0.5f || gameWorld.zombieDoesNotExist(gestureType)) {
+                        Gdx.app.log("Gesture Name/Score", "none matched. " + match.getScore());
+                        gameWorld.isMissed.set(true);
+                    } else {
+                        Gdx.app.log("Gesture Name/Score", match.getGesture().getName()
+                                + Double.toString(match.getScore()));
+                        gameWorld.weakenZombie(gestureType);
+                    }
+                    originalPath.clear();
+
+//                }
+//            });
 
 
         }
-        originalPath.clear();
 
         /*-------Gesture Path Display---------*/
         resolve();
@@ -371,6 +259,7 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
         simplified.clear();
 
         return false;
+
     }
 
     private GestureRock.GestureType convertToGestureType(String name) {

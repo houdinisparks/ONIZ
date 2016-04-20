@@ -102,6 +102,7 @@ public class GameWorld implements PlayEventListener {
     private void stopBattleMusic() {
         if (bgmAlreadyPlaying) {
             soundManager.stopBattleMusic();
+            soundManager.playGameOver();
             bgmAlreadyPlaying = false;
         }
     }
@@ -205,6 +206,17 @@ public class GameWorld implements PlayEventListener {
             }
         }
 
+    }
+
+    public boolean zombieDoesNotExist(GestureRock.GestureType gestureType) {
+        boolean doesNotExists = true;
+        for (ChildZombie zombie : childZombies) {
+            if (zombie.getGestureRock().getGestureType().equals(gestureType)) {
+                doesNotExists = false;
+                break;
+            }
+        }
+        return doesNotExists;
     }
 
     public ArrayList<ChildZombie> getChildZombies() {

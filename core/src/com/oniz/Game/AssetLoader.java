@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.oniz.Gestures.PointCloudGestureRecognizer;
 import com.oniz.Gestures.ProtractorGestureRecognizer;
 import com.oniz.Mobs.GestureRock;
 import com.oniz.Sound.SoundManager.BGM;
@@ -28,9 +29,6 @@ public final class AssetLoader {
     /*
     ENUMS
      */
-
-    //Read only, no need thread safety and synchronisation.
-
 
     /*
     volatile keyword helps as concurrency control tool in a multithreaded environment
@@ -55,6 +53,7 @@ public final class AssetLoader {
     /*gestures*/
     public Hashtable<String, FileHandle> gesturesList;
     public ProtractorGestureRecognizer protractorGestureRecognizer;
+    public PointCloudGestureRecognizer pointCloudGestureRecognizer;
 
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
@@ -88,14 +87,31 @@ public final class AssetLoader {
     }
 
     public void loadGestures() {
-        protractorGestureRecognizer = new ProtractorGestureRecognizer();
+
+        /*
+        pointCloud
+         */
+        pointCloudGestureRecognizer = new PointCloudGestureRecognizer();
 
         Hashtable<String, FileHandle> gesturesList = AssetLoader.getInstance().gesturesList;
 
+
         for (String key :
                 gesturesList.keySet()) {
-            protractorGestureRecognizer.addGestureFromFile(gesturesList.get(key));
+            pointCloudGestureRecognizer.addGestureFromFile(gesturesList.get(key));
         }
+        /*
+        protractorGesture
+         */
+//        protractorGestureRecognizer = new ProtractorGestureRecognizer();
+//
+//        Hashtable<String, FileHandle> gesturesList = AssetLoader.getInstance().gesturesList;
+//
+//        for (String key :
+//                gesturesList.keySet()) {
+//            protractorGestureRecognizer.addGestureFromFile(gesturesList.get(key));
+//        }
+        pointCloudGestureRecognizer.setRunnablesWithLoadedGestures();
     }
 
     private void loadGestureJSON() {
@@ -426,6 +442,7 @@ public final class AssetLoader {
         soundFXs.put(SoundFX.ROCKCRACK4, Gdx.audio.newSound(Gdx.files.internal("sounds/rockcrack4.ogg")));
         soundFXs.put(SoundFX.UIBUTTONCLICKDOWN, Gdx.audio.newSound(Gdx.files.internal("sounds/UIButtonClickDown.ogg")));
         soundFXs.put(SoundFX.UIBUTTONUP, Gdx.audio.newSound(Gdx.files.internal("sounds/UIButtonClickUp.ogg")));
+        soundFXs.put(SoundFX.GAMEOVER1, Gdx.audio.newSound(Gdx.files.internal("sounds/gameover1.ogg")));
 
         //BGMs
         soundBGM.put(BGM.BATTLEMUSICNORMALLAYER, Gdx.audio.newMusic(Gdx.files.internal("sounds/battlemusicnormallayer.ogg")));
