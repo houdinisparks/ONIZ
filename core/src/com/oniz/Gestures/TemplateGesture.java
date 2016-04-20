@@ -11,6 +11,7 @@ public class TemplateGesture{
 
 	private float[] protractorVector;
 
+	private float[] pointcloudVector;
 
 	private float[] bitmapVector;
 
@@ -19,14 +20,19 @@ public class TemplateGesture{
 	private static final int PATCH_SAMPLE_SIZE = 32;
 
 
+
+
 	//TODO: Use this TemplateGesture Constructor instead.
 	public TemplateGesture(String name, ArrayList<Vector2> points) {
 		this.name = name;
 		this.points = points;
-		this.protractorVector = ProtractorGestureRecognizer.Vectorize(this.points);
-		//this.bitmapVector = BitmapGestureRecogniser.spatialSampling(this.points, PATCH_SAMPLE_SIZE, false);
+		//this.protractorVector = ProtractorGestureRecognizer.Vectorize(this.points);
+		this.pointcloudVector = PointCloudGestureRecognizer.normalize(this.points);
 	}
 
+	public float[] getPointcloudVector() {
+		return pointcloudVector;
+	}
 
 	public float[] getProtractorVector() {
 		return protractorVector;

@@ -115,7 +115,7 @@ public class ProtractorGestureRecognizer {
     Sequence insensitive - spatialSampler
     TODO: 1. Configure spatialSampling
 >>>>>>> 56d9a90e1b3238d13fd62acc081d4d75daae1e9a
-    TODO: 2. Change minimum Cosine Distance to Euclidean Distance (Cosine distance is position sensitive)
+    TODO: 2. Change minimum Cosine distance to Euclidean distance (Cosine distance is position sensitive)
      */
     protected static ArrayList<Vector2> TemporalResample(ArrayList<Vector2> inputPoints) {
         final float increment = PathLength(inputPoints) / (NumSamples - 1);
@@ -177,7 +177,7 @@ public class ProtractorGestureRecognizer {
 
 
 //    protected static ArrayList<Vector2> OldResample(ArrayList<Vector2> inputPoints) {
-//        float I = PathLength(inputPoints) / (NumSamples - 1);
+//        float I = pathlength(inputPoints) / (NumSamples - 1);
 //        float D = 0.0f;
 //        ArrayList<Vector2> newPoints = new ArrayList<Vector2>();
 //        newPoints.add(inputPoints.get(0));
@@ -187,7 +187,7 @@ public class ProtractorGestureRecognizer {
 //            Vector2 curr = inputPoints.get(idx);
 //            Vector2 prev = inputPoints.get(idx - 1);
 //
-//            float d = Distance(prev, curr);
+//            float d = distance(prev, curr);
 //
 //            if (D + d >= I) {
 //                Vector2 q = new Vector2();
@@ -224,6 +224,13 @@ public class ProtractorGestureRecognizer {
         }
 
         return d;
+    }
+
+    protected static float SquaredDistance(Vector2 a, Vector2 b) {
+        float dx = b.x - a.x;
+        float dy = b.y - a.y;
+
+        return  dx * dx + dy * dy;
     }
 
     protected static float Distance(Vector2 a, Vector2 b) {
