@@ -19,11 +19,12 @@ import com.oniz.Game.ZGame;
 import com.oniz.Network.LoginListener;
 import com.oniz.Network.PlayEventListener;
 import com.oniz.Network.PlayServices;
+import com.oniz.Video.VideoInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AndroidLauncher extends AndroidApplication implements PlayServices {
+public class AndroidLauncher extends AndroidApplication implements PlayServices, VideoInterface {
 
     private ONIZGameHelper gameHelper;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
@@ -57,10 +58,16 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
             AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-            initialize(new ZGame(this), config);
+
+            initialize(new ZGame(this, (VideoInterface) this), config);
         }
     }
 
+    @Override
+    public void startVideoActivity() {
+        Intent intent = new Intent(this, VideoActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void addPlayEventListener(final PlayEventListener playEventListener) {
