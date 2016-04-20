@@ -56,6 +56,9 @@ public final class AssetLoader {
     public Hashtable<String, FileHandle> gesturesList;
     public ProtractorGestureRecognizer protractorGestureRecognizer;
 
+    public static final int BACKGROUND1 = 0;
+    public static final int BACKGROUND2 = 1;
+    public static final int BACKGROUND3 = 2;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -173,9 +176,14 @@ public final class AssetLoader {
 
     public void load() {
         loadGestureJSON();
+
         // store high score
         if (!prefs.contains("highScore")) {
             prefs.putInteger("highScore", 0);
+        }
+        // store background option
+        if (!prefs.contains("backgroundOption")) {
+            prefs.putInteger("backgroundOption", 0);
         }
 
         // splash screen logo
@@ -422,6 +430,15 @@ public final class AssetLoader {
     // Retrieves the current high score
     public static int getHighScore() {
         return prefs.getInteger("highScore");
+    }
+
+    public static void setBackgroundOption(int option) {
+        prefs.putInteger("backgroundOption", option);
+        prefs.flush();
+    }
+
+    public static int getBackgroundOption() {
+        return prefs.getInteger("backgroundOption");
     }
 
     public void dispose() {

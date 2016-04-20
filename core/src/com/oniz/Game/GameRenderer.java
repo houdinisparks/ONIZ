@@ -128,7 +128,7 @@ public class GameRenderer {
     }
 
     private void initAssets() {
-        background = AssetLoader.getInstance().backgrounds[GameWorld.BACKGROUND1];
+        background = AssetLoader.getInstance().backgrounds[AssetLoader.getBackgroundOption()];
         backgroundTint = AssetLoader.getInstance().sprites.get("backgroundTint");
         zombieClimbingAnimation = AssetLoader.getInstance().zombieClimbingAnimation;
         enemyZombieClimbingAnimation = AssetLoader.getInstance().enemyZombieClimbingAnimation;
