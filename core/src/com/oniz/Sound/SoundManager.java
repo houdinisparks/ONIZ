@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Created by yanyee on 4/19/2016.
  * SoundManager manages how the sound will be played.
  */
 public class SoundManager {
@@ -143,7 +142,7 @@ public class SoundManager {
 
     public void playExplosion() {
         try {
-            explosion.get().play();
+            explosion.get().play(AssetLoader.soundVolume);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -158,7 +157,7 @@ public class SoundManager {
 
     public void playRockCrack() {
         try {
-            rockCrash.get().play();
+            rockCrash.get().play(AssetLoader.soundVolume);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -169,11 +168,11 @@ public class SoundManager {
     }
 
     public void playUIButtonUp() {
-        soundFXs.get(SoundFX.UIBUTTONUP).play();
+        soundFXs.get(SoundFX.UIBUTTONUP).play(AssetLoader.soundVolume);
     }
 
     public void playUIButtonClickDown() {
-        soundFXs.get(SoundFX.UIBUTTONCLICKDOWN).play();
+        soundFXs.get(SoundFX.UIBUTTONCLICKDOWN).play(AssetLoader.soundVolume);
     }
 
     public synchronized void playBattleMusic() {
