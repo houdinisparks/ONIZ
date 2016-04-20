@@ -33,8 +33,6 @@ public class StartScreen implements LoginListener, Screen {
     private boolean gameTitleToggle = true;
     private boolean backgroundMenuToggle = false;
     private boolean helpMenuToggle = false;
-    private boolean soundToggle = true;
-    private boolean musicToggle = true;
 
     private SoundManager soundManager;
 
@@ -92,12 +90,12 @@ public class StartScreen implements LoginListener, Screen {
 
                 // enable settingScreen buttons
                 backBtn.setVisible(true);
-                if (soundToggle) {
+                if (AssetLoader.getSoundToggle()) {
                     soundBtn.setVisible(true);
                 } else {
                     soundMutedBtn.setVisible(true);
                 }
-                if (musicToggle) {
+                if (AssetLoader.getMusicToggle()) {
                     musicBtn.setVisible(true);
                 } else {
                     musicMutedBtn.setVisible(true);
@@ -181,10 +179,9 @@ public class StartScreen implements LoginListener, Screen {
         soundBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                soundToggle = false;
+                AssetLoader.setSoundToggle(false);
                 soundBtn.setVisible(false);
                 soundMutedBtn.setVisible(true);
-                // TODO: toggle sound
             }
         });
 
@@ -192,10 +189,9 @@ public class StartScreen implements LoginListener, Screen {
         soundMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                soundToggle = true;
+                AssetLoader.setSoundToggle(true);
                 soundBtn.setVisible(true);
                 soundMutedBtn.setVisible(false);
-                // TODO: toggle sound
             }
         });
 
@@ -203,10 +199,9 @@ public class StartScreen implements LoginListener, Screen {
         musicBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                musicToggle = false;
+                AssetLoader.setMusicToggle(false);
                 musicBtn.setVisible(false);
                 musicMutedBtn.setVisible(true);
-                // TODO: toggle music
             }
         });
 
@@ -214,10 +209,9 @@ public class StartScreen implements LoginListener, Screen {
         musicMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                musicToggle = true;
+                AssetLoader.setMusicToggle(true);
                 musicBtn.setVisible(true);
                 musicMutedBtn.setVisible(false);
-                // TODO: toggle music
             }
         });
 

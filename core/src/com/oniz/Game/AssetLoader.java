@@ -42,8 +42,8 @@ public final class AssetLoader {
 
     public Hashtable<String, Texture> textures;
     public Hashtable<String, TextureRegion> sprites;
-    public EnumMap<SoundFX, Sound> soundFXs;
-    public EnumMap<BGM, Music> soundBGM;
+    public static EnumMap<SoundFX, Sound> soundFXs;
+    public static EnumMap<BGM, Music> soundBGM;
     public Hashtable<String, BitmapFont> fonts;
     public Hashtable<GestureRock.GestureType, TextureRegion> gestureHints;
     public Hashtable<GestureRock.Stage, TextureRegion> gestureStages;
@@ -59,6 +59,7 @@ public final class AssetLoader {
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
     public static final int BACKGROUND3 = 2;
+    public static float soundVolume;
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -185,6 +186,17 @@ public final class AssetLoader {
         if (!prefs.contains("backgroundOption")) {
             prefs.putInteger("backgroundOption", 0);
         }
+        // store sound settings
+        if (!prefs.contains("soundToggle")) {
+            prefs.putBoolean("soundToggle", true);
+        }
+        setSoundToggle(prefs.getBoolean("soundToggle"));
+
+        // store music settings
+        if (!prefs.contains("musicToggle")) {
+            prefs.putBoolean("musicToggle", true);
+        }
+        setMusicToggle(prefs.getBoolean("musicToggle"));
 
         // splash screen logo
         textures.put("logoTexture", new Texture(Gdx.files.internal("data/logo.png")));
@@ -440,6 +452,38 @@ public final class AssetLoader {
 
     public static int getBackgroundOption() {
         return prefs.getInteger("backgroundOption");
+    }
+
+    public static void setSoundToggle(boolean toggle) {
+        prefs.putBoolean("soundToggle", toggle);
+        prefs.flush();
+        if (toggle) {
+            soundVolume = 1f;
+        } else {
+            soundVolume = 0f;
+        }
+    }
+
+    public static boolean getSoundToggle() {
+        return prefs.getBoolean("soundToggle");
+    }
+
+    public static void setMusicToggle(boolean toggle) {
+        prefs.putBoolean("musicToggle", toggle);
+        prefs.flush();
+        if (toggle) {
+            for (EnumMap.Entry<BGM, Music> entry: soundBGM.entrySet()) {
+                entry.getValue().setVolume(1f);
+            }
+        } else {
+            for (EnumMap.Entry<BGM, Music> entry: soundBGM.entrySet()) {
+                entry.getValue().setVolume(0f);
+            }
+        }
+    }
+
+    public static boolean getMusicToggle() {
+        return prefs.getBoolean("musicToggle");
     }
 
     public void dispose() {
