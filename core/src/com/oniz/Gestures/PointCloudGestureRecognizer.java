@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.oniz.Mobs.GestureRock;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,11 +32,36 @@ public class PointCloudGestureRecognizer {
 
     private static Semaphore runningThreads;
 
-    private static final int NUMBER_OF_THREADS = 6;
+    private static final int NUMBER_OF_THREADS = 10;
 
     private static ExecutorService poolOfThreads;
 
-    //private static volatile float NUMBER
+    private static final String ZShapeType = "zshape";
+    private static final String InvertedZShapeType = "invertedzshape";
+    private static final String HorizontalLine = "horizontalline";
+    private static final String VerticalLine = "verticalline";
+    private static final String VShapeType = "vshape";
+    private static final String InvertedVShapeType = "invertedvshape";
+    private static final String AlphaType = "alpha";
+    private static final String GammaType = "gamma";
+    private static final String SigmaType = "sigma";
+    private static final String mShapeType = "mshape";
+    private static final String RevCShapeType = "revcshape";
+    private static final String TriangleShape = "triangle";
+
+
+    private static volatile int NUMBEROFZSHAPE = 0;
+    private static volatile int NUMBEROFINVERTEDZSHAPE = 0;
+    private static volatile int NUMBEROFHORIZONTAL = 0;
+    private static volatile int NUMBEROFVSHHAPE = 0;
+    private static volatile int NUMBEROFINVERTEDV;
+    private static volatile int NUMBEROFALPHA = 0;
+    private static volatile int NUMBEROFGAMMA = 0;
+    private static volatile int NUMBEROFSIGMA = 0;
+    private static volatile int NUMBEROFMSHAPE = 0;
+    private static volatile int NUMBEROFREVC = 0;
+    private static volatile int NUMBEROFTRIANGLE = 0;
+
 
 
     /*@
@@ -51,6 +77,7 @@ public class PointCloudGestureRecognizer {
     }
 
     public synchronized void addGesture(TemplateGesture templateGesture) {
+        countGesture(templateGesture.getName());
         templates.add(templateGesture);
     }
 
@@ -364,6 +391,41 @@ public class PointCloudGestureRecognizer {
         for (int i = 0; i < NUMBER_OF_THREADS; i++) {
             workerThreads[i] = new WorkerRunnable(listOfMatches, templates, i * templates.size() / NUMBER_OF_THREADS
                     , ((i + 1) * templates.size() / NUMBER_OF_THREADS) , runningThreads);
+        }
+    }
+
+    public void countGesture(String name) {
+
+        if (name.contains(InvertedZShapeType)) {
+            NUMBEROFINVERTEDZSHAPE += 1;
+
+        } else if (name.contains(ZShapeType)) {
+            NUMBEROFZSHAPE += 1;
+
+        } else if (name.contains(VerticalLine)) {
+
+//        } else if (name.contains(HorizontalLine)) {
+//            return GestureRock.GestureType.HORIZONTAL_LINE;
+
+        } else if (name.contains(InvertedVShapeType)) {
+            NUMBEROFINVERTEDV += 1;
+        } else if (name.contains(VShapeType)) {
+            NUMBEROFVSHHAPE += 1;
+        } else if (name.contains(GammaType)) {
+            NUMBEROFGAMMA += 1;
+
+        } else if (name.contains(AlphaType)) {
+            NUMBEROFALPHA += 1;
+        } else if (name.contains(SigmaType)) {
+            NUMBEROFSIGMA += 1;
+        } else if (name.contains(mShapeType)) {
+            NUMBEROFMSHAPE += 1;
+        } else if (name.contains(RevCShapeType)) {
+            NUMBEROFREVC += 1;
+        } else if (name.contains(TriangleShape)) {
+            NUMBEROFTRIANGLE += 1;
+        } else {
+            Gdx.app.log(TAG, "No such gesture type");
         }
     }
 

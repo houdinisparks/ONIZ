@@ -78,16 +78,6 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
     private static final String RevCShapeType = "revcshape";
     private static final String TriangleShape = "triangle";
 
-//    private static int SigmaFileCount = 1;
-//    private static int ZShapeFileCount = 1;
-//    private static int InvertedZShapeFileCount = 1;
-//    private static int HorizontalLineFileCount = 1;
-//    private static int VerticalLineFileCount = 1;
-//    private static int VShapeTypeFileCount = 1;
-//    private static int InvertedVShapeFileCount = 1;
-//    private static int AlphaFileCount = 1;
-//    private static int GammaFileCount = 1;
-
     public GestureRecognizerInputProcessor(GameWorld gameWorld, float scaleFactorX, float scaleFactorY) {
         super();
         this.gameWorld = gameWorld;
@@ -332,33 +322,4 @@ public class GestureRecognizerInputProcessor extends InputAdapter {
 
 }
 
-class FileHandleThread extends Thread {
 
-    private ProtractorGestureRecognizer protractorGestureRecognizer;
-    private FileHandle fileHandle;
-    private int fileCount;
-
-    public FileHandleThread(ProtractorGestureRecognizer protractorGestureRecognizer, FileHandle fileHandle) {
-        this.protractorGestureRecognizer = protractorGestureRecognizer;
-        this.fileHandle = fileHandle;
-        this.fileCount = 1;
-    }
-
-    public void run() {
-
-        if (fileHandle.isDirectory()) {
-            FileHandle[] fileHandles = fileHandle.list(".json");
-            for (FileHandle jsonFile : fileHandles) {
-                fileCount += 1;
-                protractorGestureRecognizer.addGestureFromFile(jsonFile);
-            }
-        } else {
-            Gdx.app.error("Adding Gesture Error!: ", "File Handle not directory!");
-        }
-
-        Gdx.app.log("Gesture:" + fileHandle.name(), fileCount + "");
-
-    }
-
-
-}
