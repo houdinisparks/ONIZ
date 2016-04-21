@@ -85,7 +85,11 @@ public class ProtractorGestureRecognizer {
                 _arrlist_vector.add(new Vector2(x, y));
             }
 
-            addGesture(new TemplateGesture(_name, _arrlist_vector));
+            if(_arrlist_vector.size() > 1) {
+                addGesture(new TemplateGesture(_name, _arrlist_vector));
+            }
+
+
         }
     }
 
