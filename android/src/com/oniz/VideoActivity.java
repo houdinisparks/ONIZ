@@ -32,7 +32,7 @@ public class VideoActivity extends Activity {
                 (VideoView) findViewById(R.id.videoView);
 
         videoView.setMediaController(new MediaController(this));
-        String uri = "android.resource://" + getPackageName() + "/" + R.raw.oniz_demo_video;
+        String uri = "android.resource://" + getPackageName() + "/" + R.raw.oniz_demo_video2;
         videoView.setVideoURI(Uri.parse(uri));
 
         MediaController mediaController = new

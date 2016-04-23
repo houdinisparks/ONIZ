@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.android.gms.games.GamesStatusCodes;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
@@ -18,14 +16,11 @@ import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
 import com.google.android.gms.games.multiplayer.realtime.RoomStatusUpdateListener;
 import com.google.android.gms.games.multiplayer.realtime.RoomUpdateListener;
-import com.google.example.games.basegameutils.BaseGameUtils;
 import com.google.example.games.basegameutils.GameHelper;
 import com.oniz.Game.ZGame;
-import com.oniz.Network.LoginListener;
 import com.oniz.Network.PlayEventListener;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -120,8 +115,9 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
             }
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
+        } finally {
+            return false;
         }
-        return false;
     }
 
     public boolean canLeaveRoom() {
@@ -149,9 +145,7 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
                     }
                 });
             }
-
             Gdx.app.log(TAG, "Received message: " + t + sender);
-//            Toast.makeText(activity, t, Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Gdx.app.log(TAG, ex.getMessage());
         }
@@ -161,9 +155,6 @@ public class ONIZGameHelper extends GameHelper implements RealTimeMessageReceive
     public void broadcastMessage(String message) {
         Gdx.app.log(TAG, "Broadcasting message");
         boolean test = true;
-//        byte[] mMsgBuf = new byte[2];
-//        mMsgBuf[0] = (byte) 'A';
-//        mMsgBuf[1] = (byte) 'B';
 
         byte[] mMsgBuf = message.getBytes(Charset.forName("UTF-8"));
 

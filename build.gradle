@@ -65,6 +65,7 @@ project(":android") {
         compile 'com.google.android.gms:play-services-games:8.4.0'
         compile project(":BaseGameUtils")
         compile fileTree(dir: '../libs', include: '*.jar')
+        testCompile "org.robolectric:robolectric:3.0"
     }
 }
 
@@ -107,6 +108,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile fileTree(dir: '../libs', include: '*.jar')
+        testCompile "org.robolectric:robolectric:3.0"
     }
 
 }
