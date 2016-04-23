@@ -58,7 +58,9 @@ public final class AssetLoader {
     public static final int BACKGROUND1 = 0;
     public static final int BACKGROUND2 = 1;
     public static final int BACKGROUND3 = 2;
+
     public static float soundVolume;
+
 
     public static AssetLoader getInstance() {
         if (instance == null) {
@@ -202,6 +204,7 @@ public final class AssetLoader {
         if (!prefs.contains("backgroundOption")) {
             prefs.putInteger("backgroundOption", 0);
         }
+
         // store sound settings
         if (!prefs.contains("soundToggle")) {
             prefs.putBoolean("soundToggle", true);
@@ -213,6 +216,7 @@ public final class AssetLoader {
             prefs.putBoolean("musicToggle", true);
         }
         setMusicToggle(prefs.getBoolean("musicToggle"));
+
 
         // splash screen logo
         textures.put("logoTexture", new Texture(Gdx.files.internal("data/logo.png")));
@@ -502,6 +506,7 @@ public final class AssetLoader {
     public static boolean getMusicToggle() {
         return prefs.getBoolean("musicToggle");
     }
+
 
     public void dispose() {
         for (Object o : textures.values().toArray()) {

@@ -64,6 +64,7 @@ public class StartScreen implements LoginListener, Screen {
         quickGameBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.playUIButtonClickDown();
                 quickGame();
             }
         });
@@ -72,6 +73,7 @@ public class StartScreen implements LoginListener, Screen {
         loginBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.playUIButtonClickDown();
                 signIn();
             }
         });
@@ -80,6 +82,7 @@ public class StartScreen implements LoginListener, Screen {
         settingsBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.playUIButtonClickDown();
                 // disable startScreen buttons
                 quickGameBtn.setVisible(false);
                 loginBtn.setVisible(false);
@@ -111,6 +114,7 @@ public class StartScreen implements LoginListener, Screen {
         singlePlayerBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.playUIButtonClickDown();
                 zGame.setMultiplayerMode(false);
                 zGame.switchScreen(ZGame.ScreenState.MAIN);
             }
@@ -120,6 +124,7 @@ public class StartScreen implements LoginListener, Screen {
         backBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.playUIButtonClickDown();
                 // disable settingScreen buttons
                 backBtn.setVisible(false);
                 soundBtn.setVisible(false);
@@ -172,6 +177,7 @@ public class StartScreen implements LoginListener, Screen {
             public void clicked(InputEvent event, float x, float y) {
                 // TODO: play video
                 zGame.videoInterface.startVideoActivity();
+
             }
         });
 
@@ -179,7 +185,9 @@ public class StartScreen implements LoginListener, Screen {
         soundBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 AssetLoader.setSoundToggle(false);
+
                 soundBtn.setVisible(false);
                 soundMutedBtn.setVisible(true);
             }
@@ -189,7 +197,9 @@ public class StartScreen implements LoginListener, Screen {
         soundMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 AssetLoader.setSoundToggle(true);
+
                 soundBtn.setVisible(true);
                 soundMutedBtn.setVisible(false);
             }
@@ -199,7 +209,9 @@ public class StartScreen implements LoginListener, Screen {
         musicBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 AssetLoader.setMusicToggle(false);
+
                 musicBtn.setVisible(false);
                 musicMutedBtn.setVisible(true);
             }
@@ -209,7 +221,9 @@ public class StartScreen implements LoginListener, Screen {
         musicMutedBtn.addListener(new AdvancedClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 AssetLoader.setMusicToggle(true);
+
                 musicBtn.setVisible(true);
                 musicMutedBtn.setVisible(false);
             }
@@ -220,6 +234,7 @@ public class StartScreen implements LoginListener, Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND1);
+
             }
         });
 
@@ -228,6 +243,7 @@ public class StartScreen implements LoginListener, Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND2);
+
             }
         });
 
@@ -236,6 +252,7 @@ public class StartScreen implements LoginListener, Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 AssetLoader.setBackgroundOption(AssetLoader.BACKGROUND3);
+
             }
         });
 
